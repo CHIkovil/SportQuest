@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		030228FC5B722A7517ED2A02 /* Pods_SportQuestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C613E9444753AB4E1EF378 /* Pods_SportQuestTests.framework */; };
 		4E2AA3C969DAD3C52CDB174A /* Pods_SportQuest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41DC23DD5548AC348AA260A /* Pods_SportQuest.framework */; };
+		9314E730252A3F3D00ED1DFA /* seal.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E72F252A3F3D00ED1DFA /* seal.png */; };
+		9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */; };
 		93418C02252528730004F813 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C01252528730004F813 /* AppDelegate.swift */; };
 		93418C04252528730004F813 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C03252528730004F813 /* SceneDelegate.swift */; };
 		93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C05252528730004F813 /* AuthorizationViewController.swift */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		55C613E9444753AB4E1EF378 /* Pods_SportQuestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SportQuestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		693C1906673EB0C83DC57152 /* Pods-SportQuestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.release.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.release.xcconfig"; sourceTree = "<group>"; };
+		9314E72F252A3F3D00ED1DFA /* seal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seal.png; sourceTree = "<group>"; };
+		9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		93418BFE252528730004F813 /* SportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C01252528730004F813 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93418C03252528730004F813 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9314E72F252A3F3D00ED1DFA /* seal.png */,
 				93418C01252528730004F813 /* AppDelegate.swift */,
 				93418C03252528730004F813 /* SceneDelegate.swift */,
 				93418C0F252528750004F813 /* LaunchScreen.storyboard */,
@@ -140,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				93418C05252528730004F813 /* AuthorizationViewController.swift */,
+				9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -241,6 +247,7 @@
 			files = (
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
+				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +332,7 @@
 				93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */,
 				93418C0C252528730004F813 /* SportQuest.xcdatamodeld in Sources */,
 				93418C02252528730004F813 /* AppDelegate.swift in Sources */,
+				9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */,
 				93418C04252528730004F813 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,6 @@
+framework module Pods_SportQuest {
+  umbrella header "Pods-SportQuest-umbrella.h"
+
+  export *
+  module * { export * }
+}
