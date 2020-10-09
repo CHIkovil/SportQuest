@@ -38,13 +38,29 @@ class RegistrationViewController: UIViewController {
         return textField
     }()
     
+    lazy var passwordRegistrationField: HoshiTextField = {
+        let textField = HoshiTextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.font = UIFont(name: "Chalkduster", size: 20)
+        textField.placeholder = "Password"
+        textField.placeholderColor = .lightGray
+        textField.placeholderFontScale = 0.8
+        textField.borderActiveColor = .black
+        textField.borderInactiveColor = .lightGray
+        textField.textColor = .lightGray
+        textField.tintColor = .lightGray
+        return textField
+    }()
+    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         view.backgroundColor = .white
         view.addSubview(userImageView)
         view.addSubview(nicknameRegistrationField)
+        view.addSubview(passwordRegistrationField)
         createConstraintsUserImageView()
         createConstraintsNicknameRegistrationField()
+        createConstraintsPasswordRegistrationField()
     }
     
     //MARK: touchesBegan
@@ -58,11 +74,19 @@ class RegistrationViewController: UIViewController {
         userImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -80).isActive = true
     }
     
+    //MARK: ConstraintsField
     func createConstraintsNicknameRegistrationField() {
         nicknameRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         nicknameRegistrationField.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 20).isActive = true
         nicknameRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
         nicknameRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
+    }
+    
+    func createConstraintsPasswordRegistrationField() {
+        passwordRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        passwordRegistrationField.topAnchor.constraint(equalTo: nicknameRegistrationField.bottomAnchor, constant: 5).isActive = true
+        passwordRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
+        passwordRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
     }
     
 }
