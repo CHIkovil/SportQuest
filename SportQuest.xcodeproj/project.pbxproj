@@ -12,6 +12,10 @@
 		9314E730252A3F3D00ED1DFA /* seal.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E72F252A3F3D00ED1DFA /* seal.png */; };
 		9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */; };
 		9314E739252D105400ED1DFA /* unicorn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E738252D105400ED1DFA /* unicorn.png */; };
+		9314E73B2533A47E00ED1DFA /* Orc.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E73A2533A47E00ED1DFA /* Orc.png */; };
+		9314E7402533A6C900ED1DFA /* Human.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E73E2533A6C900ED1DFA /* Human.png */; };
+		9314E7412533A6C900ED1DFA /* Elf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E73F2533A6C900ED1DFA /* Elf.png */; };
+		9314E7432533A75500ED1DFA /* Gnome.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E7422533A75400ED1DFA /* Gnome.png */; };
 		93418C02252528730004F813 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C01252528730004F813 /* AppDelegate.swift */; };
 		93418C04252528730004F813 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C03252528730004F813 /* SceneDelegate.swift */; };
 		93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C05252528730004F813 /* AuthorizationViewController.swift */; };
@@ -37,6 +41,10 @@
 		9314E72F252A3F3D00ED1DFA /* seal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seal.png; sourceTree = "<group>"; };
 		9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		9314E738252D105400ED1DFA /* unicorn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unicorn.png; sourceTree = "<group>"; };
+		9314E73A2533A47E00ED1DFA /* Orc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Orc.png; sourceTree = "<group>"; };
+		9314E73E2533A6C900ED1DFA /* Human.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Human.png; sourceTree = "<group>"; };
+		9314E73F2533A6C900ED1DFA /* Elf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Elf.png; sourceTree = "<group>"; };
+		9314E7422533A75400ED1DFA /* Gnome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gnome.png; sourceTree = "<group>"; };
 		93418BFE252528730004F813 /* SportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C01252528730004F813 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93418C03252528730004F813 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +133,10 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9314E7422533A75400ED1DFA /* Gnome.png */,
+				9314E73F2533A6C900ED1DFA /* Elf.png */,
+				9314E73E2533A6C900ED1DFA /* Human.png */,
+				9314E73A2533A47E00ED1DFA /* Orc.png */,
 				9314E738252D105400ED1DFA /* unicorn.png */,
 				9314E72F252A3F3D00ED1DFA /* seal.png */,
 				93418C01252528730004F813 /* AppDelegate.swift */,
@@ -248,9 +260,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9314E73B2533A47E00ED1DFA /* Orc.png in Resources */,
+				9314E7402533A6C900ED1DFA /* Human.png in Resources */,
+				9314E7432533A75500ED1DFA /* Gnome.png in Resources */,
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
+				9314E7412533A6C900ED1DFA /* Elf.png in Resources */,
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
