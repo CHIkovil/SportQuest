@@ -12,7 +12,7 @@ import TextFieldEffects
 class RegistrationViewController: UIViewController {
     
     //MARK: let, var
-    let race = ["Human", "Orc","Elf", "Gnome"]
+    let race = ["human", "orc","elf", "gnome"]
     
     
     //MARK: PickerView
@@ -98,15 +98,15 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .white
         view.addSubview(userImageView)
+        view.addSubview(raceRegistrationField)
         view.addSubview(nicknameRegistrationField)
         view.addSubview(passwordRegistrationField)
-        view.addSubview(raceRegistrationField)
         view.addSubview(hobbyRegistrationField)
         raceRegistrationField.inputView = racePickerView
         createConstraintsUserImageView()
+        createConstraintsRaceRegistrationField()
         createConstraintsNicknameRegistrationField()
         createConstraintsPasswordRegistrationField()
-        createConstraintsRaceRegistrationField()
         createConstraintsHobbyRegistrationField()
     }
     
@@ -122,9 +122,16 @@ class RegistrationViewController: UIViewController {
     }
     
     //MARK: ConstraintsField
+    func createConstraintsRaceRegistrationField() {
+        raceRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        raceRegistrationField.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 20).isActive = true
+        raceRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
+        raceRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
+    }
+    
     func createConstraintsNicknameRegistrationField() {
         nicknameRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        nicknameRegistrationField.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 20).isActive = true
+        nicknameRegistrationField.topAnchor.constraint(equalTo: raceRegistrationField.bottomAnchor, constant: 5).isActive = true
         nicknameRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
         nicknameRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
     }
@@ -136,16 +143,9 @@ class RegistrationViewController: UIViewController {
         passwordRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
     }
     
-    func createConstraintsRaceRegistrationField() {
-        raceRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        raceRegistrationField.topAnchor.constraint(equalTo: passwordRegistrationField.bottomAnchor, constant: 5).isActive = true
-        raceRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
-        raceRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
-    }
-    
     func createConstraintsHobbyRegistrationField() {
         hobbyRegistrationField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        hobbyRegistrationField.topAnchor.constraint(equalTo: raceRegistrationField.bottomAnchor, constant: 5).isActive = true
+        hobbyRegistrationField.topAnchor.constraint(equalTo: passwordRegistrationField.bottomAnchor, constant: 5).isActive = true
         hobbyRegistrationField.widthAnchor.constraint(equalToConstant: 145).isActive = true
         hobbyRegistrationField.heightAnchor.constraint(equalToConstant: 65).isActive =  true
     }

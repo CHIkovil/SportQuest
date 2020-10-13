@@ -14,4 +14,5 @@ target 'SportQuest' do
 pod 'TextFieldEffects'
 pod 'DWAnimatedLabel'
 pod 'WCLShineButton'
+pod 'AMTabView'
 end

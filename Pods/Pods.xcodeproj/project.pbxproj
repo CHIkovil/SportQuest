@@ -7,53 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17D29B80E3F0E0B6459DC7E33AF140CA /* WCLShineClickLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FFAB8E43F53CC9AA486CFEA8B960C1 /* WCLShineClickLayer.swift */; };
-		1ED8944DE5DFBDDE78749DBE43ACCBA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		1F29C7BC6F90883ACB39668E65F77FB0 /* Pods-SportQuest-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E47913E0E1C096058623C4C6D6CE0D40 /* Pods-SportQuest-dummy.m */; };
-		205729B4AF44304859D69C642726E51E /* WCLShineParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD57BCAED219E809E4853E38667B16A /* WCLShineParams.swift */; };
-		20DE67D72BDBAFE488ADFEA37248E7B1 /* MinoruTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6988B55F8551C1DD6E887B61AB102DB /* MinoruTextField.swift */; };
-		23D6EC0C91CBAA5E1FFBF2EB30982EBD /* WCLShineButton.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 809B5FF487DA0B39823D7E001FC189EF /* WCLShineButton.bundle */; };
-		37736DA17015BD79765EC0418B8EF229 /* DWAnimatedLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 33B82802E8721F0035A74C72D5A7A160 /* DWAnimatedLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38D67CCC13EA655D14FE8AC86339133B /* TextFieldEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9E423808507F9F870EDFC17F551A3E /* TextFieldEffects.swift */; };
-		42719F081F577389CD7F0303C99F8D94 /* WCLShineButton-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 622707508C4E7FCCAEE1C8708D3EC301 /* WCLShineButton-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4A340373B08ED2E77D63CCD7958C5648 /* DWAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B171447900B7CBFF54679DF2FF7A846 /* DWAnimator.swift */; };
-		4C9B7E188A49F0241CA33C38C7D26DC4 /* TextFieldEffects-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 43077FAFF455FA93E3EC354A5F1DE225 /* TextFieldEffects-dummy.m */; };
+		13A7883B516ADF6D30CF408B9F6CFDB3 /* Pods-SportQuest-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E47913E0E1C096058623C4C6D6CE0D40 /* Pods-SportQuest-dummy.m */; };
+		17D29B80E3F0E0B6459DC7E33AF140CA /* WCLShineClickLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72668C0A604C7698ED6D3DA9F70140BE /* WCLShineClickLayer.swift */; };
+		205729B4AF44304859D69C642726E51E /* WCLShineParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26926095ADE1104DDEB6986CA13F3D /* WCLShineParams.swift */; };
+		20DE67D72BDBAFE488ADFEA37248E7B1 /* MinoruTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D91F38EED6387DA7468D98EBA02A0A3 /* MinoruTextField.swift */; };
+		23D6EC0C91CBAA5E1FFBF2EB30982EBD /* WCLShineButton.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE6D406B858C70335895430755E93DC4 /* WCLShineButton.bundle */; };
+		37736DA17015BD79765EC0418B8EF229 /* DWAnimatedLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F74F710DAAAB871C2C8A7861517BDD94 /* DWAnimatedLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38D67CCC13EA655D14FE8AC86339133B /* TextFieldEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D94FF10F2FC13B933C0EC73389D45D /* TextFieldEffects.swift */; };
+		42719F081F577389CD7F0303C99F8D94 /* WCLShineButton-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBDD7834AD862355D9470FBA9E647A /* WCLShineButton-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A340373B08ED2E77D63CCD7958C5648 /* DWAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935BF536C2FDC929B3AB19892CD34F1C /* DWAnimator.swift */; };
+		4C9B7E188A49F0241CA33C38C7D26DC4 /* TextFieldEffects-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E40ADAAB9D824A87B2291419D820C68B /* TextFieldEffects-dummy.m */; };
+		4DE342A7F85E70CA3EAEDB8D78636C36 /* AMTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5381708A01A944E03C79BBB795F6956D /* AMTabView.swift */; };
 		5B38B7A8F6C35E32405B6D97EBDBDF4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		5BBC9E37788B085909988B009A3E594D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
 		5F79076406E487B6079AAF374183DD11 /* Pods-SportQuestTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F83244B89D2583DBB2D8EBF4D1B9CA /* Pods-SportQuestTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6B63A398C9377326BD64C20CC07CF08B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
 		7CA81AF79FEFF4014E705AE23DE6AC74 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		7F91E347D1CDCC342F28CE918CCE71E7 /* WCLShineBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F068977CB26550F6D9082BEEF5FA6BD /* WCLShineBundle.swift */; };
-		804E71C76C1FD998C04D4321B059CD51 /* DWAnimatedLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FB64D43E3786EB56CEE2A8A5198A45D3 /* DWAnimatedLabel-dummy.m */; };
-		82FD19E901B1CA44502C6D11812982E1 /* WCLShineAngleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41417314B305A0420899A3463D50AA6 /* WCLShineAngleLayer.swift */; };
-		865ADC0589C59BFC1CEF76260E192CD9 /* DWAnimatedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4232B26C874C8DC7E8E659B0EE595992 /* DWAnimatedLabel.swift */; };
-		86EED6E725DC04C21F0831112187BCE5 /* JiroTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDCBA07850A6408512EB69CB906ED9D /* JiroTextField.swift */; };
-		8C8B6FA1A214E7C14E99C9AD49E59BA0 /* WCLShineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B4845BB07B61A82C3C636A7D0F74FD /* WCLShineButton.swift */; };
-		95BF8CF23188F30BC6635B94B06979AF /* AkiraTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B579D5286540D46A32DE8FACD7A6FC3 /* AkiraTextField.swift */; };
+		7F91E347D1CDCC342F28CE918CCE71E7 /* WCLShineBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEE84B45CCD03246A27283780D6DC14 /* WCLShineBundle.swift */; };
+		804E71C76C1FD998C04D4321B059CD51 /* DWAnimatedLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D303487D81FD1746FE87B5226A860BDE /* DWAnimatedLabel-dummy.m */; };
+		82FD19E901B1CA44502C6D11812982E1 /* WCLShineAngleLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFB31512ABD38116EA41707A8F9246 /* WCLShineAngleLayer.swift */; };
+		865ADC0589C59BFC1CEF76260E192CD9 /* DWAnimatedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FDB50295A858639EF58ABCC96C48F4 /* DWAnimatedLabel.swift */; };
+		86EED6E725DC04C21F0831112187BCE5 /* JiroTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898927899CF10689A300A27FE44079A0 /* JiroTextField.swift */; };
+		8C8B6FA1A214E7C14E99C9AD49E59BA0 /* WCLShineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD10E82A0FF5007B0F019E8F1CF7B2 /* WCLShineButton.swift */; };
+		9470FB9601C866A0607568A8B89B3F0A /* Pods-SportQuest-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 257D02C0765C5FD8B4DB4263FB48C30E /* Pods-SportQuest-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95BF8CF23188F30BC6635B94B06979AF /* AkiraTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EFF2E827430677A569E87FE53AAE15 /* AkiraTextField.swift */; };
 		9AECEA9E14DAB08AE3D07D643D4AA6F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B988EF117AE4DE76A268D970131FE /* UIKit.framework */; };
-		A7D43F34F595625CFF83A1D4FFD4010E /* YokoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B6D2BE58C72CDE95C52A860441D607 /* YokoTextField.swift */; };
-		A93B19C2740982EB1EF58C4C13C33A1B /* HoshiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72704366FB40A10D5AB6F5749A3F1C32 /* HoshiTextField.swift */; };
-		AE9FF4C66667F464BFA16BC0AC830025 /* TextFieldEffects-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 388123A327B4D3A51C18993766D0B300 /* TextFieldEffects-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B95B5A7C1CD8DEE336E273AA9D401B74 /* KaedeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B0A77AD15C79E5F6A3EEF40020B3C /* KaedeTextField.swift */; };
-		C3FFAB580EB6294FA683AC3A5F5ED261 /* DWAnimatedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = E5AD3520BB5F85ECDAFA228855C0CD16 /* DWAnimatedLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C91D567A84CAAEBEAB43F21D8A797B3F /* DWHollowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11066EA239025F9EC2F08BC94D8F020 /* DWHollowLabel.swift */; };
+		A7D43F34F595625CFF83A1D4FFD4010E /* YokoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28AB616523F8BBCAC1CF53C2213D5F7 /* YokoTextField.swift */; };
+		A93B19C2740982EB1EF58C4C13C33A1B /* HoshiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6691ED7EDFB3C64841895AA01D9E6CB6 /* HoshiTextField.swift */; };
+		ABF5C2A93F77D19C94B8A469C2167944 /* AMTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF608B6944AB1726900ED7192AB8AFC /* AMTabsViewController.swift */; };
+		AE9FF4C66667F464BFA16BC0AC830025 /* TextFieldEffects-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C58C52D4C88280A10696D72679CB44E /* TextFieldEffects-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B95B5A7C1CD8DEE336E273AA9D401B74 /* KaedeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EE9B0A5B65FDFE54E1CB56207EFE8D /* KaedeTextField.swift */; };
+		C3FFAB580EB6294FA683AC3A5F5ED261 /* DWAnimatedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = E306F5513CD119B9AE2EED3E0B40CA9A /* DWAnimatedLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4596B6DA0F63D8D5D8C540D4247747F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
+		C91D567A84CAAEBEAB43F21D8A797B3F /* DWHollowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7E01696822958937972FC316DDA3D3 /* DWHollowLabel.swift */; };
 		CCFFC68EDC595F04158E18F669130837 /* Pods-SportQuestTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D50DAD3F953B43A9422515A0DE9D229B /* Pods-SportQuestTests-dummy.m */; };
 		D10548B59A2671C1A8CF28CACB67684A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */; };
-		D7D702E98AC1E133E09F5B6C2A54A6CF /* WCLShineButton-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 268B0144705D2BE1A9A9771E61D51512 /* WCLShineButton-dummy.m */; };
-		DD96FFE1264199929DE1AC969233AEFA /* MadokaTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB54F402E1B41BD8B00A034A29B93E9F /* MadokaTextField.swift */; };
-		E4DE5745A783B0B1C66E71DB13373CF1 /* YoshikoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2878D228BD09E64681DA64E0A136ADE5 /* YoshikoTextField.swift */; };
-		EC3E9858A70131522B060F0016FA4374 /* WCLShineLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF87B3E6E096D4ABF2C068A60C66C77A /* WCLShineLayer.swift */; };
-		EFE8EEF9FFBFD2DBD4B027AE43403EF6 /* Pods-SportQuest-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 257D02C0765C5FD8B4DB4263FB48C30E /* Pods-SportQuest-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAD2EF206C3D8CA21768F336C46A51E2 /* IsaoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AA3CDBB76F12C1647C9CD43DD5FB69 /* IsaoTextField.swift */; };
+		D2911CFD54B746449C457D947EA77716 /* AMTabView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A86D8D757ED0F7DE0DDA4B28177703CC /* AMTabView-dummy.m */; };
+		D7D702E98AC1E133E09F5B6C2A54A6CF /* WCLShineButton-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF6C53D58E7A1D6AE49E2E6B6CB593E /* WCLShineButton-dummy.m */; };
+		DD96FFE1264199929DE1AC969233AEFA /* MadokaTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8578FEE361C98A669C37490FE246D6 /* MadokaTextField.swift */; };
+		E4C9934CBB28B7C1A61A1434B20D69E5 /* AMTabView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 00B89616358667AC140A5ACEBA8DDD57 /* AMTabView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E4DE5745A783B0B1C66E71DB13373CF1 /* YoshikoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879DF84EA0B777C9823E17F25C30EC60 /* YoshikoTextField.swift */; };
+		EC3E9858A70131522B060F0016FA4374 /* WCLShineLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBFF90566C79914DCD0696737382B25 /* WCLShineLayer.swift */; };
+		FAD2EF206C3D8CA21768F336C46A51E2 /* IsaoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E253077F42001122D212F17978A61FF /* IsaoTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0759C25726A29C65498582F6B11383A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C83993C8F5EFBE2ED74A821934C595E9;
-			remoteInfo = WCLShineButton;
-		};
 		16B0972D35796F71EF00E0450385EE03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -61,93 +59,125 @@
 			remoteGlobalIDString = 50A59BE70D3F37F67623B235BD93814B;
 			remoteInfo = "Pods-SportQuest";
 		};
-		A19387B2219399F02B7913BA3A749AB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 670BD8CE390D7D6DB204EA26D001123B;
-			remoteInfo = DWAnimatedLabel;
-		};
-		B7EE395A7C09DD58E7B501728A5419A0 /* PBXContainerItemProxy */ = {
+		220813DA1BC1E86091B790473B7DBEB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D09BAB8A20917611A8AD17E2E0EE8271;
 			remoteInfo = TextFieldEffects;
 		};
+		89DF264723FEB29BE1821D94005B0C6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 670BD8CE390D7D6DB204EA26D001123B;
+			remoteInfo = DWAnimatedLabel;
+		};
+		AC1B0E7FC2F047208EE1AC16861C20F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C83993C8F5EFBE2ED74A821934C595E9;
+			remoteInfo = WCLShineButton;
+		};
+		BD5363D0CD4945CF7D4E6DFD5CA93647 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 59C9028482380AB83D01F126C3195633;
+			remoteInfo = AMTabView;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		001CE4D61CAB611AC98C5F4B6C02F07E /* TextFieldEffects.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TextFieldEffects.modulemap; sourceTree = "<group>"; };
+		00B89616358667AC140A5ACEBA8DDD57 /* AMTabView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AMTabView-umbrella.h"; sourceTree = "<group>"; };
 		01B520933FBFBA84DEDE78C58F856F7C /* Pods-SportQuest-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SportQuest-Info.plist"; sourceTree = "<group>"; };
-		04A98A58BE2BD80423E7817909EADF45 /* DWAnimatedLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DWAnimatedLabel.modulemap; sourceTree = "<group>"; };
+		03DB065E0618D69DF76CFCAC666FE670 /* WCLShineButton-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WCLShineButton-Info.plist"; sourceTree = "<group>"; };
 		098814983BC053555A485F9F0FE788DC /* WCLShineButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WCLShineButton.framework; path = WCLShineButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BA21CC7E559276421D4E8D820BF7010 /* TextFieldEffects-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TextFieldEffects-Info.plist"; sourceTree = "<group>"; };
+		0C4E30BC51AD903A74B13C65967630DA /* DWAnimatedLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DWAnimatedLabel.modulemap; sourceTree = "<group>"; };
+		0D91F38EED6387DA7468D98EBA02A0A3 /* MinoruTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MinoruTextField.swift; path = TextFieldEffects/TextFieldEffects/MinoruTextField.swift; sourceTree = "<group>"; };
 		0F3DC2E0D3CCD039BD94C212B3C438C1 /* Pods-SportQuest-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SportQuest-frameworks.sh"; sourceTree = "<group>"; };
 		12BE3CAC534657107DC0D381C8AFBDFA /* Pods-SportQuestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SportQuestTests.release.xcconfig"; sourceTree = "<group>"; };
-		158CDBC63FE79FC862DB8D6B01DE50E5 /* WCLShineButton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WCLShineButton.debug.xcconfig; sourceTree = "<group>"; };
-		16AA3CDBB76F12C1647C9CD43DD5FB69 /* IsaoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IsaoTextField.swift; path = TextFieldEffects/TextFieldEffects/IsaoTextField.swift; sourceTree = "<group>"; };
-		18B4845BB07B61A82C3C636A7D0F74FD /* WCLShineButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineButton.swift; path = WCLShineButton/WCLShineButton.swift; sourceTree = "<group>"; };
-		1B171447900B7CBFF54679DF2FF7A846 /* DWAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWAnimator.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimator.swift; sourceTree = "<group>"; };
-		1B579D5286540D46A32DE8FACD7A6FC3 /* AkiraTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AkiraTextField.swift; path = TextFieldEffects/TextFieldEffects/AkiraTextField.swift; sourceTree = "<group>"; };
+		1334CE905F859C6CDE8B3171AAE5C8E4 /* TextFieldEffects.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TextFieldEffects.modulemap; sourceTree = "<group>"; };
+		1C58C52D4C88280A10696D72679CB44E /* TextFieldEffects-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextFieldEffects-umbrella.h"; sourceTree = "<group>"; };
+		1C8578FEE361C98A669C37490FE246D6 /* MadokaTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MadokaTextField.swift; path = TextFieldEffects/TextFieldEffects/MadokaTextField.swift; sourceTree = "<group>"; };
 		200DDC835FC847A6D375247AA2744543 /* Pods-SportQuest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SportQuest.release.xcconfig"; sourceTree = "<group>"; };
+		2412236A74B6E1AB53FB1FFC5F9B8447 /* TextFieldEffects-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TextFieldEffects-Info.plist"; sourceTree = "<group>"; };
 		257D02C0765C5FD8B4DB4263FB48C30E /* Pods-SportQuest-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SportQuest-umbrella.h"; sourceTree = "<group>"; };
-		25D654ACF4CFE581BAEBF3B16EE4CA88 /* DWAnimatedLabel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWAnimatedLabel.release.xcconfig; sourceTree = "<group>"; };
-		268B0144705D2BE1A9A9771E61D51512 /* WCLShineButton-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WCLShineButton-dummy.m"; sourceTree = "<group>"; };
-		2878D228BD09E64681DA64E0A136ADE5 /* YoshikoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YoshikoTextField.swift; path = TextFieldEffects/TextFieldEffects/YoshikoTextField.swift; sourceTree = "<group>"; };
-		2C24288844C3B1001180E8EC3811D73B /* DWAnimatedLabel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "DWAnimatedLabel-Info.plist"; sourceTree = "<group>"; };
+		292CBB089B493AF85DA94B754DBD8D0A /* DWAnimatedLabel-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "DWAnimatedLabel-Info.plist"; sourceTree = "<group>"; };
 		312B988EF117AE4DE76A268D970131FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		32F5AA1BBA3F23AAD582211894164FC3 /* Pods-SportQuestTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SportQuestTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		33B82802E8721F0035A74C72D5A7A160 /* DWAnimatedLabel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWAnimatedLabel-umbrella.h"; sourceTree = "<group>"; };
-		388123A327B4D3A51C18993766D0B300 /* TextFieldEffects-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextFieldEffects-umbrella.h"; sourceTree = "<group>"; };
 		3882949F70B56C1AE5D77AAA01CDD8AD /* Pods-SportQuest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SportQuest.debug.xcconfig"; sourceTree = "<group>"; };
-		3AD57BCAED219E809E4853E38667B16A /* WCLShineParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineParams.swift; path = WCLShineButton/WCLShineParams.swift; sourceTree = "<group>"; };
-		3ED1AA7A9AD336B7B6D0FF7BFEB2C668 /* WCLShineButton.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WCLShineButton.modulemap; sourceTree = "<group>"; };
-		41E5F3B28980B286FD1CC8324A839530 /* DWAnimatedLabel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWAnimatedLabel-prefix.pch"; sourceTree = "<group>"; };
-		4232B26C874C8DC7E8E659B0EE595992 /* DWAnimatedLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWAnimatedLabel.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimatedLabel.swift; sourceTree = "<group>"; };
-		43077FAFF455FA93E3EC354A5F1DE225 /* TextFieldEffects-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TextFieldEffects-dummy.m"; sourceTree = "<group>"; };
+		3DBFF90566C79914DCD0696737382B25 /* WCLShineLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineLayer.swift; path = WCLShineButton/WCLShineLayer.swift; sourceTree = "<group>"; };
+		42C923D1C98AA60D48134A38BDA56104 /* AMTabView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AMTabView.framework; path = AMTabView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		436BAA54A31999B53B3CC7115C55FE50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		45A4FA95FB3EDC986D0EC11FE091BD8D /* WCLShineButton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WCLShineButton.release.xcconfig; sourceTree = "<group>"; };
-		45FFAB8E43F53CC9AA486CFEA8B960C1 /* WCLShineClickLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineClickLayer.swift; path = WCLShineButton/WCLShineClickLayer.swift; sourceTree = "<group>"; };
-		4B9E423808507F9F870EDFC17F551A3E /* TextFieldEffects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFieldEffects.swift; path = TextFieldEffects/TextFieldEffects/TextFieldEffects.swift; sourceTree = "<group>"; };
-		57530530FDFAFBEEA60A8C2E4EDBF966 /* TextFieldEffects.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextFieldEffects.debug.xcconfig; sourceTree = "<group>"; };
+		47FB3162CF346D1965ADAD8A214044E6 /* TextFieldEffects.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextFieldEffects.release.xcconfig; sourceTree = "<group>"; };
+		49EFF2E827430677A569E87FE53AAE15 /* AkiraTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AkiraTextField.swift; path = TextFieldEffects/TextFieldEffects/AkiraTextField.swift; sourceTree = "<group>"; };
+		4BF608B6944AB1726900ED7192AB8AFC /* AMTabsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AMTabsViewController.swift; path = AMTabView/Classes/AMTabsViewController.swift; sourceTree = "<group>"; };
+		5381708A01A944E03C79BBB795F6956D /* AMTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AMTabView.swift; path = AMTabView/Classes/AMTabView.swift; sourceTree = "<group>"; };
 		5BF6A343225E52F29805C5101F411A88 /* Pods-SportQuest-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SportQuest-acknowledgements.markdown"; sourceTree = "<group>"; };
-		622707508C4E7FCCAEE1C8708D3EC301 /* WCLShineButton-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WCLShineButton-umbrella.h"; sourceTree = "<group>"; };
-		661BCFD485F5F4AE0B5914C8DA6B14EB /* DWAnimatedLabel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWAnimatedLabel.debug.xcconfig; sourceTree = "<group>"; };
+		5C401AAF1BAF8FB75C38E47536F198B7 /* DWAnimatedLabel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWAnimatedLabel-prefix.pch"; sourceTree = "<group>"; };
+		5E253077F42001122D212F17978A61FF /* IsaoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IsaoTextField.swift; path = TextFieldEffects/TextFieldEffects/IsaoTextField.swift; sourceTree = "<group>"; };
+		5E41A30F45CD3B5D734D8B6F1EC51696 /* AMTabView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AMTabView.modulemap; sourceTree = "<group>"; };
+		666A3E1E5F9FC2554525CF6FDE33D0F4 /* WCLShineButton-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WCLShineButton-prefix.pch"; sourceTree = "<group>"; };
+		6691ED7EDFB3C64841895AA01D9E6CB6 /* HoshiTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoshiTextField.swift; path = TextFieldEffects/TextFieldEffects/HoshiTextField.swift; sourceTree = "<group>"; };
 		676A6D078E558786D05CCC957905D2FC /* Pods_SportQuest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SportQuest.framework; path = "Pods-SportQuest.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		72704366FB40A10D5AB6F5749A3F1C32 /* HoshiTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HoshiTextField.swift; path = TextFieldEffects/TextFieldEffects/HoshiTextField.swift; sourceTree = "<group>"; };
-		7C546C2D0AF2BD23D8D61D654DDE9616 /* TextFieldEffects.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextFieldEffects.release.xcconfig; sourceTree = "<group>"; };
-		7CDCBA07850A6408512EB69CB906ED9D /* JiroTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JiroTextField.swift; path = TextFieldEffects/TextFieldEffects/JiroTextField.swift; sourceTree = "<group>"; };
-		7E2B0A77AD15C79E5F6A3EEF40020B3C /* KaedeTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KaedeTextField.swift; path = TextFieldEffects/TextFieldEffects/KaedeTextField.swift; sourceTree = "<group>"; };
-		809B5FF487DA0B39823D7E001FC189EF /* WCLShineButton.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = WCLShineButton.bundle; path = WCLShineButton/WCLShineButton.bundle; sourceTree = "<group>"; };
+		67A49C971CF8A38B8CC6D2521DDC812F /* AMTabView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AMTabView.debug.xcconfig; sourceTree = "<group>"; };
+		6AADA1053BFB85C9B6AB2841B5BA3756 /* DWAnimatedLabel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWAnimatedLabel.debug.xcconfig; sourceTree = "<group>"; };
+		72668C0A604C7698ED6D3DA9F70140BE /* WCLShineClickLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineClickLayer.swift; path = WCLShineButton/WCLShineClickLayer.swift; sourceTree = "<group>"; };
+		7C7E01696822958937972FC316DDA3D3 /* DWHollowLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWHollowLabel.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWHollowLabel.swift; sourceTree = "<group>"; };
+		82D94FF10F2FC13B933C0EC73389D45D /* TextFieldEffects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextFieldEffects.swift; path = TextFieldEffects/TextFieldEffects/TextFieldEffects.swift; sourceTree = "<group>"; };
 		866395078F6FD94BC3281F69D79FBEBF /* Pods-SportQuest-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SportQuest-acknowledgements.plist"; sourceTree = "<group>"; };
-		8F068977CB26550F6D9082BEEF5FA6BD /* WCLShineBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineBundle.swift; path = WCLShineButton/WCLShineBundle.swift; sourceTree = "<group>"; };
+		879DF84EA0B777C9823E17F25C30EC60 /* YoshikoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YoshikoTextField.swift; path = TextFieldEffects/TextFieldEffects/YoshikoTextField.swift; sourceTree = "<group>"; };
+		898927899CF10689A300A27FE44079A0 /* JiroTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JiroTextField.swift; path = TextFieldEffects/TextFieldEffects/JiroTextField.swift; sourceTree = "<group>"; };
+		935BF536C2FDC929B3AB19892CD34F1C /* DWAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWAnimator.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimator.swift; sourceTree = "<group>"; };
 		9506DA724C6F10EF01A979CAA24AB55D /* TextFieldEffects.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TextFieldEffects.framework; path = TextFieldEffects.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96C708FDB829433DA226E08892B83393 /* Pods-SportQuest.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SportQuest.modulemap"; sourceTree = "<group>"; };
+		97EE9B0A5B65FDFE54E1CB56207EFE8D /* KaedeTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KaedeTextField.swift; path = TextFieldEffects/TextFieldEffects/KaedeTextField.swift; sourceTree = "<group>"; };
 		98D909A5452D46DD64818DBC5D3F7DDF /* Pods-SportQuestTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SportQuestTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		9C905883F38127F645C0D44E8A932080 /* WCLShineButton-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WCLShineButton-Info.plist"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A3FBEF44E89CC4752E4FD4BD2F3E9C72 /* WCLShineButton-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WCLShineButton-prefix.pch"; sourceTree = "<group>"; };
+		A28AB616523F8BBCAC1CF53C2213D5F7 /* YokoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YokoTextField.swift; path = TextFieldEffects/TextFieldEffects/YokoTextField.swift; sourceTree = "<group>"; };
 		A638A552407B737346EFF4F3AB457BEC /* Pods-SportQuestTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SportQuestTests.modulemap"; sourceTree = "<group>"; };
-		A6988B55F8551C1DD6E887B61AB102DB /* MinoruTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MinoruTextField.swift; path = TextFieldEffects/TextFieldEffects/MinoruTextField.swift; sourceTree = "<group>"; };
-		B11066EA239025F9EC2F08BC94D8F020 /* DWHollowLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWHollowLabel.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWHollowLabel.swift; sourceTree = "<group>"; };
+		A86D8D757ED0F7DE0DDA4B28177703CC /* AMTabView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AMTabView-dummy.m"; sourceTree = "<group>"; };
+		A9FDB50295A858639EF58ABCC96C48F4 /* DWAnimatedLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DWAnimatedLabel.swift; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimatedLabel.swift; sourceTree = "<group>"; };
+		AC26926095ADE1104DDEB6986CA13F3D /* WCLShineParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineParams.swift; path = WCLShineButton/WCLShineParams.swift; sourceTree = "<group>"; };
+		ADD70B10F28D03F6134FE5C2C479C0D1 /* DWAnimatedLabel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWAnimatedLabel.release.xcconfig; sourceTree = "<group>"; };
+		B2E4BA8A229F1E4778BAD14A6096D018 /* AMTabView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AMTabView.release.xcconfig; sourceTree = "<group>"; };
 		B32018B04234F2D4D92306A50B5BD37F /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B4CA07910B4BBDD3348045F01B99F16B /* TextFieldEffects-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextFieldEffects-prefix.pch"; sourceTree = "<group>"; };
-		B7B6D2BE58C72CDE95C52A860441D607 /* YokoTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YokoTextField.swift; path = TextFieldEffects/TextFieldEffects/YokoTextField.swift; sourceTree = "<group>"; };
-		C41417314B305A0420899A3463D50AA6 /* WCLShineAngleLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineAngleLayer.swift; path = WCLShineButton/WCLShineAngleLayer.swift; sourceTree = "<group>"; };
+		B8CFB31512ABD38116EA41707A8F9246 /* WCLShineAngleLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineAngleLayer.swift; path = WCLShineButton/WCLShineAngleLayer.swift; sourceTree = "<group>"; };
+		B8DD10E82A0FF5007B0F019E8F1CF7B2 /* WCLShineButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineButton.swift; path = WCLShineButton/WCLShineButton.swift; sourceTree = "<group>"; };
+		BA371EFC72F4B8E37494E5209F7A2F13 /* WCLShineButton.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WCLShineButton.modulemap; sourceTree = "<group>"; };
+		BE6D406B858C70335895430755E93DC4 /* WCLShineButton.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = WCLShineButton.bundle; path = WCLShineButton/WCLShineButton.bundle; sourceTree = "<group>"; };
 		C5B3AA7481F2E2A217DB5A89EE960395 /* DWAnimatedLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DWAnimatedLabel.framework; path = DWAnimatedLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CABBDD7834AD862355D9470FBA9E647A /* WCLShineButton-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WCLShineButton-umbrella.h"; sourceTree = "<group>"; };
+		D303487D81FD1746FE87B5226A860BDE /* DWAnimatedLabel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DWAnimatedLabel-dummy.m"; sourceTree = "<group>"; };
 		D50DAD3F953B43A9422515A0DE9D229B /* Pods-SportQuestTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SportQuestTests-dummy.m"; sourceTree = "<group>"; };
+		D79B5FE0FFB5DD09764985074D3F828D /* TextFieldEffects.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TextFieldEffects.debug.xcconfig; sourceTree = "<group>"; };
 		D9F83244B89D2583DBB2D8EBF4D1B9CA /* Pods-SportQuestTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SportQuestTests-umbrella.h"; sourceTree = "<group>"; };
 		DEA4814D40479CA27689703C93F83795 /* Pods-SportQuestTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SportQuestTests-Info.plist"; sourceTree = "<group>"; };
-		DF87B3E6E096D4ABF2C068A60C66C77A /* WCLShineLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineLayer.swift; path = WCLShineButton/WCLShineLayer.swift; sourceTree = "<group>"; };
+		E12439BF5516F212697D27971EE862B9 /* AMTabView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AMTabView-Info.plist"; sourceTree = "<group>"; };
+		E306F5513CD119B9AE2EED3E0B40CA9A /* DWAnimatedLabel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimatedLabel.h; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimatedLabel.h; sourceTree = "<group>"; };
+		E40ADAAB9D824A87B2291419D820C68B /* TextFieldEffects-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TextFieldEffects-dummy.m"; sourceTree = "<group>"; };
 		E47913E0E1C096058623C4C6D6CE0D40 /* Pods-SportQuest-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SportQuest-dummy.m"; sourceTree = "<group>"; };
-		E5AD3520BB5F85ECDAFA228855C0CD16 /* DWAnimatedLabel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimatedLabel.h; path = DWAnimatedLabelDemo/DWAnimatedLabel/DWAnimatedLabel.h; sourceTree = "<group>"; };
-		EB54F402E1B41BD8B00A034A29B93E9F /* MadokaTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MadokaTextField.swift; path = TextFieldEffects/TextFieldEffects/MadokaTextField.swift; sourceTree = "<group>"; };
-		FB64D43E3786EB56CEE2A8A5198A45D3 /* DWAnimatedLabel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DWAnimatedLabel-dummy.m"; sourceTree = "<group>"; };
+		E5E38E80673252F21F4065C4CA77F7FF /* WCLShineButton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WCLShineButton.debug.xcconfig; sourceTree = "<group>"; };
+		EBEE84B45CCD03246A27283780D6DC14 /* WCLShineBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WCLShineBundle.swift; path = WCLShineButton/WCLShineBundle.swift; sourceTree = "<group>"; };
+		EF6CF38053B62EDDD9BA8C8B1D6EC6AF /* AMTabView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AMTabView-prefix.pch"; sourceTree = "<group>"; };
+		EFF6C53D58E7A1D6AE49E2E6B6CB593E /* WCLShineButton-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WCLShineButton-dummy.m"; sourceTree = "<group>"; };
+		F472C0505ECD703C4FBDB310E0BE38B9 /* TextFieldEffects-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TextFieldEffects-prefix.pch"; sourceTree = "<group>"; };
+		F74F710DAAAB871C2C8A7861517BDD94 /* DWAnimatedLabel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWAnimatedLabel-umbrella.h"; sourceTree = "<group>"; };
 		FC84DCA82E412234558830CCCA6FAAB9 /* Pods_SportQuestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SportQuestTests.framework; path = "Pods-SportQuestTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCCE8C615D97B5E1FB302A442EEDFBC0 /* WCLShineButton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WCLShineButton.release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		20B8AC8EC2B8DA61094D738B00038EDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4596B6DA0F63D8D5D8C540D4247747F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		288212C53407592DACBF77469C43489F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,11 +211,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F6EA7EE509478B7E7FF29639691E06B7 /* Frameworks */ = {
+		C009D83EB3F511CA1CC0B57516AD5C1D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ED8944DE5DFBDDE78749DBE43ACCBA1 /* Foundation.framework in Frameworks */,
+				5BBC9E37788B085909988B009A3E594D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,19 +255,6 @@
 			path = "Target Support Files/Pods-SportQuestTests";
 			sourceTree = "<group>";
 		};
-		126939EFEFBBCD375A107950EC65B8D4 /* DWAnimatedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				E5AD3520BB5F85ECDAFA228855C0CD16 /* DWAnimatedLabel.h */,
-				4232B26C874C8DC7E8E659B0EE595992 /* DWAnimatedLabel.swift */,
-				1B171447900B7CBFF54679DF2FF7A846 /* DWAnimator.swift */,
-				B11066EA239025F9EC2F08BC94D8F020 /* DWHollowLabel.swift */,
-				C08D16B4C27B8ACE864333E2AB89FF55 /* Support Files */,
-			);
-			name = DWAnimatedLabel;
-			path = DWAnimatedLabel;
-			sourceTree = "<group>";
-		};
 		1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,32 +263,112 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3D02B78A755086B9CB59F1B82FF7E25A /* Support Files */ = {
+		1F3EFDCE15F3376B72A155832E895B51 /* WCLShineButton */ = {
 			isa = PBXGroup;
 			children = (
-				3ED1AA7A9AD336B7B6D0FF7BFEB2C668 /* WCLShineButton.modulemap */,
-				268B0144705D2BE1A9A9771E61D51512 /* WCLShineButton-dummy.m */,
-				9C905883F38127F645C0D44E8A932080 /* WCLShineButton-Info.plist */,
-				A3FBEF44E89CC4752E4FD4BD2F3E9C72 /* WCLShineButton-prefix.pch */,
-				622707508C4E7FCCAEE1C8708D3EC301 /* WCLShineButton-umbrella.h */,
-				158CDBC63FE79FC862DB8D6B01DE50E5 /* WCLShineButton.debug.xcconfig */,
-				45A4FA95FB3EDC986D0EC11FE091BD8D /* WCLShineButton.release.xcconfig */,
+				B8CFB31512ABD38116EA41707A8F9246 /* WCLShineAngleLayer.swift */,
+				EBEE84B45CCD03246A27283780D6DC14 /* WCLShineBundle.swift */,
+				B8DD10E82A0FF5007B0F019E8F1CF7B2 /* WCLShineButton.swift */,
+				72668C0A604C7698ED6D3DA9F70140BE /* WCLShineClickLayer.swift */,
+				3DBFF90566C79914DCD0696737382B25 /* WCLShineLayer.swift */,
+				AC26926095ADE1104DDEB6986CA13F3D /* WCLShineParams.swift */,
+				AA40D020BE888DE5F494503A20FD70DD /* Resources */,
+				A8CABD1E9E61CA794E06DEECB62A0CA3 /* Support Files */,
+			);
+			name = WCLShineButton;
+			path = WCLShineButton;
+			sourceTree = "<group>";
+		};
+		20E93B05D87D973C5B2F59960B5BD44A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3A998C2A437AFFC0F613510D479DBFC7 /* AMTabView */,
+				D9AF4B63EA1E04042751B37468852954 /* DWAnimatedLabel */,
+				414E935CDA5835CA8962357AE9813A70 /* TextFieldEffects */,
+				1F3EFDCE15F3376B72A155832E895B51 /* WCLShineButton */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2524DF96D4FA72938997244D39B9B56C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0C4E30BC51AD903A74B13C65967630DA /* DWAnimatedLabel.modulemap */,
+				D303487D81FD1746FE87B5226A860BDE /* DWAnimatedLabel-dummy.m */,
+				292CBB089B493AF85DA94B754DBD8D0A /* DWAnimatedLabel-Info.plist */,
+				5C401AAF1BAF8FB75C38E47536F198B7 /* DWAnimatedLabel-prefix.pch */,
+				F74F710DAAAB871C2C8A7861517BDD94 /* DWAnimatedLabel-umbrella.h */,
+				6AADA1053BFB85C9B6AB2841B5BA3756 /* DWAnimatedLabel.debug.xcconfig */,
+				ADD70B10F28D03F6134FE5C2C479C0D1 /* DWAnimatedLabel.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/WCLShineButton";
+			path = "../Target Support Files/DWAnimatedLabel";
 			sourceTree = "<group>";
 		};
-		69BE1264BCE5706062DB5E1E551B4702 /* Resources */ = {
+		3A998C2A437AFFC0F613510D479DBFC7 /* AMTabView */ = {
 			isa = PBXGroup;
 			children = (
-				809B5FF487DA0B39823D7E001FC189EF /* WCLShineButton.bundle */,
+				4BF608B6944AB1726900ED7192AB8AFC /* AMTabsViewController.swift */,
+				5381708A01A944E03C79BBB795F6956D /* AMTabView.swift */,
+				7A4AC284BCDB8919101CF3651F986BE9 /* Support Files */,
 			);
-			name = Resources;
+			name = AMTabView;
+			path = AMTabView;
 			sourceTree = "<group>";
 		};
-		8C47EEE33D32A0D018A328354F644AEF /* Products */ = {
+		414E935CDA5835CA8962357AE9813A70 /* TextFieldEffects */ = {
 			isa = PBXGroup;
 			children = (
+				49EFF2E827430677A569E87FE53AAE15 /* AkiraTextField.swift */,
+				6691ED7EDFB3C64841895AA01D9E6CB6 /* HoshiTextField.swift */,
+				5E253077F42001122D212F17978A61FF /* IsaoTextField.swift */,
+				898927899CF10689A300A27FE44079A0 /* JiroTextField.swift */,
+				97EE9B0A5B65FDFE54E1CB56207EFE8D /* KaedeTextField.swift */,
+				1C8578FEE361C98A669C37490FE246D6 /* MadokaTextField.swift */,
+				0D91F38EED6387DA7468D98EBA02A0A3 /* MinoruTextField.swift */,
+				82D94FF10F2FC13B933C0EC73389D45D /* TextFieldEffects.swift */,
+				A28AB616523F8BBCAC1CF53C2213D5F7 /* YokoTextField.swift */,
+				879DF84EA0B777C9823E17F25C30EC60 /* YoshikoTextField.swift */,
+				44C132192142FD39A9CC91C59E2C9BD5 /* Support Files */,
+			);
+			name = TextFieldEffects;
+			path = TextFieldEffects;
+			sourceTree = "<group>";
+		};
+		44C132192142FD39A9CC91C59E2C9BD5 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1334CE905F859C6CDE8B3171AAE5C8E4 /* TextFieldEffects.modulemap */,
+				E40ADAAB9D824A87B2291419D820C68B /* TextFieldEffects-dummy.m */,
+				2412236A74B6E1AB53FB1FFC5F9B8447 /* TextFieldEffects-Info.plist */,
+				F472C0505ECD703C4FBDB310E0BE38B9 /* TextFieldEffects-prefix.pch */,
+				1C58C52D4C88280A10696D72679CB44E /* TextFieldEffects-umbrella.h */,
+				D79B5FE0FFB5DD09764985074D3F828D /* TextFieldEffects.debug.xcconfig */,
+				47FB3162CF346D1965ADAD8A214044E6 /* TextFieldEffects.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/TextFieldEffects";
+			sourceTree = "<group>";
+		};
+		7A4AC284BCDB8919101CF3651F986BE9 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5E41A30F45CD3B5D734D8B6F1EC51696 /* AMTabView.modulemap */,
+				A86D8D757ED0F7DE0DDA4B28177703CC /* AMTabView-dummy.m */,
+				E12439BF5516F212697D27971EE862B9 /* AMTabView-Info.plist */,
+				EF6CF38053B62EDDD9BA8C8B1D6EC6AF /* AMTabView-prefix.pch */,
+				00B89616358667AC140A5ACEBA8DDD57 /* AMTabView-umbrella.h */,
+				67A49C971CF8A38B8CC6D2521DDC812F /* AMTabView.debug.xcconfig */,
+				B2E4BA8A229F1E4778BAD14A6096D018 /* AMTabView.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AMTabView";
+			sourceTree = "<group>";
+		};
+		835B53756FB609AE90BB7E5E1E4D6175 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				42C923D1C98AA60D48134A38BDA56104 /* AMTabView.framework */,
 				C5B3AA7481F2E2A217DB5A89EE960395 /* DWAnimatedLabel.framework */,
 				676A6D078E558786D05CCC957905D2FC /* Pods_SportQuest.framework */,
 				FC84DCA82E412234558830CCCA6FAAB9 /* Pods_SportQuestTests.framework */,
@@ -279,16 +376,6 @@
 				098814983BC053555A485F9F0FE788DC /* WCLShineButton.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		8F50E57D12D73770D2431A8DFDF8A7B6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				126939EFEFBBCD375A107950EC65B8D4 /* DWAnimatedLabel */,
-				E8FFB708442CEB1281984A0EFD0DD7A3 /* TextFieldEffects */,
-				B4AF56CAE38DEF2EE117C8232133A0FE /* WCLShineButton */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		9C9A41F8AA530310A9994F0225FB22AA /* Targets Support Files */ = {
@@ -300,50 +387,27 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		B469F44685DC3EA556F4DED6566E4202 /* Support Files */ = {
+		A8CABD1E9E61CA794E06DEECB62A0CA3 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				001CE4D61CAB611AC98C5F4B6C02F07E /* TextFieldEffects.modulemap */,
-				43077FAFF455FA93E3EC354A5F1DE225 /* TextFieldEffects-dummy.m */,
-				0BA21CC7E559276421D4E8D820BF7010 /* TextFieldEffects-Info.plist */,
-				B4CA07910B4BBDD3348045F01B99F16B /* TextFieldEffects-prefix.pch */,
-				388123A327B4D3A51C18993766D0B300 /* TextFieldEffects-umbrella.h */,
-				57530530FDFAFBEEA60A8C2E4EDBF966 /* TextFieldEffects.debug.xcconfig */,
-				7C546C2D0AF2BD23D8D61D654DDE9616 /* TextFieldEffects.release.xcconfig */,
+				BA371EFC72F4B8E37494E5209F7A2F13 /* WCLShineButton.modulemap */,
+				EFF6C53D58E7A1D6AE49E2E6B6CB593E /* WCLShineButton-dummy.m */,
+				03DB065E0618D69DF76CFCAC666FE670 /* WCLShineButton-Info.plist */,
+				666A3E1E5F9FC2554525CF6FDE33D0F4 /* WCLShineButton-prefix.pch */,
+				CABBDD7834AD862355D9470FBA9E647A /* WCLShineButton-umbrella.h */,
+				E5E38E80673252F21F4065C4CA77F7FF /* WCLShineButton.debug.xcconfig */,
+				FCCE8C615D97B5E1FB302A442EEDFBC0 /* WCLShineButton.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/TextFieldEffects";
+			path = "../Target Support Files/WCLShineButton";
 			sourceTree = "<group>";
 		};
-		B4AF56CAE38DEF2EE117C8232133A0FE /* WCLShineButton */ = {
+		AA40D020BE888DE5F494503A20FD70DD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C41417314B305A0420899A3463D50AA6 /* WCLShineAngleLayer.swift */,
-				8F068977CB26550F6D9082BEEF5FA6BD /* WCLShineBundle.swift */,
-				18B4845BB07B61A82C3C636A7D0F74FD /* WCLShineButton.swift */,
-				45FFAB8E43F53CC9AA486CFEA8B960C1 /* WCLShineClickLayer.swift */,
-				DF87B3E6E096D4ABF2C068A60C66C77A /* WCLShineLayer.swift */,
-				3AD57BCAED219E809E4853E38667B16A /* WCLShineParams.swift */,
-				69BE1264BCE5706062DB5E1E551B4702 /* Resources */,
-				3D02B78A755086B9CB59F1B82FF7E25A /* Support Files */,
+				BE6D406B858C70335895430755E93DC4 /* WCLShineButton.bundle */,
 			);
-			name = WCLShineButton;
-			path = WCLShineButton;
-			sourceTree = "<group>";
-		};
-		C08D16B4C27B8ACE864333E2AB89FF55 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				04A98A58BE2BD80423E7817909EADF45 /* DWAnimatedLabel.modulemap */,
-				FB64D43E3786EB56CEE2A8A5198A45D3 /* DWAnimatedLabel-dummy.m */,
-				2C24288844C3B1001180E8EC3811D73B /* DWAnimatedLabel-Info.plist */,
-				41E5F3B28980B286FD1CC8324A839530 /* DWAnimatedLabel-prefix.pch */,
-				33B82802E8721F0035A74C72D5A7A160 /* DWAnimatedLabel-umbrella.h */,
-				661BCFD485F5F4AE0B5914C8DA6B14EB /* DWAnimatedLabel.debug.xcconfig */,
-				25D654ACF4CFE581BAEBF3B16EE4CA88 /* DWAnimatedLabel.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/DWAnimatedLabel";
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -351,10 +415,23 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
-				8F50E57D12D73770D2431A8DFDF8A7B6 /* Pods */,
-				8C47EEE33D32A0D018A328354F644AEF /* Products */,
+				20E93B05D87D973C5B2F59960B5BD44A /* Pods */,
+				835B53756FB609AE90BB7E5E1E4D6175 /* Products */,
 				9C9A41F8AA530310A9994F0225FB22AA /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		D9AF4B63EA1E04042751B37468852954 /* DWAnimatedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				E306F5513CD119B9AE2EED3E0B40CA9A /* DWAnimatedLabel.h */,
+				A9FDB50295A858639EF58ABCC96C48F4 /* DWAnimatedLabel.swift */,
+				935BF536C2FDC929B3AB19892CD34F1C /* DWAnimator.swift */,
+				7C7E01696822958937972FC316DDA3D3 /* DWHollowLabel.swift */,
+				2524DF96D4FA72938997244D39B9B56C /* Support Files */,
+			);
+			name = DWAnimatedLabel;
+			path = DWAnimatedLabel;
 			sourceTree = "<group>";
 		};
 		E2983683FD097A93297E2F5D4E382B36 /* iOS */ = {
@@ -364,25 +441,6 @@
 				312B988EF117AE4DE76A268D970131FE /* UIKit.framework */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		E8FFB708442CEB1281984A0EFD0DD7A3 /* TextFieldEffects */ = {
-			isa = PBXGroup;
-			children = (
-				1B579D5286540D46A32DE8FACD7A6FC3 /* AkiraTextField.swift */,
-				72704366FB40A10D5AB6F5749A3F1C32 /* HoshiTextField.swift */,
-				16AA3CDBB76F12C1647C9CD43DD5FB69 /* IsaoTextField.swift */,
-				7CDCBA07850A6408512EB69CB906ED9D /* JiroTextField.swift */,
-				7E2B0A77AD15C79E5F6A3EEF40020B3C /* KaedeTextField.swift */,
-				EB54F402E1B41BD8B00A034A29B93E9F /* MadokaTextField.swift */,
-				A6988B55F8551C1DD6E887B61AB102DB /* MinoruTextField.swift */,
-				4B9E423808507F9F870EDFC17F551A3E /* TextFieldEffects.swift */,
-				B7B6D2BE58C72CDE95C52A860441D607 /* YokoTextField.swift */,
-				2878D228BD09E64681DA64E0A136ADE5 /* YoshikoTextField.swift */,
-				B469F44685DC3EA556F4DED6566E4202 /* Support Files */,
-			);
-			name = TextFieldEffects;
-			path = TextFieldEffects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -405,14 +463,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		93CB32AE20F72A0119BFBEC1362EA5EF /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EFE8EEF9FFBFD2DBD4B027AE43403EF6 /* Pods-SportQuest-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B12B00691E429876C85CDC72D13AB9B9 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -429,28 +479,63 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EAC721E3E53C445D8B252B12099B6D58 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4C9934CBB28B7C1A61A1434B20D69E5 /* AMTabView-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEB97807D1AF5E07BB2B0799B467DEA2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9470FB9601C866A0607568A8B89B3F0A /* Pods-SportQuest-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		50A59BE70D3F37F67623B235BD93814B /* Pods-SportQuest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6904A5BBFD6AEF7E309C1ADA40C574C4 /* Build configuration list for PBXNativeTarget "Pods-SportQuest" */;
+			buildConfigurationList = B4FDCEF082A0BDDBF998B5BD96A20D5D /* Build configuration list for PBXNativeTarget "Pods-SportQuest" */;
 			buildPhases = (
-				93CB32AE20F72A0119BFBEC1362EA5EF /* Headers */,
-				64025AE1F6966F343757BD6EDC6AC6DC /* Sources */,
-				F6EA7EE509478B7E7FF29639691E06B7 /* Frameworks */,
-				11D775C0237E8ABA8CD5CE45623AD04A /* Resources */,
+				EEB97807D1AF5E07BB2B0799B467DEA2 /* Headers */,
+				DE9E778F334861926FD8B4E93FBFDFEB /* Sources */,
+				C009D83EB3F511CA1CC0B57516AD5C1D /* Frameworks */,
+				B61761B4E945F62D1003D6D7E5E50612 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				621C65C01FB6D59399F4F7E4F265FB64 /* PBXTargetDependency */,
-				A47E0B2529061A5C416BB4F5D4DD73E0 /* PBXTargetDependency */,
-				3A2CB0CBBA2CDB0090AF87184EE89196 /* PBXTargetDependency */,
+				AF4D0607A52CF9473F82B86A208C1F6C /* PBXTargetDependency */,
+				9C1F59410F807C8D06A5432F8B7470C9 /* PBXTargetDependency */,
+				F43206C1385D3E1C6DDDEBFD1D8C5A9C /* PBXTargetDependency */,
+				D83E5EB5D83C9AFAEF5F3E7DACDAD7CD /* PBXTargetDependency */,
 			);
 			name = "Pods-SportQuest";
 			productName = "Pods-SportQuest";
 			productReference = 676A6D078E558786D05CCC957905D2FC /* Pods_SportQuest.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		59C9028482380AB83D01F126C3195633 /* AMTabView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC8A52388388FA36C71FCEDBC93C1BB4 /* Build configuration list for PBXNativeTarget "AMTabView" */;
+			buildPhases = (
+				EAC721E3E53C445D8B252B12099B6D58 /* Headers */,
+				B7371D25E5E4BF7BA3F4AEFC34544AE7 /* Sources */,
+				20B8AC8EC2B8DA61094D738B00038EDA /* Frameworks */,
+				C07E52232D3A1905B3610712BED9E347 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AMTabView;
+			productName = AMTabView;
+			productReference = 42C923D1C98AA60D48134A38BDA56104 /* AMTabView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		670BD8CE390D7D6DB204EA26D001123B /* DWAnimatedLabel */ = {
@@ -544,10 +629,11 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 8C47EEE33D32A0D018A328354F644AEF /* Products */;
+			productRefGroup = 835B53756FB609AE90BB7E5E1E4D6175 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				59C9028482380AB83D01F126C3195633 /* AMTabView */,
 				670BD8CE390D7D6DB204EA26D001123B /* DWAnimatedLabel */,
 				50A59BE70D3F37F67623B235BD93814B /* Pods-SportQuest */,
 				6DA7EFED7F697DA225803E2E389BEAB8 /* Pods-SportQuestTests */,
@@ -558,13 +644,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		11D775C0237E8ABA8CD5CE45623AD04A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1ADA2122968A82B9F52705469E5BBBAC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -580,6 +659,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7E4545B7455E526478B62366E70AB3F4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B61761B4E945F62D1003D6D7E5E50612 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C07E52232D3A1905B3610712BED9E347 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -616,14 +709,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64025AE1F6966F343757BD6EDC6AC6DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1F29C7BC6F90883ACB39668E65F77FB0 /* Pods-SportQuest-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		71C169BD0B18F19E3AC32E8A72E4432D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -635,6 +720,24 @@
 				17D29B80E3F0E0B6459DC7E33AF140CA /* WCLShineClickLayer.swift in Sources */,
 				EC3E9858A70131522B060F0016FA4374 /* WCLShineLayer.swift in Sources */,
 				205729B4AF44304859D69C642726E51E /* WCLShineParams.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7371D25E5E4BF7BA3F4AEFC34544AE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABF5C2A93F77D19C94B8A469C2167944 /* AMTabsViewController.swift in Sources */,
+				D2911CFD54B746449C457D947EA77716 /* AMTabView-dummy.m in Sources */,
+				4DE342A7F85E70CA3EAEDB8D78636C36 /* AMTabView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE9E778F334861926FD8B4E93FBFDFEB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13A7883B516ADF6D30CF408B9F6CFDB3 /* Pods-SportQuest-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,36 +762,42 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3A2CB0CBBA2CDB0090AF87184EE89196 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = WCLShineButton;
-			target = C83993C8F5EFBE2ED74A821934C595E9 /* WCLShineButton */;
-			targetProxy = 0759C25726A29C65498582F6B11383A2 /* PBXContainerItemProxy */;
-		};
-		621C65C01FB6D59399F4F7E4F265FB64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DWAnimatedLabel;
-			target = 670BD8CE390D7D6DB204EA26D001123B /* DWAnimatedLabel */;
-			targetProxy = A19387B2219399F02B7913BA3A749AB5 /* PBXContainerItemProxy */;
-		};
 		8AC38BB85943CD0BF40B565149773F9A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-SportQuest";
 			target = 50A59BE70D3F37F67623B235BD93814B /* Pods-SportQuest */;
 			targetProxy = 16B0972D35796F71EF00E0450385EE03 /* PBXContainerItemProxy */;
 		};
-		A47E0B2529061A5C416BB4F5D4DD73E0 /* PBXTargetDependency */ = {
+		9C1F59410F807C8D06A5432F8B7470C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DWAnimatedLabel;
+			target = 670BD8CE390D7D6DB204EA26D001123B /* DWAnimatedLabel */;
+			targetProxy = 89DF264723FEB29BE1821D94005B0C6E /* PBXContainerItemProxy */;
+		};
+		AF4D0607A52CF9473F82B86A208C1F6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AMTabView;
+			target = 59C9028482380AB83D01F126C3195633 /* AMTabView */;
+			targetProxy = BD5363D0CD4945CF7D4E6DFD5CA93647 /* PBXContainerItemProxy */;
+		};
+		D83E5EB5D83C9AFAEF5F3E7DACDAD7CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WCLShineButton;
+			target = C83993C8F5EFBE2ED74A821934C595E9 /* WCLShineButton */;
+			targetProxy = AC1B0E7FC2F047208EE1AC16861C20F3 /* PBXContainerItemProxy */;
+		};
+		F43206C1385D3E1C6DDDEBFD1D8C5A9C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TextFieldEffects;
 			target = D09BAB8A20917611A8AD17E2E0EE8271 /* TextFieldEffects */;
-			targetProxy = B7EE395A7C09DD58E7B501728A5419A0 /* PBXContainerItemProxy */;
+			targetProxy = 220813DA1BC1E86091B790473B7DBEB7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0277636CC10A9DFEA008F7519AA90E6A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 57530530FDFAFBEEA60A8C2E4EDBF966 /* TextFieldEffects.debug.xcconfig */;
+			baseConfigurationReference = D79B5FE0FFB5DD09764985074D3F828D /* TextFieldEffects.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -723,7 +832,7 @@
 		};
 		0819330A5EC2FFE3265484C14D0DF6DE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 661BCFD485F5F4AE0B5914C8DA6B14EB /* DWAnimatedLabel.debug.xcconfig */;
+			baseConfigurationReference = 6AADA1053BFB85C9B6AB2841B5BA3756 /* DWAnimatedLabel.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -758,7 +867,7 @@
 		};
 		1E0055DF47FFBEC03C64B827DEBE7B5A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C546C2D0AF2BD23D8D61D654DDE9616 /* TextFieldEffects.release.xcconfig */;
+			baseConfigurationReference = 47FB3162CF346D1965ADAD8A214044E6 /* TextFieldEffects.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -794,7 +903,7 @@
 		};
 		27761FECD621F91304A9C4F51E243442 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25D654ACF4CFE581BAEBF3B16EE4CA88 /* DWAnimatedLabel.release.xcconfig */;
+			baseConfigurationReference = ADD70B10F28D03F6134FE5C2C479C0D1 /* DWAnimatedLabel.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -828,47 +937,9 @@
 			};
 			name = Release;
 		};
-		3346BCEA6E74A47C0C787CD2BE3315CC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3882949F70B56C1AE5D77AAA01CDD8AD /* Pods-SportQuest.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		346265006EE3BF1432BAA16EAF000293 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 158CDBC63FE79FC862DB8D6B01DE50E5 /* WCLShineButton.debug.xcconfig */;
+			baseConfigurationReference = E5E38E80673252F21F4065C4CA77F7FF /* WCLShineButton.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1004,9 +1075,83 @@
 			};
 			name = Debug;
 		};
+		7760F701279B00134E4432F719CAA83D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2E4BA8A229F1E4778BAD14A6096D018 /* AMTabView.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AMTabView/AMTabView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AMTabView/AMTabView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/AMTabView/AMTabView.modulemap";
+				PRODUCT_MODULE_NAME = AMTabView;
+				PRODUCT_NAME = AMTabView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		912CCDAED08DEDB7FD212E48903FB726 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3882949F70B56C1AE5D77AAA01CDD8AD /* Pods-SportQuest.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		B69980EE21CDECA37938576B9D5F0CCC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45A4FA95FB3EDC986D0EC11FE091BD8D /* WCLShineButton.release.xcconfig */;
+			baseConfigurationReference = FCCE8C615D97B5E1FB302A442EEDFBC0 /* WCLShineButton.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1033,6 +1178,45 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C1431D793C46CD9EC18DB0CFDB0622CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 200DDC835FC847A6D375247AA2744543 /* Pods-SportQuest.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1078,12 +1262,10 @@
 			};
 			name = Debug;
 		};
-		EC9E4C693ECFF6852108FBBBF33ED012 /* Release */ = {
+		DAA316DFEB5537ED826719AC695949C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 200DDC835FC847A6D375247AA2744543 /* Pods-SportQuest.release.xcconfig */;
+			baseConfigurationReference = 67A49C971CF8A38B8CC6D2521DDC812F /* AMTabView.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1093,29 +1275,27 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/AMTabView/AMTabView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AMTabView/AMTabView-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SportQuest/Pods-SportQuest.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MODULEMAP_FILE = "Target Support Files/AMTabView/AMTabView.modulemap";
+				PRODUCT_MODULE_NAME = AMTabView;
+				PRODUCT_NAME = AMTabView;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		F671B4D3AA8F2CA18D12CD74BD1CDEF9 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1198,15 +1378,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6904A5BBFD6AEF7E309C1ADA40C574C4 /* Build configuration list for PBXNativeTarget "Pods-SportQuest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3346BCEA6E74A47C0C787CD2BE3315CC /* Debug */,
-				EC9E4C693ECFF6852108FBBBF33ED012 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		92386CD5881A0194179FDDDFEE3A281A /* Build configuration list for PBXNativeTarget "WCLShineButton" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1225,11 +1396,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		B4FDCEF082A0BDDBF998B5BD96A20D5D /* Build configuration list for PBXNativeTarget "Pods-SportQuest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				912CCDAED08DEDB7FD212E48903FB726 /* Debug */,
+				C1431D793C46CD9EC18DB0CFDB0622CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C0016DD682E4DCA6A5CF2BFFFCA105AA /* Build configuration list for PBXNativeTarget "TextFieldEffects" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0277636CC10A9DFEA008F7519AA90E6A /* Debug */,
 				1E0055DF47FFBEC03C64B827DEBE7B5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC8A52388388FA36C71FCEDBC93C1BB4 /* Build configuration list for PBXNativeTarget "AMTabView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAA316DFEB5537ED826719AC695949C7 /* Debug */,
+				7760F701279B00134E4432F719CAA83D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
