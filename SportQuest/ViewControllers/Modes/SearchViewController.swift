@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import AMTabView
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, TabItem {
+    
+    var tabImage: UIImage? {
+      return UIImage(named: "magnifier.png")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
     }
 }

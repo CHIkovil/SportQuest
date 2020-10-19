@@ -16,17 +16,18 @@ class ModesViewController: AMTabsViewController{
         view.backgroundColor = .white
         setTabsControllers()
     }
-    private func setTabsControllers() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let graveViewController = storyboard.instantiateViewController(withIdentifier: "JoggingViewController")
-        let bumpkinViewController = storyboard.instantiateViewController(withIdentifier: "ExerciseViewController")
+    
+    func setTabsControllers() {
+        let searchViewController = SearchViewController()
+        let joggingViewController = JoggingViewController()
+        let exerciseViewController = ExerciseViewController()
+        let accountViewController = AccountViewController()
 
         viewControllers = [
-            SearchViewController,
-            JoggingViewController,
-            ExerciseViewController,
-            AccountViewController,
-          
+            searchViewController,
+            joggingViewController,
+            exerciseViewController,
+            accountViewController,
         ]
     }
 }

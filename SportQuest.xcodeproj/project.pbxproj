@@ -21,6 +21,10 @@
 		9314E74A253646B300ED1DFA /* JoggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E749253646B300ED1DFA /* JoggingViewController.swift */; };
 		9314E74C253646C700ED1DFA /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74B253646C700ED1DFA /* ExerciseViewController.swift */; };
 		9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74D253646D600ED1DFA /* AccountViewController.swift */; };
+		9314E75C253E26A900ED1DFA /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75B253E26A800ED1DFA /* running.png */; };
+		9314E760253E274A00ED1DFA /* magnifier.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75F253E274A00ED1DFA /* magnifier.png */; };
+		9314E762253E2F5D00ED1DFA /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E761253E2F5D00ED1DFA /* account.png */; };
+		9314E764253E301200ED1DFA /* muscle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E763253E301200ED1DFA /* muscle.png */; };
 		93418C02252528730004F813 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C01252528730004F813 /* AppDelegate.swift */; };
 		93418C04252528730004F813 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C03252528730004F813 /* SceneDelegate.swift */; };
 		93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C05252528730004F813 /* AuthorizationViewController.swift */; };
@@ -55,6 +59,10 @@
 		9314E749253646B300ED1DFA /* JoggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoggingViewController.swift; sourceTree = "<group>"; };
 		9314E74B253646C700ED1DFA /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		9314E74D253646D600ED1DFA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		9314E75B253E26A800ED1DFA /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
+		9314E75F253E274A00ED1DFA /* magnifier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magnifier.png; sourceTree = "<group>"; };
+		9314E761253E2F5D00ED1DFA /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
+		9314E763253E301200ED1DFA /* muscle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muscle.png; sourceTree = "<group>"; };
 		93418BFE252528730004F813 /* SportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C01252528730004F813 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93418C03252528730004F813 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -155,6 +163,10 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9314E763253E301200ED1DFA /* muscle.png */,
+				9314E761253E2F5D00ED1DFA /* account.png */,
+				9314E75F253E274A00ED1DFA /* magnifier.png */,
+				9314E75B253E26A800ED1DFA /* running.png */,
 				9314E7422533A75400ED1DFA /* gnome.png */,
 				9314E73F2533A6C900ED1DFA /* elf.png */,
 				9314E73E2533A6C900ED1DFA /* human.png */,
@@ -289,8 +301,12 @@
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
+				9314E764253E301200ED1DFA /* muscle.png in Resources */,
+				9314E75C253E26A900ED1DFA /* running.png in Resources */,
 				9314E7412533A6C900ED1DFA /* elf.png in Resources */,
+				9314E760253E274A00ED1DFA /* magnifier.png in Resources */,
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
+				9314E762253E2F5D00ED1DFA /* account.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

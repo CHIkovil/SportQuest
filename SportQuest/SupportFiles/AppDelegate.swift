@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AMTabView
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        AMTabView.settings.ballColor = .red
+        AMTabView.settings.tabColor = .white
+        AMTabView.settings.selectedTabTintColor = .white
+        AMTabView.settings.unSelectedTabTintColor = .black
+        AMTabView.settings.animationDuration = 1
         return true
     }
 
