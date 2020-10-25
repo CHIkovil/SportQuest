@@ -13,6 +13,14 @@ import SwiftCharts
 class RunningViewController: UIViewController,TabItem {
     
     //MARK: View
+    lazy var runningScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentSize.height = 700
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
     lazy var runningActivityView: BarsChart = {
         let chartConfig = BarsChartConfig(
             valsAxisConfig: ChartAxisConfig(from: 0, to: 7, by: 1)
@@ -49,7 +57,16 @@ class RunningViewController: UIViewController,TabItem {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
-        view.addSubview(runningActivityView.view)
+        view.addSubview(runningScrollView)
+        createConstraintsRunningScrollView()
+        runningScrollView.addSubview(runningActivityView.view)
     }
     
+    //MARK: ConstraintsScrollView
+    func createConstraintsRunningScrollView() {
+        runningScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        runningScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        runningScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        runningScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+    }
 }
