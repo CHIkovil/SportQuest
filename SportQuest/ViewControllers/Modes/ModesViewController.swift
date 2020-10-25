@@ -11,21 +11,21 @@ import AMTabView
 
 class ModesViewController: AMTabsViewController{
     
+    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setTabsControllers()
     }
     
+    //MARK: setTabsControllers
     func setTabsControllers() {
-        let searchViewController = SearchViewController()
-        let joggingViewController = JoggingViewController()
+        let runningViewController = RunningViewController()
         let exerciseViewController = ExerciseViewController()
         let accountViewController = AccountViewController()
 
         viewControllers = [
-            searchViewController,
-            joggingViewController,
+            runningViewController,
             exerciseViewController,
             accountViewController,
         ]

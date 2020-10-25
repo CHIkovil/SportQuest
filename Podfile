@@ -15,4 +15,5 @@ pod 'TextFieldEffects'
 pod 'DWAnimatedLabel'
 pod 'WCLShineButton'
 pod 'AMTabView'
+pod 'SwiftCharts'
 end

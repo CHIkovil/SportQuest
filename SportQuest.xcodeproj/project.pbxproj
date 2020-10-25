@@ -17,8 +17,7 @@
 		9314E7412533A6C900ED1DFA /* elf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E73F2533A6C900ED1DFA /* elf.png */; };
 		9314E7432533A75500ED1DFA /* gnome.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E7422533A75400ED1DFA /* gnome.png */; };
 		9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74525363DEF00ED1DFA /* ModesViewController.swift */; };
-		9314E7482536469B00ED1DFA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E7472536469B00ED1DFA /* SearchViewController.swift */; };
-		9314E74A253646B300ED1DFA /* JoggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E749253646B300ED1DFA /* JoggingViewController.swift */; };
+		9314E74A253646B300ED1DFA /* RunningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E749253646B300ED1DFA /* RunningViewController.swift */; };
 		9314E74C253646C700ED1DFA /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74B253646C700ED1DFA /* ExerciseViewController.swift */; };
 		9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74D253646D600ED1DFA /* AccountViewController.swift */; };
 		9314E75C253E26A900ED1DFA /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75B253E26A800ED1DFA /* running.png */; };
@@ -55,8 +54,7 @@
 		9314E73F2533A6C900ED1DFA /* elf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elf.png; sourceTree = "<group>"; };
 		9314E7422533A75400ED1DFA /* gnome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gnome.png; sourceTree = "<group>"; };
 		9314E74525363DEF00ED1DFA /* ModesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModesViewController.swift; sourceTree = "<group>"; };
-		9314E7472536469B00ED1DFA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		9314E749253646B300ED1DFA /* JoggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoggingViewController.swift; sourceTree = "<group>"; };
+		9314E749253646B300ED1DFA /* RunningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningViewController.swift; sourceTree = "<group>"; };
 		9314E74B253646C700ED1DFA /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		9314E74D253646D600ED1DFA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		9314E75B253E26A800ED1DFA /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
@@ -113,12 +111,35 @@
 			isa = PBXGroup;
 			children = (
 				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
-				9314E7472536469B00ED1DFA /* SearchViewController.swift */,
-				9314E749253646B300ED1DFA /* JoggingViewController.swift */,
-				9314E74B253646C700ED1DFA /* ExerciseViewController.swift */,
-				9314E74D253646D600ED1DFA /* AccountViewController.swift */,
+				9314E766253E355400ED1DFA /* Jogging */,
+				9314E767253E356400ED1DFA /* Exercise */,
+				9314E768253E35AF00ED1DFA /* Account */,
 			);
 			path = Modes;
+			sourceTree = "<group>";
+		};
+		9314E766253E355400ED1DFA /* Jogging */ = {
+			isa = PBXGroup;
+			children = (
+				9314E749253646B300ED1DFA /* RunningViewController.swift */,
+			);
+			path = Jogging;
+			sourceTree = "<group>";
+		};
+		9314E767253E356400ED1DFA /* Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				9314E74B253646C700ED1DFA /* ExerciseViewController.swift */,
+			);
+			path = Exercise;
+			sourceTree = "<group>";
+		};
+		9314E768253E35AF00ED1DFA /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				9314E74D253646D600ED1DFA /* AccountViewController.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		93418BF5252528730004F813 = {
@@ -389,8 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */,
-				9314E7482536469B00ED1DFA /* SearchViewController.swift in Sources */,
-				9314E74A253646B300ED1DFA /* JoggingViewController.swift in Sources */,
+				9314E74A253646B300ED1DFA /* RunningViewController.swift in Sources */,
 				93418C0C252528730004F813 /* SportQuest.xcdatamodeld in Sources */,
 				93418C02252528730004F813 /* AppDelegate.swift in Sources */,
 				9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */,

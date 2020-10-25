@@ -1,12 +1,14 @@
 PODS:
   - AMTabView (0.1.2)
   - DWAnimatedLabel (1.2)
+  - SwiftCharts (0.6.5)
   - TextFieldEffects (1.6.0)
   - WCLShineButton (1.0.8)
 
 DEPENDENCIES:
   - AMTabView
   - DWAnimatedLabel
+  - SwiftCharts
   - TextFieldEffects
   - WCLShineButton
 
@@ -14,15 +16,17 @@ SPEC REPOS:
   trunk:
     - AMTabView
     - DWAnimatedLabel
+    - SwiftCharts
     - TextFieldEffects
     - WCLShineButton
 
 SPEC CHECKSUMS:
   AMTabView: b8a74f5ea27ec367d8f6fa614ebc77be9af38064
   DWAnimatedLabel: 2c5742ea5584187592508e5cee0a9b0e8e8c6af0
+  SwiftCharts: 2e755ea292f0b87d3e4b2c1eb5afc080a20cdc15
   TextFieldEffects: 529b8aff706fb40f82c41c780c0777941a893796
   WCLShineButton: 315ee9b0024b1cc56dba34fb6a8878937eb8d0b1
 
-PODFILE CHECKSUM: 1d3b00e30f7ed7c0980a93d01cae2a5964474ec6
+PODFILE CHECKSUM: a25b9c10625613118f919bec5ab42572df058786
 
 COCOAPODS: 1.9.3
