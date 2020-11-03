@@ -17,4 +17,5 @@ pod 'WCLShineButton'
 pod 'AMTabView'
 pod 'Charts'
 pod 'BetterSegmentedControl'
+pod 'BatteryView'
 end

@@ -10,6 +10,7 @@ import UIKit
 import AMTabView
 import BetterSegmentedControl
 import Charts
+import BatteryView
 
 class RunningViewController: UIViewController, TabItem {
     
@@ -40,6 +41,20 @@ class RunningViewController: UIViewController, TabItem {
         return segmentControl
     }()
     
+    lazy var levelСharacterView:BatteryView = {
+        let batteryView = BatteryView()
+        batteryView.translatesAutoresizingMaskIntoConstraints = false
+        batteryView.level = 70
+        batteryView.lowThreshold = 25
+        batteryView.gradientThreshold = 20
+        batteryView.borderWidth = 2.5
+        batteryView.cornerRadius = 20
+        batteryView.highLevelColor = .black
+        batteryView.lowLevelColor  = .red
+        batteryView.noLevelColor   = .gray
+        return batteryView
+    }()
+    
     //MARK: Image
     var tabImage: UIImage? {
       return UIImage(named: "running.png")
@@ -51,10 +66,13 @@ class RunningViewController: UIViewController, TabItem {
         view.backgroundColor = .lightGray
         view.addSubview(runningScrollView)
         createConstraintsRunningScrollView()
-        runningScrollView.addSubview(formatForChartViewSwitchControl)
         runningScrollView.addSubview(runningActivityBarChartView)
-        createConstraintsFormatForChartSwitchControl()
+        runningScrollView.addSubview(formatForChartViewSwitchControl)
+        runningScrollView.addSubview(levelСharacterView)
         createConstraintscreateRunningActivityBarChartView()
+        createConstraintsFormatForChartSwitchControl()
+        createConstraintsLevelСharacterView()
+        
     }
     
     func setWeekDataForRunningActivityBarChartView() {
@@ -205,7 +223,21 @@ class RunningViewController: UIViewController, TabItem {
         runningScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
     }
     
-    //MARK: ConstraintsSwitchControl
+    func createConstraintscreateRunningActivityBarChartView() {
+       runningActivityBarChartView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+       runningActivityBarChartView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
+       runningActivityBarChartView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+       runningActivityBarChartView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+    }
+    
+    func createConstraintsLevelСharacterView() {
+        levelСharacterView.topAnchor.constraint(equalTo: formatForChartViewSwitchControl.bottomAnchor, constant: 20).isActive = true
+        levelСharacterView.leadingAnchor.constraint(equalTo: formatForChartViewSwitchControl.leadingAnchor).isActive = true
+        levelСharacterView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        levelСharacterView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
+    
+    //MARK: ConstraintsControl
     func createConstraintsFormatForChartSwitchControl() {
         formatForChartViewSwitchControl.topAnchor.constraint(equalTo: runningActivityBarChartView.bottomAnchor, constant: 20).isActive = true
         formatForChartViewSwitchControl.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
@@ -213,12 +245,4 @@ class RunningViewController: UIViewController, TabItem {
         formatForChartViewSwitchControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
-     //MARK: ConstraintsChartView
-     func createConstraintscreateRunningActivityBarChartView() {
-        runningActivityBarChartView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        runningActivityBarChartView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningActivityBarChartView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        runningActivityBarChartView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-     }
 }
-
