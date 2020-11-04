@@ -11,6 +11,7 @@ import AMTabView
 import BetterSegmentedControl
 import Charts
 import BatteryView
+import StepSlider
 
 class RunningViewController: UIViewController, TabItem {
     
@@ -39,6 +40,12 @@ class RunningViewController: UIViewController, TabItem {
         action: #selector(changeRunningActivityChart),
         for: .valueChanged)
         return segmentControl
+    }()
+    
+    lazy var runningNormStepSlider:StepSlider = {
+        let sliderView = StepSlider()
+        sliderView.translatesAutoresizingMaskIntoConstraints = false
+        return sliderView
     }()
     
     lazy var levelСharacterView:BatteryView = {

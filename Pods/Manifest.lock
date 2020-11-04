@@ -6,6 +6,7 @@ PODS:
     - Charts/Core (= 3.6.0)
   - Charts/Core (3.6.0)
   - DWAnimatedLabel (1.2)
+  - StepSlider (1.8.0)
   - TextFieldEffects (1.6.0)
   - WCLShineButton (1.0.8)
 
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - BetterSegmentedControl
   - Charts
   - DWAnimatedLabel
+  - StepSlider
   - TextFieldEffects
   - WCLShineButton
 
@@ -25,6 +27,7 @@ SPEC REPOS:
     - BetterSegmentedControl
     - Charts
     - DWAnimatedLabel
+    - StepSlider
     - TextFieldEffects
     - WCLShineButton
 
@@ -34,9 +37,10 @@ SPEC CHECKSUMS:
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   DWAnimatedLabel: 2c5742ea5584187592508e5cee0a9b0e8e8c6af0
+  StepSlider: 890db727e779fa99cb32afffc5887c1109e151f4
   TextFieldEffects: 529b8aff706fb40f82c41c780c0777941a893796
   WCLShineButton: 315ee9b0024b1cc56dba34fb6a8878937eb8d0b1
 
-PODFILE CHECKSUM: 354d146141ac764dbd2a48c48c66afa6f053f7f7
+PODFILE CHECKSUM: bf0ffbe8a5d309319a7a4ab3f1f46905cf7a06eb
 
 COCOAPODS: 1.9.3
