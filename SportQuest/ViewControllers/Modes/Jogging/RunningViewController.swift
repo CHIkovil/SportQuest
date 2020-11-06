@@ -15,15 +15,41 @@ import StepSlider
 
 class RunningViewController: UIViewController, TabItem {
     
-    //MARK: View
+    //MARK: VIEW
+    
+    
+    
+    //MARK: runningScrollView
     lazy var runningScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize.height = 800
-//        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
+    //MARK: runningParameterBlockView
+    lazy var runningParameterBlockView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    //MARK: runningStoreBlockView
+    lazy var runningStoreBlockView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    //MARK: runningCycleBlockView
+    lazy var runningCycleBlockView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    //MARK: runningActivityChartView
     lazy var runningActivityChartView: CombinedChartView = {
         let barChartView = CombinedChartView()
         barChartView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,16 +57,18 @@ class RunningViewController: UIViewController, TabItem {
         return barChartView
     }()
     
-    lazy var formatForChartSwitchView: BetterSegmentedControl = {
+    //MARK: formatForChartSwitchView
+    lazy var runningFormatForChartSwitchView: BetterSegmentedControl = {
         let segmentView = BetterSegmentedControl(frame: CGRect(), segments: LabelSegment.segments(withTitles:["Week","Month"]))
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
-        action: #selector(changeRunningActivityChart),
-        for: .valueChanged)
+                              action: #selector(changeRunningActivityChart),
+                              for: .valueChanged)
         return segmentView
     }()
     
+    //MARK: runningLevelСharacterView
     lazy var runningLevelСharacterView:BatteryView = {
         let batteryView = BatteryView()
         batteryView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +83,7 @@ class RunningViewController: UIViewController, TabItem {
         return batteryView
     }()
     
+    //MARK: runningNormSliderView
     lazy var runningNormSliderView:StepSlider = {
         let sliderView = StepSlider()
         sliderView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +94,11 @@ class RunningViewController: UIViewController, TabItem {
         return sliderView
     }()
     
-    //MARK: Label
+    //MARK: LABEL
+    
+    
+    
+    //MARK: runningNormLabel
     lazy var runningNormLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +110,11 @@ class RunningViewController: UIViewController, TabItem {
         return label
     }()
     
-    //MARK: Button
+    //MARK: BUTTON
+    
+    
+    
+    //MARK: runningStartButton
     lazy var runningStartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +126,7 @@ class RunningViewController: UIViewController, TabItem {
         return button
     }()
     
+    //MARK: runningStoreButton
     lazy var runningStoreButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -100,6 +138,7 @@ class RunningViewController: UIViewController, TabItem {
         return button
     }()
     
+    //MARK: runningСycleButton
     lazy var runningСycleButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -111,27 +150,30 @@ class RunningViewController: UIViewController, TabItem {
         return button
     }()
     
-    //MARK: Image
+    //MARK: Image for AMTabsView
     var tabImage: UIImage? {
-      return UIImage(named: "running.png")
+        return UIImage(named: "running.png")
     }
     
-    //MARK: viewDidLoad
+    //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
+        
         view.addSubview(runningScrollView)
         createConstraintsRunningScrollView()
+        
         runningScrollView.addSubview(runningActivityChartView)
-        runningScrollView.addSubview(formatForChartSwitchView)
+        runningScrollView.addSubview(runningFormatForChartSwitchView)
         runningScrollView.addSubview(runningLevelСharacterView)
         runningScrollView.addSubview(runningNormSliderView)
         runningScrollView.addSubview(runningNormLabel)
         runningScrollView.addSubview(runningStartButton)
         runningScrollView.addSubview(runningStoreButton)
         runningScrollView.addSubview(runningСycleButton)
+        
         createConstraintscreateRunningActivityBarChartView()
-        createConstraintsFormatForChartSwitchControl()
+        createConstraintsRunningFormatForChartSwitchView()
         createConstraintsRunningLevelСharacterView()
         createConstraintsRunningNormSliderView()
         createConstraintsRunningNormLabel()
@@ -140,6 +182,7 @@ class RunningViewController: UIViewController, TabItem {
         createConstraintsRunningСycleButton()
     }
     
+    //MARK: STUFF
     func setWeekDataForRunningActivityBarChartView() {
         let data = CombinedChartData()
         data.lineData = generateLineData()
@@ -152,6 +195,7 @@ class RunningViewController: UIViewController, TabItem {
         
         runningActivityChartView.data = data
     }
+    
     
     func setMonthDataRunningActivityBarChartView() {
         let data = CombinedChartData()
@@ -272,15 +316,18 @@ class RunningViewController: UIViewController, TabItem {
     }
     
     //MARK: changeRunningActivityChart
-       @objc func changeRunningActivityChart(_ sender: BetterSegmentedControl){
-            if sender.index == 0 {
-                setWeekDataForRunningActivityBarChartView()
-            }else{
-                setMonthDataRunningActivityBarChartView()
+    @objc func changeRunningActivityChart(_ sender: BetterSegmentedControl){
+        if sender.index == 0 {
+            setWeekDataForRunningActivityBarChartView()
+        }else{
+            setMonthDataRunningActivityBarChartView()
         }
     }
+    //MARK: CONSTRAINTS VIEW
     
-    //MARK: ConstraintsView
+    
+    
+    //MARK: ConstraintsRunningScrollView
     func createConstraintsRunningScrollView() {
         runningScrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         runningScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -288,36 +335,64 @@ class RunningViewController: UIViewController, TabItem {
         runningScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
     }
     
+    //MARK: ConstraintsRunningParameterBlockView
+    func createConstraintsRunningParameterBlockView() {
+        runningParameterBlockView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 20).isActive = true
+        runningParameterBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runningParameterBlockView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+    }
+    
+    //MARK: ConstraintsRunningStoreBlockView
+    func createConstraintsRunningStoreBlockView() {
+        runningStoreBlockView.topAnchor.constraint(equalTo: runningStartButton.bottomAnchor, constant: 20).isActive = true
+        runningStoreBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runningStoreBlockView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+    }
+    
+    //MARK: ConstraintsRunningCycleBlockView
+    func createConstraintsRunningCycleBlockView() {
+        runningCycleBlockView.topAnchor.constraint(equalTo: runningStoreBlockView.bottomAnchor, constant: 20).isActive = true
+        runningCycleBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runningCycleBlockView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+    }
+    
+    //MARK: ConstraintsRunningActivityChartView
     func createConstraintscreateRunningActivityBarChartView() {
-       runningActivityChartView.topAnchor.constraint(equalTo: runningScrollView.topAnchor, constant: 50).isActive = true
-       runningActivityChartView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-       runningActivityChartView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-       runningActivityChartView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        runningActivityChartView.topAnchor.constraint(equalTo: runningScrollView.topAnchor, constant: 50).isActive = true
+        runningActivityChartView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
+        runningActivityChartView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        runningActivityChartView.widthAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
-    func createConstraintsFormatForChartSwitchControl() {
-        formatForChartSwitchView.topAnchor.constraint(equalTo: runningActivityChartView.bottomAnchor, constant: 20).isActive = true
-        formatForChartSwitchView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        formatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        formatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+    //MARK: ConstraintsRunningFormatForChartSwitchView
+    func createConstraintsRunningFormatForChartSwitchView() {
+        runningFormatForChartSwitchView.topAnchor.constraint(equalTo: runningActivityChartView.bottomAnchor, constant: 20).isActive = true
+        runningFormatForChartSwitchView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
+        runningFormatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        runningFormatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
-    
+    //MARK: ConstraintsRunningLevelСharacterView
     func createConstraintsRunningLevelСharacterView() {
-        runningLevelСharacterView.topAnchor.constraint(equalTo: formatForChartSwitchView.bottomAnchor, constant: 20).isActive = true
-        runningLevelСharacterView.leadingAnchor.constraint(equalTo: formatForChartSwitchView.leadingAnchor).isActive = true
+        runningLevelСharacterView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 20).isActive = true
+        runningLevelСharacterView.leadingAnchor.constraint(equalTo: runningFormatForChartSwitchView.leadingAnchor).isActive = true
         runningLevelСharacterView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         runningLevelСharacterView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
-     
+    
+    //MARK: ConstraintsRunningNormSliderView
     func createConstraintsRunningNormSliderView() {
-        runningNormSliderView.topAnchor.constraint(equalTo: formatForChartSwitchView.bottomAnchor, constant: 30).isActive = true
-        runningNormSliderView.trailingAnchor.constraint(equalTo: formatForChartSwitchView.trailingAnchor).isActive = true
+        runningNormSliderView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 30).isActive = true
+        runningNormSliderView.trailingAnchor.constraint(equalTo: runningFormatForChartSwitchView.trailingAnchor).isActive = true
         runningNormSliderView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         runningNormSliderView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    //MARK: ConstraintsLabel
+    //MARK: CONSTRAINTS LABEL
+    
+    
+    
+    //MARK: ConstraintsRunningNormLabel
     func createConstraintsRunningNormLabel() {
         runningNormLabel.topAnchor.constraint(equalTo: runningNormSliderView.bottomAnchor, constant: 5).isActive = true
         runningNormLabel.centerXAnchor.constraint(equalTo: runningNormSliderView.centerXAnchor).isActive = true
@@ -325,14 +400,19 @@ class RunningViewController: UIViewController, TabItem {
         runningNormLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    //MARK: ConstraintsButton
-     func createConstraintsRunningStartButton() {
-         runningStartButton.topAnchor.constraint(equalTo: runningNormLabel.bottomAnchor, constant: 20).isActive = true
-         runningStartButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-         runningStartButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-         runningStartButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
-     }
+    //MARK:CONSTRAINTS BUTTON
     
+    
+    
+    //MARK: ConstraintsRunningStartButton
+    func createConstraintsRunningStartButton() {
+        runningStartButton.topAnchor.constraint(equalTo: runningNormLabel.bottomAnchor, constant: 20).isActive = true
+        runningStartButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
+        runningStartButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        runningStartButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    }
+    
+    //MARK: ConstraintsRunningStoreButton
     func createConstraintsRunningStoreButton() {
         runningStoreButton.topAnchor.constraint(equalTo: runningStartButton.bottomAnchor, constant: 10).isActive = true
         runningStoreButton.centerXAnchor.constraint(equalTo: runningStartButton.centerXAnchor).isActive = true
@@ -340,6 +420,7 @@ class RunningViewController: UIViewController, TabItem {
         runningStoreButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
+    //MARK: ConstraintsRunningСycleButton
     func createConstraintsRunningСycleButton() {
         runningСycleButton.topAnchor.constraint(equalTo: runningStoreButton.bottomAnchor, constant: 10).isActive = true
         runningСycleButton.centerXAnchor.constraint(equalTo: runningStartButton.centerXAnchor).isActive = true

@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AMTabView.settings.tabColor = .white
         AMTabView.settings.selectedTabTintColor = .white
         AMTabView.settings.unSelectedTabTintColor = .black
-        AMTabView.settings.animationDuration = 1
+        AMTabView.settings.animationDuration = 0.5
         return true
     }
 
