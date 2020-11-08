@@ -122,20 +122,6 @@ class RunningViewController: UIViewController, TabItem {
     
     
     
-    //MARK: runningParametersBlock
-    lazy var runningParametersBlockButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Parameters", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 2
-        button.addTarget(self, action: #selector(activationParametersBlock),
-                                     for: .primaryActionTriggered)
-        return button
-    }()
-    
     //MARK: runningStartButton
     lazy var runningStartButton: UIButton = {
         let button = UIButton()
@@ -145,34 +131,6 @@ class RunningViewController: UIViewController, TabItem {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.cornerRadius = 30
         button.layer.borderWidth = 2
-        return button
-    }()
-    
-    //MARK: runningStoreBlockButton
-    lazy var runningStoreBlockButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Store", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 2
-        button.addTarget(self, action: #selector(activationStoreBlock),
-                         for: .primaryActionTriggered)
-        return button
-    }()
-    
-    //MARK: runningСycleBlockButton
-    lazy var runningСycleBlockButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Cycle", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 2
-        button.addTarget(self, action: #selector(activationСycleBlock),
-                                     for: .primaryActionTriggered)
         return button
     }()
     
@@ -191,16 +149,9 @@ class RunningViewController: UIViewController, TabItem {
         
         runningScrollView.addSubview(runningActivityChartView)
         runningScrollView.addSubview(runningFormatForChartSwitchView)
-        
-        runningScrollView.addSubview(runningParametersBlockButton)
         runningScrollView.addSubview(runningParametersBlockView)
-        
         runningScrollView.addSubview(runningStartButton)
-        
-        runningScrollView.addSubview(runningStoreBlockButton)
         runningScrollView.addSubview(runningStoreBlockView)
-        
-        runningScrollView.addSubview(runningСycleBlockButton)
         runningScrollView.addSubview(runningCycleBlockView)
         
         runningParametersBlockView.addSubview(runningLevelСharacterView)
@@ -210,7 +161,6 @@ class RunningViewController: UIViewController, TabItem {
         createConstraintscreateRunningActivityBarChartView()
         createConstraintsRunningFormatForChartSwitchView()
         
-        createConstraintsRunningParametersBlockButton()
         createConstraintsRunningParameterBlockView()
         createConstraintsRunningLevelСharacterView()
         createConstraintsRunningNormSliderView()
@@ -218,10 +168,8 @@ class RunningViewController: UIViewController, TabItem {
         
         createConstraintsRunningStartButton()
         
-        createConstraintsRunningStoreBlockButton()
         createConstraintsRunningStoreBlockView()
         
-        createConstraintsRunningСycleBlockButton()
         createConstraintsRunningCycleBlockView()
     }
     
@@ -396,7 +344,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningParameterBlockView
     func createConstraintsRunningParameterBlockView() {
-        runningParametersBlockView.topAnchor.constraint(equalTo: runningParametersBlockButton.bottomAnchor, constant: 10).isActive = true
+        runningParametersBlockView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
         runningParametersBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningParametersBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runningParametersBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
@@ -404,7 +352,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningStoreBlockView
     func createConstraintsRunningStoreBlockView() {
-        runningStoreBlockView.topAnchor.constraint(equalTo: runningStoreBlockButton.bottomAnchor, constant: 10).isActive = true
+        runningStoreBlockView.topAnchor.constraint(equalTo: runningStartButton.bottomAnchor, constant: 10).isActive = true
         runningStoreBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningStoreBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runningStoreBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
@@ -412,7 +360,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningCycleBlockView
     func createConstraintsRunningCycleBlockView() {
-        runningCycleBlockView.topAnchor.constraint(equalTo: runningСycleBlockButton.bottomAnchor, constant: 10).isActive = true
+        runningCycleBlockView.topAnchor.constraint(equalTo: runningStoreBlockView.bottomAnchor, constant: 10).isActive = true
         runningCycleBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningCycleBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runningCycleBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
@@ -464,13 +412,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK:CONSTRAINTS BUTTON
     
-    //MARK: createConstraintsRunningParametersBlockButton
-    func createConstraintsRunningParametersBlockButton() {
-        runningParametersBlockButton.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
-        runningParametersBlockButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningParametersBlockButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runningParametersBlockButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
+
     
     //MARK: ConstraintsRunningStartButton
     func createConstraintsRunningStartButton() {
@@ -480,19 +422,4 @@ class RunningViewController: UIViewController, TabItem {
         runningStartButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
-    //MARK: createConstraintsRunningStoreBlockButton
-    func createConstraintsRunningStoreBlockButton() {
-        runningStoreBlockButton.topAnchor.constraint(equalTo: runningStartButton.bottomAnchor, constant: 10).isActive = true
-        runningStoreBlockButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningStoreBlockButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runningStoreBlockButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
-    
-    //MARK: createConstraintsRunningСycleBlockButton
-    func createConstraintsRunningСycleBlockButton() {
-        runningСycleBlockButton.topAnchor.constraint(equalTo: runningStoreBlockView.bottomAnchor, constant: 10).isActive = true
-        runningСycleBlockButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningСycleBlockButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runningСycleBlockButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
 }
