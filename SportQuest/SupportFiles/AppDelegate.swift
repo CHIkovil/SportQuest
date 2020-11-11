@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        AMTabView.settings.ballColor = .red
+        AMTabView.settings.ballColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
         AMTabView.settings.tabColor = .white
         AMTabView.settings.selectedTabTintColor = .white
         AMTabView.settings.unSelectedTabTintColor = .black

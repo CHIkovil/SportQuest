@@ -202,9 +202,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BetterSegmentedControl/BetterSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DWAnimatedLabel/DWAnimatedLabel.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WCLShineButton/WCLShineButton.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/fluid-slider/fluid_slider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/pop/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AMTabView/AMTabView.framework"
@@ -212,9 +213,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BetterSegmentedControl/BetterSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DWAnimatedLabel/DWAnimatedLabel.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/WCLShineButton/WCLShineButton.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/fluid-slider/fluid_slider.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/pop/pop.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

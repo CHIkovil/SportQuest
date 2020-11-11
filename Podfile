@@ -18,5 +18,5 @@ pod 'AMTabView'
 pod 'Charts'
 pod 'BetterSegmentedControl'
 pod 'BatteryView'
-pod 'StepSlider'
+pod 'fluid-slider'
 end

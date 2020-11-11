@@ -11,7 +11,7 @@ import AMTabView
 import BetterSegmentedControl
 import Charts
 import BatteryView
-import StepSlider
+import fluid_slider
 
 class RunningViewController: UIViewController, TabItem {
     //MARK: VIEW
@@ -22,7 +22,7 @@ class RunningViewController: UIViewController, TabItem {
     lazy var runningScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentSize.height = 1020
+        scrollView.contentSize.height = 780
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
@@ -32,7 +32,7 @@ class RunningViewController: UIViewController, TabItem {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
         return view
     }()
@@ -42,7 +42,7 @@ class RunningViewController: UIViewController, TabItem {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
         return view
     }()
@@ -52,7 +52,7 @@ class RunningViewController: UIViewController, TabItem {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
         return view
     }()
@@ -76,30 +76,27 @@ class RunningViewController: UIViewController, TabItem {
         return segmentView
     }()
     
-    //MARK: runningLevelСharacterView
-    lazy var runningLevelСharacterView:BatteryView = {
-        let batteryView = BatteryView()
-        batteryView.translatesAutoresizingMaskIntoConstraints = false
-        batteryView.level = 70
-        batteryView.lowThreshold = 25
-        batteryView.gradientThreshold = 20
-        batteryView.borderWidth = 2.5
-        batteryView.cornerRadius = 20
-        batteryView.highLevelColor = .black
-        batteryView.lowLevelColor  = .red
-        batteryView.noLevelColor   = .gray
-        return batteryView
-    }()
-    
     //MARK: runningNormSliderView
-    lazy var runningNormSliderView:StepSlider = {
-        let sliderView = StepSlider()
-        sliderView.translatesAutoresizingMaskIntoConstraints = false
-        sliderView.maxCount = 20
-        sliderView.trackColor = .black
-        sliderView.sliderCircleColor = .red
-        sliderView.tintColor = .lightGray
-        return sliderView
+    lazy var runningNormSliderView:Slider = {
+        let slider = Slider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.attributedTextForFraction = { fraction in
+            let formatter = NumberFormatter()
+            formatter.maximumIntegerDigits = 3
+            formatter.maximumFractionDigits = 0
+            let string = formatter.string(from: (fraction * 500) as NSNumber) ?? ""
+            return NSAttributedString(string: string)
+        }
+        slider.setMinimumLabelAttributedText(NSAttributedString(string: "0"))
+        slider.setMaximumLabelAttributedText(NSAttributedString(string: "500"))
+        slider.contentViewCornerRadius = 25
+        slider.fraction = 0.5
+        slider.shadowOffset = CGSize(width: 0, height: 10)
+        slider.shadowBlur = 5
+        slider.shadowColor = UIColor(white: 0, alpha: 0.1)
+        slider.contentViewColor = UIColor(red: 78/255.0, green: 77/255.0, blue: 224/255.0, alpha: 1)
+        slider.valueViewColor = .white
+        return slider
     }()
     
     //MARK: LABEL
@@ -110,11 +107,19 @@ class RunningViewController: UIViewController, TabItem {
     lazy var runningNormLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "1000m"
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.cornerRadius = 20
-        label.layer.borderWidth = 2
+        label.text = "N"
+        label.font = UIFont.systemFont(ofSize: 20.0)
+        label.bounds = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        label.layer.cornerRadius = 35 / 2
+        label.layer.borderWidth = 3.0
+        label.layer.backgroundColor = UIColor.clear.cgColor
+        label.layer.borderColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
         label.textAlignment = .center
+        label.layer.shadowColor = UIColor.gray.cgColor
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize(width: 4, height: 4)
+        label.layer.masksToBounds = false
         return label
     }()
     
@@ -126,10 +131,13 @@ class RunningViewController: UIViewController, TabItem {
     lazy var runningStartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Start", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = 30
+        button.layer.borderColor = #colorLiteral(red: 0.883168757, green: 0.2952281535, blue: 0.2945016026, alpha: 1)
+        button.backgroundColor = .white
+        button.frame = CGRect(x: 0, y: 0 , width: 100, height: 100)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.setImage(UIImage(named:"flame.png"), for: .normal)
         button.layer.borderWidth = 2
         return button
     }()
@@ -149,12 +157,12 @@ class RunningViewController: UIViewController, TabItem {
         
         runningScrollView.addSubview(runningActivityChartView)
         runningScrollView.addSubview(runningFormatForChartSwitchView)
-        runningScrollView.addSubview(runningParametersBlockView)
         runningScrollView.addSubview(runningStartButton)
         runningScrollView.addSubview(runningStoreBlockView)
         runningScrollView.addSubview(runningCycleBlockView)
+        runningScrollView.addSubview(runningParametersBlockView)
         
-        runningParametersBlockView.addSubview(runningLevelСharacterView)
+
         runningParametersBlockView.addSubview(runningNormSliderView)
         runningParametersBlockView.addSubview(runningNormLabel)
         
@@ -162,15 +170,15 @@ class RunningViewController: UIViewController, TabItem {
         createConstraintsRunningFormatForChartSwitchView()
         
         createConstraintsRunningParameterBlockView()
-        createConstraintsRunningLevelСharacterView()
         createConstraintsRunningNormSliderView()
         createConstraintsRunningNormLabel()
         
+        createConstraintsRunningStoreBlockView()
+        createConstraintsRunningCycleBlockView()
+        
         createConstraintsRunningStartButton()
         
-        createConstraintsRunningStoreBlockView()
-        
-        createConstraintsRunningCycleBlockView()
+
     }
     
     //MARK: STUFF
@@ -347,23 +355,23 @@ class RunningViewController: UIViewController, TabItem {
         runningParametersBlockView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
         runningParametersBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningParametersBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningParametersBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        runningParametersBlockView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     //MARK: ConstraintsRunningStoreBlockView
     func createConstraintsRunningStoreBlockView() {
-        runningStoreBlockView.topAnchor.constraint(equalTo: runningStartButton.bottomAnchor, constant: 10).isActive = true
+        runningStoreBlockView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
         runningStoreBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningStoreBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningStoreBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        runningStoreBlockView.heightAnchor.constraint(equalToConstant: 205).isActive = true
     }
     
     //MARK: ConstraintsRunningCycleBlockView
     func createConstraintsRunningCycleBlockView() {
-        runningCycleBlockView.topAnchor.constraint(equalTo: runningStoreBlockView.bottomAnchor, constant: 10).isActive = true
+        runningCycleBlockView.topAnchor.constraint(equalTo: runningFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
         runningCycleBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningCycleBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningCycleBlockView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        runningCycleBlockView.heightAnchor.constraint(equalToConstant: 210).isActive = true
     }
     
     //MARK: ConstraintsRunningActivityChartView
@@ -382,20 +390,12 @@ class RunningViewController: UIViewController, TabItem {
         runningFormatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
-    //MARK: ConstraintsRunningLevelСharacterView
-    func createConstraintsRunningLevelСharacterView() {
-        runningLevelСharacterView.topAnchor.constraint(equalTo: runningParametersBlockView.topAnchor, constant: 20).isActive = true
-        runningLevelСharacterView.leadingAnchor.constraint(equalTo: runningParametersBlockView.leadingAnchor, constant: 20).isActive = true
-        runningLevelСharacterView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        runningLevelСharacterView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-    }
-    
     //MARK: ConstraintsRunningNormSliderView
     func createConstraintsRunningNormSliderView() {
-        runningNormSliderView.topAnchor.constraint(equalTo: runningParametersBlockView.topAnchor, constant: 30).isActive = true
-        runningNormSliderView.trailingAnchor.constraint(equalTo: runningParametersBlockView.trailingAnchor,constant: -20).isActive = true
-        runningNormSliderView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        runningNormSliderView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        runningNormSliderView.topAnchor.constraint(equalTo: runningParametersBlockView.topAnchor, constant: 50).isActive = true
+        runningNormSliderView.trailingAnchor.constraint(equalTo: runningParametersBlockView.trailingAnchor,constant: -10).isActive = true
+        runningNormSliderView.widthAnchor.constraint(equalToConstant: 230).isActive = true
+        runningNormSliderView.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     //MARK: CONSTRAINTS LABEL
@@ -404,10 +404,10 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningNormLabel
     func createConstraintsRunningNormLabel() {
-        runningNormLabel.topAnchor.constraint(equalTo: runningNormSliderView.bottomAnchor, constant: 5).isActive = true
-        runningNormLabel.centerXAnchor.constraint(equalTo: runningNormSliderView.centerXAnchor).isActive = true
-        runningNormLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runningNormLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        runningNormLabel.centerYAnchor.constraint(equalTo: runningNormSliderView.centerYAnchor).isActive = true
+        runningNormLabel.trailingAnchor.constraint(equalTo: runningNormSliderView.leadingAnchor, constant: -10).isActive = true
+        runningNormLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        runningNormLabel.widthAnchor.constraint(equalToConstant: 35).isActive = true
     }
     
     //MARK:CONSTRAINTS BUTTON
@@ -418,8 +418,8 @@ class RunningViewController: UIViewController, TabItem {
     func createConstraintsRunningStartButton() {
         runningStartButton.topAnchor.constraint(equalTo: runningParametersBlockView.bottomAnchor, constant: 20).isActive = true
         runningStartButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningStartButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        runningStartButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        runningStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        runningStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
 }
