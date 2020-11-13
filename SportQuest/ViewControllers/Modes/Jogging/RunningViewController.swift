@@ -76,6 +76,20 @@ class RunningViewController: UIViewController, TabItem {
         return segmentView
     }()
     
+    //MARK: runningBlockSwitchView
+    lazy var runningBlockSwitchView: BetterSegmentedControl = {
+        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "bar-chart.png")!, UIImage(named: "cloud-computing.png")!, UIImage(named: "share.png")!],
+                                       iconSize: CGSize(width: 20.0, height: 20.0),
+                                       normalIconTintColor: .white,
+                                       selectedIconTintColor: UIColor(red: 0.16, green: 0.64, blue: 0.94, alpha: 1.00)))
+        segmentView.translatesAutoresizingMaskIntoConstraints = false
+        segmentView.cornerRadius = 20
+        segmentView.addTarget(self,
+                              action: #selector(changeRunningActivityChart),
+                              for: .valueChanged)
+        return segmentView
+    }()
+    
     //MARK: runningNormSliderView
     lazy var runningNormSliderView:Slider = {
         let slider = Slider()
@@ -157,6 +171,7 @@ class RunningViewController: UIViewController, TabItem {
         
         runningScrollView.addSubview(runningActivityChartView)
         runningScrollView.addSubview(runningFormatForChartSwitchView)
+        runningScrollView.addSubview(runningBlockSwitchView)
         runningScrollView.addSubview(runningStartButton)
         runningScrollView.addSubview(runningStoreBlockView)
         runningScrollView.addSubview(runningCycleBlockView)
