@@ -17,6 +17,6 @@ pod 'WCLShineButton'
 pod 'AMTabView'
 pod 'Charts'
 pod 'BetterSegmentedControl'
-pod 'BatteryView'
 pod 'fluid-slider'
+pod 'MarqueeLabel'
 end
