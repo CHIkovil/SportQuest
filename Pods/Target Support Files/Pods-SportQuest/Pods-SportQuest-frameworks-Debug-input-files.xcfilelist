@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-SportQuest/Pods-SportQuest-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AGCircularPicker/AGCircularPicker.framework
 ${BUILT_PRODUCTS_DIR}/AMTabView/AMTabView.framework
 ${BUILT_PRODUCTS_DIR}/BetterSegmentedControl/BetterSegmentedControl.framework
 ${BUILT_PRODUCTS_DIR}/Charts/Charts.framework

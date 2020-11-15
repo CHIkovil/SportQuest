@@ -12,6 +12,7 @@ import BetterSegmentedControl
 import Charts
 import fluid_slider
 import MarqueeLabel
+import AGCircularPicker
 
 class RunningViewController: UIViewController, TabItem {
     //MARK: VIEW
@@ -47,8 +48,8 @@ class RunningViewController: UIViewController, TabItem {
         return view
     }()
     
-    //MARK: runningCycleBlockView
-    lazy var runningCycleBlockView:UIView = {
+    //MARK: runningTargetTimeBlockView
+    lazy var runningTargetTimeBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
@@ -79,7 +80,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: runningBlockSwitchView
     lazy var runningBlockSwitchView: BetterSegmentedControl = {
-        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "bar-chart.png")!, UIImage(named: "cloud-computing.png")!, UIImage(named: "share.png")!],
+        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "bar-chart.png")!, UIImage(named: "cloud-computing.png")!, UIImage(named: "target.png")!],
                                        iconSize: CGSize(width: 30, height: 30),
                                        normalIconTintColor: .lightGray,
                                        selectedIconTintColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
@@ -115,6 +116,31 @@ class RunningViewController: UIViewController, TabItem {
         return slider
     }()
     
+    lazy var runningTargetTimePicker:AGCircularPicker = {
+        let circularPicker = AGCircularPicker()
+        let hourColor1 = UIColor.rgb_color(r: 0, g: 237, b: 233)
+        let hourColor2 = UIColor.rgb_color(r: 0, g: 135, b: 217)
+        let hourColor3 = UIColor.rgb_color(r: 138, g: 28, b: 195)
+        let hourTitleOption = AGCircularPickerTitleOption(title: "hours")
+        let hourValueOption = AGCircularPickerValueOption(minValue: 0, maxValue: 23, rounds: 2, initialValue: 15)
+        let hourColorOption = AGCircularPickerColorOption(gradientColors: [hourColor1, hourColor2, hourColor3], gradientAngle: 20)
+        let hourOption = AGCircularPickerOption(valueOption: hourValueOption, titleOption: hourTitleOption, colorOption: hourColorOption)
+        
+        let minuteColor1 = UIColor.rgb_color(r: 255, g: 141, b: 0)
+        let minuteColor2 = UIColor.rgb_color(r: 255, g: 0, b: 88)
+        let minuteColor3 = UIColor.rgb_color(r: 146, g: 0, b: 132)
+        let minuteColorOption = AGCircularPickerColorOption(gradientColors: [minuteColor1, minuteColor2, minuteColor3], gradientAngle: -20)
+        let minuteTitleOption = AGCircularPickerTitleOption(title: "minutes")
+        let minuteValueOption = AGCircularPickerValueOption(minValue: 0, maxValue: 59)
+        let minuteOption = AGCircularPickerOption(valueOption: minuteValueOption, titleOption: minuteTitleOption, colorOption: minuteColorOption)
+        
+        let secondTitleOption = AGCircularPickerTitleOption(title: "seconds")
+        let secondColorOption = AGCircularPickerColorOption(gradientColors: [hourColor3, hourColor2, hourColor1])
+        let secondOption = AGCircularPickerOption(valueOption: minuteValueOption, titleOption: secondTitleOption, colorOption: secondColorOption)
+        
+        circularPicker.options = [hourOption, minuteOption, secondOption]
+        return circularPicker
+    }()
     //MARK: LABEL
     
     
@@ -139,6 +165,26 @@ class RunningViewController: UIViewController, TabItem {
         return label
     }()
     
+    //MARK: runningStatisticsLabel
+    lazy var runningStatisticsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "S"
+        label.font = UIFont.systemFont(ofSize: 20.0)
+        label.bounds = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        label.layer.cornerRadius = 35 / 2
+        label.layer.borderWidth = 3.0
+        label.layer.backgroundColor = UIColor.clear.cgColor
+        label.layer.borderColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
+        label.textAlignment = .center
+        label.layer.shadowColor = UIColor.gray.cgColor
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize(width: 4, height: 4)
+        label.layer.masksToBounds = false
+        return label
+    }()
+    
     lazy var runningMotivationLabel:MarqueeLabel = {
         let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -147,7 +193,7 @@ class RunningViewController: UIViewController, TabItem {
         return label
     }()
     
-    lazy var runningStatisticsLabel:MarqueeLabel = {
+    lazy var runningAllStatisticsLabel:MarqueeLabel = {
          let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
          label.translatesAutoresizingMaskIntoConstraints = false
          label.text = "The only way to prove that you’re a good sport is to lose."
@@ -190,27 +236,29 @@ class RunningViewController: UIViewController, TabItem {
         runningScrollView.addSubview(runningActivityChartView)
         runningScrollView.addSubview(runningFormatForChartSwitchView)
         runningScrollView.addSubview(runningBlockSwitchView)
-        runningScrollView.addSubview(runningStartButton)
-        runningScrollView.addSubview(runningStoreBlockView)
-        runningScrollView.addSubview(runningCycleBlockView)
-        runningScrollView.addSubview(runningParametersBlockView)
-        
 
+        runningParametersBlockView.addSubview(runningMotivationLabel)
         runningParametersBlockView.addSubview(runningNormSliderView)
         runningParametersBlockView.addSubview(runningNormLabel)
-        runningParametersBlockView.addSubview(runningMotivationLabel)
         runningParametersBlockView.addSubview(runningStatisticsLabel)
+        runningParametersBlockView.addSubview(runningAllStatisticsLabel)
+        
+        runningScrollView.addSubview(runningStoreBlockView)
+        runningScrollView.addSubview(runningTargetTimeBlockView)
+        runningScrollView.addSubview(runningParametersBlockView)
+        runningScrollView.addSubview(runningStartButton)
         
         createConstraintscreateRunningActivityBarChartView()
         createConstraintsRunningFormatForChartSwitchView()
         createConstraintsRunningBlockSwitchView()
         createConstraintsRunningParameterBlockView()
+        createConstraintsRunningMotivationLabel()
+        createConstraintsRunningNormLabel()
         createConstraintsRunningNormSliderView()
         createConstraintsRunningStatisticsLabel()
-        createConstraintsRunningNormLabel()
-        createConstraintsRunningMotivationLabel()
+        createConstraintsRunningAllStatisticsLabel()
         createConstraintsRunningStoreBlockView()
-        createConstraintsRunningCycleBlockView()
+        createConstraintsRunningTargetTimeBlockView()
         createConstraintsRunningStartButton()
     }
     
@@ -361,6 +409,21 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: changeRunningBlock
     @objc func changeRunningBlock(){
+        if runningBlockSwitchView.index == 0 {
+            runningParametersBlockView.isHidden = false
+            runningStoreBlockView.isHidden = true
+            runningTargetTimeBlockView.isHidden = true
+        }
+        if runningBlockSwitchView.index == 1 {
+            runningParametersBlockView.isHidden = true
+            runningStoreBlockView.isHidden = false
+            runningTargetTimeBlockView.isHidden = true
+        }
+        if runningBlockSwitchView.index == 2 {
+            runningParametersBlockView.isHidden = true
+            runningStoreBlockView.isHidden = true
+            runningTargetTimeBlockView.isHidden = false
+        }
     }
     
     @objc func endChangeNormSlider(){
@@ -371,7 +434,7 @@ class RunningViewController: UIViewController, TabItem {
     
     @objc func changeNormSlider(){
         runningMotivationLabel.isHidden = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
             self.endChangeNormSlider()
         })
     }
@@ -393,7 +456,7 @@ class RunningViewController: UIViewController, TabItem {
         runningParametersBlockView.topAnchor.constraint(equalTo: runningBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runningParametersBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningParametersBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningParametersBlockView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        runningParametersBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
     //MARK: ConstraintsRunningStoreBlockView
@@ -401,15 +464,15 @@ class RunningViewController: UIViewController, TabItem {
         runningStoreBlockView.topAnchor.constraint(equalTo: runningBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runningStoreBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningStoreBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningStoreBlockView.heightAnchor.constraint(equalToConstant: 205).isActive = true
+        runningStoreBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
-    //MARK: ConstraintsRunningCycleBlockView
-    func createConstraintsRunningCycleBlockView() {
-        runningCycleBlockView.topAnchor.constraint(equalTo: runningBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runningCycleBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
-        runningCycleBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runningCycleBlockView.heightAnchor.constraint(equalToConstant: 210).isActive = true
+    //MARK: createConstraintsRunningTargetTimeBlockView
+    func createConstraintsRunningTargetTimeBlockView() {
+        runningTargetTimeBlockView.topAnchor.constraint(equalTo: runningBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runningTargetTimeBlockView.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
+        runningTargetTimeBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runningTargetTimeBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
     //MARK: ConstraintsRunningActivityChartView
@@ -456,6 +519,14 @@ class RunningViewController: UIViewController, TabItem {
         runningNormLabel.widthAnchor.constraint(equalToConstant: 35).isActive = true
     }
     
+    //MARK: createConstraintsRunningStatisticsLabel
+     func createConstraintsRunningStatisticsLabel() {
+         runningStatisticsLabel.centerYAnchor.constraint(equalTo: runningAllStatisticsLabel.centerYAnchor).isActive = true
+         runningStatisticsLabel.trailingAnchor.constraint(equalTo: runningAllStatisticsLabel.leadingAnchor, constant: -20).isActive = true
+         runningStatisticsLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+         runningStatisticsLabel.widthAnchor.constraint(equalToConstant: 35).isActive = true
+     }
+    
     //MARK: createConstraintsRunningMotivationLabel
     func createConstraintsRunningMotivationLabel() {
         runningMotivationLabel.topAnchor.constraint(equalTo: runningParametersBlockView.topAnchor, constant: 10).isActive = true
@@ -464,12 +535,12 @@ class RunningViewController: UIViewController, TabItem {
         runningMotivationLabel.widthAnchor.constraint(equalToConstant: 260).isActive = true
     }
     
-    //MARK: createConstraintsRunningstatisticsLabel
-    func createConstraintsRunningStatisticsLabel() {
-        runningStatisticsLabel.topAnchor.constraint(equalTo: runningNormSliderView.bottomAnchor, constant: 10).isActive = true
-        runningStatisticsLabel.centerXAnchor.constraint(equalTo: runningParametersBlockView.centerXAnchor).isActive = true
-        runningStatisticsLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        runningStatisticsLabel.widthAnchor.constraint(equalToConstant: 260).isActive = true
+    //MARK: createConstraintsRunningAllStatisticsLabel
+    func createConstraintsRunningAllStatisticsLabel() {
+        runningAllStatisticsLabel.topAnchor.constraint(equalTo: runningNormSliderView.bottomAnchor, constant: 10).isActive = true
+        runningAllStatisticsLabel.trailingAnchor.constraint(equalTo: runningParametersBlockView.trailingAnchor,constant: -20).isActive = true
+        runningAllStatisticsLabel.widthAnchor.constraint(equalToConstant: 210).isActive = true
+        runningAllStatisticsLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     //MARK:CONSTRAINTS BUTTON
     
@@ -482,5 +553,24 @@ class RunningViewController: UIViewController, TabItem {
         runningStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         runningStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
+    
+}
+
+extension RunningViewController:AGCircularPickerDelegate {
+    func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
+        let valueComponents = values.map { return String(format: "%02d", $0.value) }
+        let fullString = valueComponents.joined(separator: ":")
+        let attributedString = NSMutableAttributedString(string:fullString)
+        let fullRange = (fullString as NSString).range(of: fullString)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white.withAlphaComponent(0.5), range: fullRange)
+        attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.bold), range: fullRange)
+        
+        let range = NSMakeRange(selectedIndex * 2 + selectedIndex, 2)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: values[selectedIndex].color, range: range)
+        attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.black), range: range)
+        
+        //.attributedText = attributedString
+    }
+    
     
 }

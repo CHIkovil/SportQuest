@@ -26,8 +26,8 @@
 		9314E764253E301200ED1DFA /* muscle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E763253E301200ED1DFA /* muscle.png */; };
 		9314E77A255C83A600ED1DFA /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E779255C83A500ED1DFA /* flame.png */; };
 		9314E77E255F288F00ED1DFA /* bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E77B255F288E00ED1DFA /* bar-chart.png */; };
-		9314E77F255F288F00ED1DFA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E77C255F288E00ED1DFA /* share.png */; };
 		9314E780255F288F00ED1DFA /* cloud-computing.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E77D255F288E00ED1DFA /* cloud-computing.png */; };
+		9314E7822561C66A00ED1DFA /* target.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E7812561C66A00ED1DFA /* target.png */; };
 		93418C02252528730004F813 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C01252528730004F813 /* AppDelegate.swift */; };
 		93418C04252528730004F813 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C03252528730004F813 /* SceneDelegate.swift */; };
 		93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C05252528730004F813 /* AuthorizationViewController.swift */; };
@@ -67,8 +67,8 @@
 		9314E763253E301200ED1DFA /* muscle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muscle.png; sourceTree = "<group>"; };
 		9314E779255C83A500ED1DFA /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
 		9314E77B255F288E00ED1DFA /* bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar-chart.png"; sourceTree = "<group>"; };
-		9314E77C255F288E00ED1DFA /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		9314E77D255F288E00ED1DFA /* cloud-computing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud-computing.png"; sourceTree = "<group>"; };
+		9314E7812561C66A00ED1DFA /* target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = target.png; sourceTree = "<group>"; };
 		93418BFE252528730004F813 /* SportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C01252528730004F813 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93418C03252528730004F813 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,9 +192,9 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9314E7812561C66A00ED1DFA /* target.png */,
 				9314E77B255F288E00ED1DFA /* bar-chart.png */,
 				9314E77D255F288E00ED1DFA /* cloud-computing.png */,
-				9314E77C255F288E00ED1DFA /* share.png */,
 				9314E779255C83A500ED1DFA /* flame.png */,
 				9314E763253E301200ED1DFA /* muscle.png */,
 				9314E761253E2F5D00ED1DFA /* account.png */,
@@ -332,11 +332,11 @@
 				9314E73B2533A47E00ED1DFA /* orc.png in Resources */,
 				9314E7402533A6C900ED1DFA /* human.png in Resources */,
 				9314E77A255C83A600ED1DFA /* flame.png in Resources */,
+				9314E7822561C66A00ED1DFA /* target.png in Resources */,
 				9314E7432533A75500ED1DFA /* gnome.png in Resources */,
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				9314E77E255F288F00ED1DFA /* bar-chart.png in Resources */,
-				9314E77F255F288F00ED1DFA /* share.png in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
 				9314E764253E301200ED1DFA /* muscle.png in Resources */,
 				9314E75C253E26A900ED1DFA /* running.png in Resources */,

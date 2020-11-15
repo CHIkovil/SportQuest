@@ -1,4 +1,5 @@
 PODS:
+  - AGCircularPicker (0.1.8)
   - AMTabView (0.1.2)
   - BetterSegmentedControl (2.0.1)
   - Charts (3.6.0):
@@ -13,6 +14,7 @@ PODS:
   - WCLShineButton (1.0.8)
 
 DEPENDENCIES:
+  - AGCircularPicker
   - AMTabView
   - BetterSegmentedControl
   - Charts
@@ -24,6 +26,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AGCircularPicker
     - AMTabView
     - BetterSegmentedControl
     - Charts
@@ -35,6 +38,7 @@ SPEC REPOS:
     - WCLShineButton
 
 SPEC CHECKSUMS:
+  AGCircularPicker: 561707b238699a00b4e8dc1da443119c9064798d
   AMTabView: b8a74f5ea27ec367d8f6fa614ebc77be9af38064
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
@@ -45,6 +49,6 @@ SPEC CHECKSUMS:
   TextFieldEffects: 529b8aff706fb40f82c41c780c0777941a893796
   WCLShineButton: 315ee9b0024b1cc56dba34fb6a8878937eb8d0b1
 
-PODFILE CHECKSUM: 12a66d7d543f68e034783f904a8a299b4a48085e
+PODFILE CHECKSUM: 7038a4779bf153b1b26f4974779489c10e66ea94
 
 COCOAPODS: 1.9.3
