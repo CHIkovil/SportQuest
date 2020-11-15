@@ -115,14 +115,15 @@ class RunningViewController: UIViewController, TabItem {
         slider.addTarget(self, action: #selector(changeNormSlider), for: .valueChanged)
         return slider
     }()
-    
-    lazy var runningTargetTimePicker:AGCircularPicker = {
+    //
+    //MARK: runningTargetTimeView
+    lazy var runningTargetTimeView:AGCircularPicker = {
         let circularPicker = AGCircularPicker()
         let hourColor1 = UIColor.rgb_color(r: 0, g: 237, b: 233)
         let hourColor2 = UIColor.rgb_color(r: 0, g: 135, b: 217)
         let hourColor3 = UIColor.rgb_color(r: 138, g: 28, b: 195)
-        let hourTitleOption = AGCircularPickerTitleOption(title: "hours")
-        let hourValueOption = AGCircularPickerValueOption(minValue: 0, maxValue: 23, rounds: 2, initialValue: 15)
+        let hourTitleOption = AGCircularPickerTitleOption(title: "Hor")
+        let hourValueOption = AGCircularPickerValueOption(minValue: 0, maxValue: 23, rounds: 2, initialValue: 0)
         let hourColorOption = AGCircularPickerColorOption(gradientColors: [hourColor1, hourColor2, hourColor3], gradientAngle: 20)
         let hourOption = AGCircularPickerOption(valueOption: hourValueOption, titleOption: hourTitleOption, colorOption: hourColorOption)
         
@@ -130,15 +131,17 @@ class RunningViewController: UIViewController, TabItem {
         let minuteColor2 = UIColor.rgb_color(r: 255, g: 0, b: 88)
         let minuteColor3 = UIColor.rgb_color(r: 146, g: 0, b: 132)
         let minuteColorOption = AGCircularPickerColorOption(gradientColors: [minuteColor1, minuteColor2, minuteColor3], gradientAngle: -20)
-        let minuteTitleOption = AGCircularPickerTitleOption(title: "minutes")
+        let minuteTitleOption = AGCircularPickerTitleOption(title: "Min")
         let minuteValueOption = AGCircularPickerValueOption(minValue: 0, maxValue: 59)
         let minuteOption = AGCircularPickerOption(valueOption: minuteValueOption, titleOption: minuteTitleOption, colorOption: minuteColorOption)
         
-        let secondTitleOption = AGCircularPickerTitleOption(title: "seconds")
+        let secondTitleOption = AGCircularPickerTitleOption(title: "Sec")
         let secondColorOption = AGCircularPickerColorOption(gradientColors: [hourColor3, hourColor2, hourColor1])
         let secondOption = AGCircularPickerOption(valueOption: minuteValueOption, titleOption: secondTitleOption, colorOption: secondColorOption)
         
         circularPicker.options = [hourOption, minuteOption, secondOption]
+        circularPicker.translatesAutoresizingMaskIntoConstraints = false
+        circularPicker.delegate = self
         return circularPicker
     }()
     //MARK: LABEL
@@ -185,6 +188,7 @@ class RunningViewController: UIViewController, TabItem {
         return label
     }()
     
+    //MARK: runningMotivationLabel
     lazy var runningMotivationLabel:MarqueeLabel = {
         let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -193,6 +197,7 @@ class RunningViewController: UIViewController, TabItem {
         return label
     }()
     
+    //MARK: runningAllStatisticsLabel
     lazy var runningAllStatisticsLabel:MarqueeLabel = {
          let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
          label.translatesAutoresizingMaskIntoConstraints = false
@@ -201,6 +206,14 @@ class RunningViewController: UIViewController, TabItem {
         label.textColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
          return label
      }()
+    
+     //MARK: runningTargetTimeLabel
+    lazy var runningTargetTimeLabel:UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        return label
+    }()
     //MARK: BUTTON
     
     
@@ -236,7 +249,7 @@ class RunningViewController: UIViewController, TabItem {
         runningScrollView.addSubview(runningActivityChartView)
         runningScrollView.addSubview(runningFormatForChartSwitchView)
         runningScrollView.addSubview(runningBlockSwitchView)
-
+        runningScrollView.addSubview(runningParametersBlockView)
         runningParametersBlockView.addSubview(runningMotivationLabel)
         runningParametersBlockView.addSubview(runningNormSliderView)
         runningParametersBlockView.addSubview(runningNormLabel)
@@ -245,7 +258,11 @@ class RunningViewController: UIViewController, TabItem {
         
         runningScrollView.addSubview(runningStoreBlockView)
         runningScrollView.addSubview(runningTargetTimeBlockView)
-        runningScrollView.addSubview(runningParametersBlockView)
+        
+        runningTargetTimeBlockView.addSubview(runningTargetTimeLabel)
+        runningTargetTimeBlockView.addSubview(runningTargetTimeView)
+        
+
         runningScrollView.addSubview(runningStartButton)
         
         createConstraintscreateRunningActivityBarChartView()
@@ -259,7 +276,14 @@ class RunningViewController: UIViewController, TabItem {
         createConstraintsRunningAllStatisticsLabel()
         createConstraintsRunningStoreBlockView()
         createConstraintsRunningTargetTimeBlockView()
+        createConstraintsRunningTargetTimeLabel()
+        createConstraintsRunningRunningTargetTimeView()
         createConstraintsRunningStartButton()
+        
+        runningParametersBlockView.isHidden = false
+        runningStoreBlockView.isHidden = true
+        runningTargetTimeBlockView.isHidden = true
+        
     }
     
     //MARK: STUFF
@@ -425,13 +449,13 @@ class RunningViewController: UIViewController, TabItem {
             runningTargetTimeBlockView.isHidden = false
         }
     }
-    
+     //MARK: endChangeNormSlider
     @objc func endChangeNormSlider(){
         if runningNormSliderView.isTracking == false {
             runningMotivationLabel.isHidden = false
         }
     }
-    
+     //MARK: changeNormSlider
     @objc func changeNormSlider(){
         runningMotivationLabel.isHidden = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
@@ -507,6 +531,14 @@ class RunningViewController: UIViewController, TabItem {
         runningNormSliderView.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
+    //MARK: createConstraintsRunningRunningTargetTimeView
+    func createConstraintsRunningRunningTargetTimeView() {
+        runningTargetTimeView.topAnchor.constraint(equalTo: runningTargetTimeLabel.bottomAnchor, constant: -10).isActive = true
+        runningTargetTimeView.centerXAnchor.constraint(equalTo: runningTargetTimeBlockView.centerXAnchor).isActive = true
+        runningTargetTimeView.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        runningTargetTimeView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+    }
+    
     //MARK: CONSTRAINTS LABEL
     
     
@@ -542,6 +574,14 @@ class RunningViewController: UIViewController, TabItem {
         runningAllStatisticsLabel.widthAnchor.constraint(equalToConstant: 210).isActive = true
         runningAllStatisticsLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
+    
+    //MARK: createConstraintsRunningTargetTimeLabel
+    func createConstraintsRunningTargetTimeLabel() {
+        runningTargetTimeLabel.topAnchor.constraint(equalTo: runningTargetTimeBlockView.topAnchor, constant: 20).isActive = true
+        runningTargetTimeLabel.centerXAnchor.constraint(equalTo: runningTargetTimeBlockView.centerXAnchor).isActive = true
+        runningTargetTimeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        runningTargetTimeLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+    }
     //MARK:CONSTRAINTS BUTTON
     
 
@@ -569,7 +609,7 @@ extension RunningViewController:AGCircularPickerDelegate {
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: values[selectedIndex].color, range: range)
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.black), range: range)
         
-        //.attributedText = attributedString
+        runningTargetTimeLabel.attributedText = attributedString
     }
     
     
