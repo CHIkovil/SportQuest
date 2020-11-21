@@ -13,8 +13,36 @@ import Charts
 import fluid_slider
 import MarqueeLabel
 import AGCircularPicker
+import MapKit
+import CoreLocation
 
 class RunningViewController: UIViewController, TabItem {
+    //MARK: CONTROLLER
+    
+    
+    
+    //MARK: runningProcessAlertController
+    lazy var runningProcessAlertController: UIAlertController = {
+        let alertController = UIAlertController(title: "Alert", message: "This is an alert.", preferredStyle: .alert)
+                
+        let action1 = UIAlertAction(title: "Default", style: .default) { (action:UIAlertAction) in
+            print("You've pressed default");
+        }
+
+        let action2 = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
+            print("You've pressed cancel");
+        }
+
+        let action3 = UIAlertAction(title: "Destructive", style: .destructive) { (action:UIAlertAction) in
+            print("You've pressed the destructive");
+        }
+
+        alertController.addAction(action1)
+        alertController.addAction(action2)
+        alertController.addAction(action3)
+        return alertController
+    }()
+    
     //MARK: VIEW
     
     
@@ -23,7 +51,7 @@ class RunningViewController: UIViewController, TabItem {
     lazy var runningScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentSize.height = 820
+        scrollView.contentSize.height = 800
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
@@ -35,6 +63,7 @@ class RunningViewController: UIViewController, TabItem {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
+        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return view
     }()
     
@@ -45,6 +74,7 @@ class RunningViewController: UIViewController, TabItem {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
+        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return view
     }()
     
@@ -55,6 +85,7 @@ class RunningViewController: UIViewController, TabItem {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
+         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return view
     }()
     
@@ -230,6 +261,7 @@ class RunningViewController: UIViewController, TabItem {
         button.clipsToBounds = true
         button.setImage(UIImage(named:"flame.png"), for: .normal)
         button.layer.borderWidth = 2
+        button.addTarget(self, action: #selector(showRunningProcess), for: .touchUpInside)
         return button
     }()
     
@@ -462,7 +494,11 @@ class RunningViewController: UIViewController, TabItem {
             self.endChangeNormSlider()
         })
     }
-    
+
+     //MARK: showRunningProcess
+    @objc func showRunningProcess(){
+        self.present(runningProcessAlertController, animated: true, completion: nil)
+    }
     //MARK: CONSTRAINTS VIEW
     
     
@@ -588,7 +624,7 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningStartButton
     func createConstraintsRunningStartButton() {
-        runningStartButton.topAnchor.constraint(equalTo: runningParametersBlockView.bottomAnchor, constant: 20).isActive = true
+        runningStartButton.topAnchor.constraint(equalTo: runningParametersBlockView.bottomAnchor, constant: 10).isActive = true
         runningStartButton.centerXAnchor.constraint(equalTo: runningScrollView.centerXAnchor).isActive = true
         runningStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         runningStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
@@ -611,6 +647,4 @@ extension RunningViewController:AGCircularPickerDelegate {
         
         runningTargetTimeLabel.attributedText = attributedString
     }
-    
-    
 }
