@@ -15,6 +15,7 @@ import MarqueeLabel
 import AGCircularPicker
 import MapKit
 import CoreLocation
+import SwiftGifOrigin
 
 class RunningViewController: UIViewController, TabItem {
     //MARK: CONTROLLER
@@ -23,23 +24,17 @@ class RunningViewController: UIViewController, TabItem {
     
     //MARK: runningProcessAlertController
     lazy var runningProcessAlertController: UIAlertController = {
-        let alertController = UIAlertController(title: "Alert", message: "This is an alert.", preferredStyle: .alert)
-                
-        let action1 = UIAlertAction(title: "Default", style: .default) { (action:UIAlertAction) in
-            print("You've pressed default");
-        }
+        let alertController = UIAlertController(title: "Ruuun", message: "", preferredStyle: .alert)
 
-        let action2 = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
+        let action1 = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
             print("You've pressed cancel");
         }
-
-        let action3 = UIAlertAction(title: "Destructive", style: .destructive) { (action:UIAlertAction) in
-            print("You've pressed the destructive");
-        }
-
         alertController.addAction(action1)
-        alertController.addAction(action2)
-        alertController.addAction(action3)
+
+        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 60, height: 60))
+        imageView.loadGif(name: "batman")
+        alertController.view.addSubview(imageView)
+        
         return alertController
     }()
     

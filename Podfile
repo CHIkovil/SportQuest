@@ -20,4 +20,5 @@ pod 'BetterSegmentedControl'
 pod 'fluid-slider'
 pod 'MarqueeLabel'
 pod "AGCircularPicker"
+pod 'SwiftGifOrigin'
 end
