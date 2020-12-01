@@ -20,7 +20,7 @@ class ModesViewController: AMTabsViewController{
     
     //MARK: setTabsControllers
     func setTabsControllers() {
-        let runningViewController = RunningViewController()
+        let runningViewController = RunViewController()
         let exerciseViewController = ExerciseViewController()
         let accountViewController = AccountViewController()
 
