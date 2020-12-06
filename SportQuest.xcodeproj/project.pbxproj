@@ -36,7 +36,10 @@
 		93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0F252528750004F813 /* LaunchScreen.storyboard */; };
 		93418C1C252528750004F813 /* SportQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C1B252528750004F813 /* SportQuestTests.swift */; };
 		93C62048256AA4DB008CADE7 /* batman.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93C62047256AA4DB008CADE7 /* batman.gif */; };
-		93C6204A2576C8CC008CADE7 /* RunningProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunningProcessViewController.swift */; };
+		93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunProcessViewController.swift */; };
+		93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */; };
+		93C6204F257BADBF008CADE7 /* RunProcessPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204E257BADBF008CADE7 /* RunProcessPresentationController.swift */; };
+		93C62058257D1CA4008CADE7 /* batman-logo-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +87,10 @@
 		93418C1D252528750004F813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9393AC0EAE3ED5FFA59926D1 /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.debug.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93C62047256AA4DB008CADE7 /* batman.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = batman.gif; sourceTree = "<group>"; };
-		93C620492576C8CC008CADE7 /* RunningProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningProcessViewController.swift; sourceTree = "<group>"; };
+		93C620492576C8CC008CADE7 /* RunProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessViewController.swift; sourceTree = "<group>"; };
+		93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessTransitionDelegate.swift; sourceTree = "<group>"; };
+		93C6204E257BADBF008CADE7 /* RunProcessPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessPresentationController.swift; sourceTree = "<group>"; };
+		93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "batman-logo-silhouette.png"; sourceTree = "<group>"; };
 		977E0F2411667F0FFE7F72F6 /* Pods-SportQuest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuest.release.xcconfig"; path = "Target Support Files/Pods-SportQuest/Pods-SportQuest.release.xcconfig"; sourceTree = "<group>"; };
 		C41DC23DD5548AC348AA260A /* Pods_SportQuest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SportQuest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A1631EE2F54F017D7CF9F6 /* Pods-SportQuest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuest.debug.xcconfig"; path = "Target Support Files/Pods-SportQuest/Pods-SportQuest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,7 +128,7 @@
 		9314E7442536388000ED1DFA /* Modes */ = {
 			isa = PBXGroup;
 			children = (
-				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
+				93C62050257C444B008CADE7 /* ViewController */,
 				9314E766253E355400ED1DFA /* Run */,
 				9314E767253E356400ED1DFA /* Exercise */,
 				9314E768253E35AF00ED1DFA /* Account */,
@@ -134,7 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				9314E749253646B300ED1DFA /* RunViewController.swift */,
-				93C6204B2576D760008CADE7 /* RunningProcess */,
+				93C6204B2576D760008CADE7 /* RunProcess */,
 			);
 			path = Run;
 			sourceTree = "<group>";
@@ -197,6 +203,7 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */,
 				93C62047256AA4DB008CADE7 /* batman.gif */,
 				9314E7812561C66A00ED1DFA /* target.png */,
 				9314E77B255F288E00ED1DFA /* bar-chart.png */,
@@ -239,12 +246,22 @@
 			path = Authorization;
 			sourceTree = "<group>";
 		};
-		93C6204B2576D760008CADE7 /* RunningProcess */ = {
+		93C6204B2576D760008CADE7 /* RunProcess */ = {
 			isa = PBXGroup;
 			children = (
-				93C620492576C8CC008CADE7 /* RunningProcessViewController.swift */,
+				93C620492576C8CC008CADE7 /* RunProcessViewController.swift */,
+				93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */,
+				93C6204E257BADBF008CADE7 /* RunProcessPresentationController.swift */,
 			);
-			path = RunningProcess;
+			path = RunProcess;
+			sourceTree = "<group>";
+		};
+		93C62050257C444B008CADE7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		9C4D89ABD4456366C19C0BD6 /* Pods */ = {
@@ -349,6 +366,7 @@
 				9314E77A255C83A600ED1DFA /* flame.png in Resources */,
 				9314E7822561C66A00ED1DFA /* target.png in Resources */,
 				9314E7432533A75500ED1DFA /* gnome.png in Resources */,
+				93C62058257D1CA4008CADE7 /* batman-logo-silhouette.png in Resources */,
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				9314E77E255F288F00ED1DFA /* bar-chart.png in Resources */,
@@ -447,9 +465,11 @@
 				9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */,
 				9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */,
 				9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */,
+				93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */,
 				9314E74C253646C700ED1DFA /* ExerciseViewController.swift in Sources */,
-				93C6204A2576C8CC008CADE7 /* RunningProcessViewController.swift in Sources */,
+				93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */,
 				93418C04252528730004F813 /* SceneDelegate.swift in Sources */,
+				93C6204F257BADBF008CADE7 /* RunProcessPresentationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

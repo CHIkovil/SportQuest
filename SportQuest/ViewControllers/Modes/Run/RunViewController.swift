@@ -19,7 +19,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: VIEW
     
 
-    
+
     //MARK: runScrollView
     lazy var runScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -471,7 +471,8 @@ class RunViewController: UIViewController, TabItem {
 
      //MARK: showRunningProcess
     @objc func showRunningProcess(){
-        let viewController = RunningProcessViewController()
+        let viewController = RunProcessViewController()
+        
         self.present(viewController, animated: true)
     }
 
@@ -610,6 +611,7 @@ class RunViewController: UIViewController, TabItem {
     
 }
 
+//MARK: extension
 extension RunViewController:AGCircularPickerDelegate {
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
         let valueComponents = values.map { return String(format: "%02d", $0.value) }

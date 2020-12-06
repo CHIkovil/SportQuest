@@ -151,7 +151,7 @@ class RegistrationViewController: UIViewController {
     }
 }
 
-//MARK: Extension
+//MARK: extension
 extension RegistrationViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
