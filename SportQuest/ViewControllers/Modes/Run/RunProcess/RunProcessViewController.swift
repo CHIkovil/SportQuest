@@ -17,6 +17,7 @@ class RunProcessViewController: UIViewController {
     var hours: Int = 0
     var minutes: Int = 0
     var seconds: Int = 0
+    var runCoordinates: [CLLocationCoordinate2D] = []
     
     //MARK: LOCATION MANAGER
     
@@ -25,7 +26,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -68,6 +69,16 @@ class RunProcessViewController: UIViewController {
         return label
     }()
     
+    //MARK: runDistanceLabel
+    lazy var runDistanceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "0m"
+        label.font = UIFont(name: label.font.fontName, size: 30)
+        label.textColor = .white
+        return label
+    }()
+    
     //MARK: init
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -86,9 +97,17 @@ class RunProcessViewController: UIViewController {
         view.addSubview(runBatmanImageView)
         view.addSubview(runMapView)
         view.addSubview(runTimerLabel)
+        view.addSubview(runDistanceLabel)
         createConstraintsRunnningBatmanImageView()
         createConstraintsRunningMapView()
         createConstraintsRunTimerLabel()
+        createConstraintsRunDistanceLabel()
+
+    }
+    
+    //MARK: viewDidAppear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         runLocationManager.startUpdatingLocation()
         startTimer()
     }
@@ -124,7 +143,7 @@ class RunProcessViewController: UIViewController {
      func createConstraintsRunnningBatmanImageView() {
          
         runBatmanImageView.centerYAnchor.constraint(equalTo: runTimerLabel.centerYAnchor).isActive = true
-         runBatmanImageView.trailingAnchor.constraint(equalTo: runTimerLabel.leadingAnchor).isActive = true
+         runBatmanImageView.trailingAnchor.constraint(equalTo: runTimerLabel.leadingAnchor, constant: -10).isActive = true
          runBatmanImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
          runBatmanImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
      }
@@ -144,16 +163,55 @@ class RunProcessViewController: UIViewController {
     //MARK: createConstraintsRunTimerLabel
     func createConstraintsRunTimerLabel() {
         runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
-        runTimerLabel.centerXAnchor.constraint(equalTo:  view.centerXAnchor).isActive = true
-       runTimerLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        runTimerLabel.centerXAnchor.constraint(equalTo:  runMapView.centerXAnchor).isActive = true
+        runTimerLabel.widthAnchor.constraint(equalToConstant: 130).isActive = true
         runTimerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    //MARK: createConstraintsRunDistanceLabel
+    func createConstraintsRunDistanceLabel() {
+        runDistanceLabel.centerYAnchor.constraint(equalTo: runTimerLabel.centerYAnchor).isActive = true
+       runDistanceLabel.leadingAnchor.constraint(equalTo:  runTimerLabel.trailingAnchor,constant: 10).isActive = true
+        runDistanceLabel.widthAnchor.constraint(equalToConstant: 70).isActive = true
+       runDistanceLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    func drawRunDistance(){
+        runCoordinates.append(runLocationManager.location!.coordinate)
+        let geodesic = MKGeodesicPolyline(coordinates: runCoordinates, count: runCoordinates.count)
+        self.runMapView.addOverlay(geodesic)
+    }
+    
+    func showDistanceToLabel(){
+  
     }
     
 }
 
 //MARK: extension
 extension RunProcessViewController: MKMapViewDelegate {
-
+    
+    func updateLocationOnMap(to location: CLLocation, with title: String?) {
+        let point = MKPointAnnotation()
+        point.title = title
+        point.coordinate = location.coordinate
+        self.runMapView.removeAnnotations(self.runMapView.annotations)
+        self.runMapView.addAnnotation(point)
+        let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 10, longitudinalMeters: 10)
+        self.runMapView.setRegion(viewRegion, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay.isKind(of: MKPolyline.self){
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+                polylineRenderer.fillColor = UIColor.blue
+                polylineRenderer.strokeColor = UIColor.blue
+                polylineRenderer.lineWidth = 2
+            
+            return polylineRenderer
+     }
+        return MKOverlayRenderer(overlay: overlay)
+    }
 }
 
 extension RunProcessViewController: CLLocationManagerDelegate {
@@ -167,18 +225,11 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-         updateLocationOnMap(to: runLocationManager.location!, with: nil)
+        updateLocationOnMap(to: runLocationManager.location!, with: nil)
+        drawRunDistance()
+        showDistanceToLabel()
     }
     
-    func updateLocationOnMap(to location: CLLocation, with title: String?) {
-        let point = MKPointAnnotation()
-        point.title = title
-        point.coordinate = location.coordinate
-        self.runMapView.removeAnnotations(self.runMapView.annotations)
-        self.runMapView.addAnnotation(point)
-        let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
-        self.runMapView.setRegion(viewRegion, animated: true)
-    }
 }
 
 private extension RunProcessViewController {
