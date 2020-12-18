@@ -18,6 +18,7 @@ class RunProcessViewController: UIViewController {
     var minutes: Int = 0
     var seconds: Int = 0
     var runCoordinates: [CLLocationCoordinate2D] = []
+    var runDistance: Int = 0;
     
     //MARK: LOCATION MANAGER
     
@@ -73,7 +74,6 @@ class RunProcessViewController: UIViewController {
     lazy var runDistanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "0m"
         label.font = UIFont(name: label.font.fontName, size: 30)
         label.textColor = .white
         return label
@@ -110,6 +110,7 @@ class RunProcessViewController: UIViewController {
         super.viewDidAppear(true)
         runLocationManager.startUpdatingLocation()
         startTimer()
+        
     }
     
     func startTimer() {
@@ -182,8 +183,12 @@ class RunProcessViewController: UIViewController {
         self.runMapView.addOverlay(geodesic)
     }
     
-    func showDistanceToLabel(){
-  
+    func showRunDistanceToLabel(){
+        if runCoordinates.count != 1 {
+            let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
+            let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
+            runDistanceLabel.text = String(Int(from.distance(from: to))) + "m"
+        }
     }
     
 }
@@ -227,7 +232,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         updateLocationOnMap(to: runLocationManager.location!, with: nil)
         drawRunDistance()
-        showDistanceToLabel()
+        showRunDistanceToLabel()
     }
     
 }
