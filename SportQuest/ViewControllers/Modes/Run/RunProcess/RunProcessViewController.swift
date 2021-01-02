@@ -27,7 +27,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 5
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -53,6 +53,7 @@ class RunProcessViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.overrideUserInterfaceStyle = .dark
         view.delegate = self
+        view.layer.cornerRadius = 45
         return view
      }()
     
@@ -93,6 +94,7 @@ class RunProcessViewController: UIViewController {
     //MARK: viewDidLoad
      override func viewDidLoad() {
         super.viewDidLoad()
+        view.layer.cornerRadius = 45
         view.backgroundColor = #colorLiteral(red: 0.2314966023, green: 0.2339388728, blue: 0.2992851734, alpha: 1)
         view.addSubview(runBatmanImageView)
         view.addSubview(runMapView)
@@ -110,7 +112,6 @@ class RunProcessViewController: UIViewController {
         super.viewDidAppear(true)
         runLocationManager.startUpdatingLocation()
         startTimer()
-        
     }
     
     func startTimer() {
@@ -187,10 +188,16 @@ class RunProcessViewController: UIViewController {
         if runCoordinates.count != 1 {
             let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
             let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
-            runDistanceLabel.text = String(Int(from.distance(from: to))) + "m"
+            
+            if from.distance(from: to) / 1000 > 1.0 {
+                return runDistanceLabel.text = String(Int(from.distance(from: to) / 1000)) + "km" + " " + String(Int(from.distance(from: to))) + "m"
+            }
+            else{
+                return runDistanceLabel.text = String(Int(from.distance(from: to))) + "m"
+            }
+   
         }
     }
-    
 }
 
 //MARK: extension
@@ -223,7 +230,6 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
-        
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             runLocationManager.startUpdatingLocation()
         }
