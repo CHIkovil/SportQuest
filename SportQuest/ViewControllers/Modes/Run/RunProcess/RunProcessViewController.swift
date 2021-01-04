@@ -75,7 +75,7 @@ class RunProcessViewController: UIViewController {
     lazy var runDistanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: label.font.fontName, size: 30)
+        label.font = UIFont(name: label.font.fontName, size: 20)
         label.textColor = .white
         return label
     }()
@@ -85,6 +85,25 @@ class RunProcessViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configure()
     }
+    
+    //MARK: BUTTON
+    
+    
+    
+    //MARK: stopRunButton
+    lazy var stopRunButton: UIButton = {
+        let button = UIButton(frame:CGRect(x: 0, y: 0, width: 60, height: 60))
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .clear
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.red.cgColor
+        button.setTitle("Finish", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.addTarget(self, action: #selector(stopRun), for: .touchUpInside)
+        return button
+    }()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -100,10 +119,12 @@ class RunProcessViewController: UIViewController {
         view.addSubview(runMapView)
         view.addSubview(runTimerLabel)
         view.addSubview(runDistanceLabel)
+        view.addSubview(stopRunButton)
         createConstraintsRunnningBatmanImageView()
         createConstraintsRunningMapView()
         createConstraintsRunTimerLabel()
         createConstraintsRunDistanceLabel()
+        createConstraintsStopRunButton()
 
     }
     
@@ -143,11 +164,10 @@ class RunProcessViewController: UIViewController {
     
     //MARK: createConstraintsRunnningBatmanImageView
      func createConstraintsRunnningBatmanImageView() {
-         
-        runBatmanImageView.centerYAnchor.constraint(equalTo: runTimerLabel.centerYAnchor).isActive = true
-         runBatmanImageView.trailingAnchor.constraint(equalTo: runTimerLabel.leadingAnchor, constant: -10).isActive = true
-         runBatmanImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-         runBatmanImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+         runBatmanImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+         runBatmanImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+         runBatmanImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        runBatmanImageView.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
      }
      
      //MARK: createConstraintsRunningMapView
@@ -165,19 +185,30 @@ class RunProcessViewController: UIViewController {
     //MARK: createConstraintsRunTimerLabel
     func createConstraintsRunTimerLabel() {
         runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
-        runTimerLabel.centerXAnchor.constraint(equalTo:  runMapView.centerXAnchor).isActive = true
-        runTimerLabel.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        runTimerLabel.leadingAnchor.constraint(equalTo:  runBatmanImageView.trailingAnchor).isActive = true
+        runTimerLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
         runTimerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     //MARK: createConstraintsRunDistanceLabel
     func createConstraintsRunDistanceLabel() {
-        runDistanceLabel.centerYAnchor.constraint(equalTo: runTimerLabel.centerYAnchor).isActive = true
-       runDistanceLabel.leadingAnchor.constraint(equalTo:  runTimerLabel.trailingAnchor,constant: 10).isActive = true
-        runDistanceLabel.widthAnchor.constraint(equalToConstant: 70).isActive = true
-       runDistanceLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        runDistanceLabel.topAnchor.constraint(equalTo: runTimerLabel.bottomAnchor).isActive = true
+       runDistanceLabel.centerXAnchor.constraint(equalTo:  runTimerLabel.centerXAnchor).isActive = true
+        runDistanceLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
+       runDistanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
+
+    //MARK: CONSTRAINTS LABEL
     
+    
+    //MARK: createConstraintsStopRunButton
+    func createConstraintsStopRunButton() {
+        stopRunButton.leadingAnchor.constraint(equalTo: runTimerLabel.trailingAnchor, constant:  5).isActive = true
+        stopRunButton.centerYAnchor.constraint(equalTo: runBatmanImageView.centerYAnchor).isActive = true
+        stopRunButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        stopRunButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    //MARK: FUNC
     func drawRunDistance(){
         runCoordinates.append(runLocationManager.location!.coordinate)
         let geodesic = MKGeodesicPolyline(coordinates: runCoordinates, count: runCoordinates.count)
@@ -198,6 +229,11 @@ class RunProcessViewController: UIViewController {
    
         }
     }
+    
+    @objc func stopRun() {
+        
+    }
+    
 }
 
 //MARK: extension
@@ -216,8 +252,8 @@ extension RunProcessViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay.isKind(of: MKPolyline.self){
             let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-                polylineRenderer.fillColor = UIColor.blue
-                polylineRenderer.strokeColor = UIColor.blue
+                polylineRenderer.fillColor = UIColor.red
+                polylineRenderer.strokeColor = UIColor.red
                 polylineRenderer.lineWidth = 2
             
             return polylineRenderer
