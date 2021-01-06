@@ -235,14 +235,15 @@ class RunProcessViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
-        let newUser = NSManagedObject(entity: entity!, insertInto: context)
+        let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
         do {
-            var data: [String] = []
-            for coordinate in runCoordinates {
-                data.append(String(coordinate.latitude) + " " +  String(coordinate.longitude))
-            }
-            newUser.setValue(data, forKey: "coordinates")
+            let data = runCoordinates.map { String($0.latitude) + " " +  String($0.longitude)}
+            let currentDate = Date().timeIntervalSinceReferenceDate
+            newRunData.setValue(data, forKey: "coordinates")
+            newRunData.setValue(runDistanceLabel.text, forKey: "distance")
+            newRunData.setValue(runTimerLabel.text, forKey: "runtime")
+            newRunData.setValue(currentDate, forKey: "date")
             try context.save()
             self.dismiss(animated: true)
           } catch {

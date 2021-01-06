@@ -2,8 +2,11 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="RunData" representedClassName="RunData" syncable="YES" codeGenerationType="class">
         <attribute name="coordinates" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="date" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="distance" optional="YES" attributeType="String"/>
+        <attribute name="runtime" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="RunData" positionX="-1236.40625" positionY="62.55859375" width="128" height="58"/>
+        <element name="RunData" positionX="-1236.40625" positionY="62.55859375" width="128" height="103"/>
     </elements>
 </model>
