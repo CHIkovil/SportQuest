@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import SwiftGifOrigin
+import CoreData
 
 class RunProcessViewController: UIViewController {
     
@@ -231,7 +232,22 @@ class RunProcessViewController: UIViewController {
     }
     
     @objc func stopRun() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
+        let newUser = NSManagedObject(entity: entity!, insertInto: context)
         
+        do {
+            var data: [String] = []
+            for coordinate in runCoordinates {
+                data.append(String(coordinate.latitude) + " " +  String(coordinate.longitude))
+            }
+            newUser.setValue(data, forKey: "coordinates")
+            try context.save()
+            self.dismiss(animated: true)
+          } catch {
+            self.dismiss(animated: true)
+        }
     }
     
 }
@@ -286,3 +302,4 @@ private extension RunProcessViewController {
         transitioningDelegate = customTransitioningDelegate
     }
 }
+
