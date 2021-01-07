@@ -13,13 +13,24 @@ import Charts
 import fluid_slider
 import MarqueeLabel
 import AGCircularPicker
-
+import CoreData
 
 class RunViewController: UIViewController, TabItem {
+    //MARK: let, var
+    
+    var runStore:[Any]?
+    
     //MARK: VIEW
     
+//    lazy var runStoreTableView: UITableView = {
+//        let tableView = UITableView()
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        return tableView
+//    }()
 
-
+    
+    
     //MARK: runScrollView
     lazy var runScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -292,6 +303,10 @@ class RunViewController: UIViewController, TabItem {
         
     }
     
+     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        loadRunStore()
+    }
     //MARK: STUFF
     func setWeekDataForRunningActivityBarChartView() {
         let data = CombinedChartData()
@@ -423,6 +438,23 @@ class RunViewController: UIViewController, TabItem {
         set.drawValuesEnabled = true
         
         return BubbleChartData(dataSet: set)
+    }
+    
+    //MARK: FUNC
+    
+    func loadRunStore() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
+        request.returnsObjectsAsFaults = false
+        do {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                runStore = (data.value(forKey: "data") as! [Any])
+            }
+        } catch {
+            print("Failed")
+        }
     }
     //MARK: @OBJC
     
@@ -628,3 +660,17 @@ extension RunViewController:AGCircularPickerDelegate {
         runTargetTimeLabel.attributedText = attributedString
     }
 }
+
+//extension RunViewController: UITableViewDelegate, UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        return
+//    }
+//    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+//}

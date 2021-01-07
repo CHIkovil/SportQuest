@@ -238,12 +238,10 @@ class RunProcessViewController: UIViewController {
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
         do {
-            let data = runCoordinates.map { String($0.latitude) + " " +  String($0.longitude)}
-            let currentDate = Date().timeIntervalSinceReferenceDate
-            newRunData.setValue(data, forKey: "coordinates")
-            newRunData.setValue(runDistanceLabel.text, forKey: "distance")
-            newRunData.setValue(runTimerLabel.text, forKey: "runtime")
-            newRunData.setValue(currentDate, forKey: "date")
+            let currentDate = String(Date().timeIntervalSinceReferenceDate)
+            var data: Array<String?> = runCoordinates.map { String($0.latitude) + " " +  String($0.longitude)}
+            data += [currentDate, runTimerLabel.text, runDistanceLabel.text]
+            newRunData.setValue(data, forKey: "data")
             try context.save()
             self.dismiss(animated: true)
           } catch {
