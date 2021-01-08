@@ -22,12 +22,13 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: VIEW
     
-//    lazy var runStoreTableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        return tableView
-//    }()
+    lazy var runStoreTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
 
     
     
@@ -303,10 +304,12 @@ class RunViewController: UIViewController, TabItem {
         
     }
     
+    //MARK: viewDidAppear
      override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         loadRunStore()
     }
+    
     //MARK: STUFF
     func setWeekDataForRunningActivityBarChartView() {
         let data = CombinedChartData()
@@ -450,7 +453,7 @@ class RunViewController: UIViewController, TabItem {
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                runStore = (data.value(forKey: "data") as! [Any])
+                runStore?.append(data.value(forKey: "data") as Any)
             }
         } catch {
             print("Failed")
@@ -661,16 +664,18 @@ extension RunViewController:AGCircularPickerDelegate {
     }
 }
 
-//extension RunViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        return
-//    }
-//    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//}
+extension RunViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let store = runStore else { return 0}
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}

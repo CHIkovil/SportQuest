@@ -77,6 +77,7 @@ class RunProcessViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: label.font.fontName, size: 20)
+        label.text = "0m"
         label.textColor = .white
         return label
     }()
@@ -237,16 +238,23 @@ class RunProcessViewController: UIViewController {
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
-        do {
-            let currentDate = String(Date().timeIntervalSinceReferenceDate)
-            var data: Array<String?> = runCoordinates.map { String($0.latitude) + " " +  String($0.longitude)}
-            data += [currentDate, runTimerLabel.text, runDistanceLabel.text]
-            newRunData.setValue(data, forKey: "data")
+        let currentDate = String(Date().timeIntervalSinceReferenceDate)
+        var data: [String] = runCoordinates.map { String($0.latitude) + " " + String($0.longitude)}
+        guard let textTimerLabel = runTimerLabel.text else {return}
+        guard let textDistanceLabel = runDistanceLabel.text else {return}
+        data.append(contentsOf: [textTimerLabel, textDistanceLabel, currentDate, "+"])
+        
+        let resultData = data.joined(separator: ",")
+        
+        newRunData.setValue(resultData, forKey: "data")
+        do{
             try context.save()
             self.dismiss(animated: true)
-          } catch {
+        }
+        catch{
             self.dismiss(animated: true)
         }
+        
     }
     
 }
