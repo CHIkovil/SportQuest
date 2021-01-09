@@ -242,7 +242,7 @@ class RunProcessViewController: UIViewController {
         var data: [String] = runCoordinates.map { String($0.latitude) + " " + String($0.longitude)}
         guard let textTimerLabel = runTimerLabel.text else {return}
         guard let textDistanceLabel = runDistanceLabel.text else {return}
-        data.append(contentsOf: [textTimerLabel, textDistanceLabel, currentDate, "+"])
+        data.append(contentsOf: [textTimerLabel, textDistanceLabel, currentDate])
         
         let resultData = data.joined(separator: ",")
         

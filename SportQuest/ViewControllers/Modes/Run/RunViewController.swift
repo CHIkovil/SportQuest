@@ -18,13 +18,21 @@ import CoreData
 class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
-    var runStore:[Any]?
-    
+    var runStore:[String]?
+    var runTimeStore: [String]?
+    var runDistanceStore: [String]?
+    var runDateStore: [String]?
+    var runCoordinates: [String]?
     //MARK: VIEW
     
+    //MARK: runStoreTableView
     lazy var runStoreTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+       tableView.layer.borderWidth = 2
+       tableView.layer.borderColor = UIColor.gray.cgColor
+       tableView.layer.cornerRadius = 30
+        tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
@@ -43,17 +51,6 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: runningParametersBlockView
     lazy var runParametersBlockView:UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 30
-        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        return view
-    }()
-    
-    //MARK: runningStoreBlockView
-    lazy var runStoreBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
@@ -274,7 +271,7 @@ class RunViewController: UIViewController, TabItem {
         runParametersBlockView.addSubview(runStatisticsLabel)
         runParametersBlockView.addSubview(runAllStatisticsLabel)
         
-        runScrollView.addSubview(runStoreBlockView)
+        runScrollView.addSubview(runStoreTableView)
         runScrollView.addSubview(runTargetTimeBlockView)
         
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
@@ -292,14 +289,14 @@ class RunViewController: UIViewController, TabItem {
         createConstraintsRunNormSliderView()
         createConstraintsRunStatisticsLabel()
         createConstraintsRunAllStatisticsLabel()
-        createConstraintsRunStoreBlockView()
+        createConstraintsRunStoreTableView()
         createConstraintsRunTargetTimeBlockView()
         createConstraintsRunTargetTimeLabel()
         createConstraintsRunTargetTimeView()
         createConstraintsRunStartButton()
 
         runParametersBlockView.isHidden = false
-        runStoreBlockView.isHidden = true
+        runStoreTableView.isHidden = true
         runTargetTimeBlockView.isHidden = true
         
     }
@@ -308,6 +305,7 @@ class RunViewController: UIViewController, TabItem {
      override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         loadRunStore()
+        parseRunStore()
     }
     
     //MARK: STUFF
@@ -445,6 +443,9 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: FUNC
     
+    
+    
+    //MARK: loadRunStore
     func loadRunStore() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
         request.returnsObjectsAsFaults = false
@@ -453,12 +454,31 @@ class RunViewController: UIViewController, TabItem {
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                runStore?.append(data.value(forKey: "data") as Any)
+                runStore?.append(data.value(forKey: "data") as! String)
             }
         } catch {
             print("Failed")
         }
     }
+    
+    //MARK: loadRunStore
+    
+    func  parseRunStore() {
+        guard let store = runStore else {return}
+        for data in store {
+            let masData = data.split(separator: ",")
+            let coordinates = Array<String>(masData[0 ..< masData.count - 3].map {String($0)})
+            let otherData = masData[masData.count - 3 ..< masData.count]
+            let time = String(otherData[0])
+            let distance = String(otherData[1])
+            let date = String(otherData[2])
+            runTimeStore?.append(time)
+            runDistanceStore?.append(distance)
+            runDateStore?.append(date)
+            runTimeStore?.append(contentsOf: coordinates)
+        }
+    }
+    
     //MARK: @OBJC
     
     
@@ -476,17 +496,17 @@ class RunViewController: UIViewController, TabItem {
     @objc func changeRunningBlock(){
         if runBlockSwitchView.index == 0 {
             runParametersBlockView.isHidden = false
-            runStoreBlockView.isHidden = true
+            runStoreTableView.isHidden = true
             runTargetTimeBlockView.isHidden = true
         }
         if runBlockSwitchView.index == 1 {
             runParametersBlockView.isHidden = true
-            runStoreBlockView.isHidden = false
+            runStoreTableView.isHidden = false
             runTargetTimeBlockView.isHidden = true
         }
         if runBlockSwitchView.index == 2 {
             runParametersBlockView.isHidden = true
-            runStoreBlockView.isHidden = true
+            runStoreTableView.isHidden = true
             runTargetTimeBlockView.isHidden = false
         }
     }
@@ -532,11 +552,11 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: ConstraintsRunningStoreBlockView
-    func createConstraintsRunStoreBlockView() {
-        runStoreBlockView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runStoreBlockView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
-        runStoreBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runStoreBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+    func createConstraintsRunStoreTableView() {
+        runStoreTableView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runStoreTableView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runStoreTableView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runStoreTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
     //MARK: createConstraintsRunningTargetTimeBlockView
@@ -667,11 +687,13 @@ extension RunViewController:AGCircularPickerDelegate {
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let store = runStore else { return 0}
-        return 0
+        return store.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        guard let distance = runDistanceStore else {return cell}
+        cell.textLabel?.text = distance[indexPath.row]
         return cell
     }
     
