@@ -76,7 +76,7 @@ class RunProcessViewController: UIViewController {
     lazy var runDistanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: label.font.fontName, size: 20)
+        label.font = UIFont(name: label.font.fontName, size: 15)
         label.text = "0m"
         label.textColor = .white
         return label
@@ -186,7 +186,7 @@ class RunProcessViewController: UIViewController {
     
     //MARK: createConstraintsRunTimerLabel
     func createConstraintsRunTimerLabel() {
-        runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
+        runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 20).isActive = true
         runTimerLabel.leadingAnchor.constraint(equalTo:  runBatmanImageView.trailingAnchor).isActive = true
         runTimerLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
         runTimerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -223,7 +223,7 @@ class RunProcessViewController: UIViewController {
             let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
             
             if from.distance(from: to) / 1000 > 1.0 {
-                return runDistanceLabel.text = String(Int(from.distance(from: to) / 1000)) + "km" + " " + String(Int(from.distance(from: to))) + "m"
+                return runDistanceLabel.text = String(Int(from.distance(from: to) / 1000)) + "km" + " " + String(Int(from.distance(from: to)) % 1000) + "m"
             }
             else{
                 return runDistanceLabel.text = String(Int(from.distance(from: to))) + "m"
@@ -250,6 +250,7 @@ class RunProcessViewController: UIViewController {
         do{
             try context.save()
             self.dismiss(animated: true)
+            print("0_0")
         }
         catch{
             self.dismiss(animated: true)

@@ -18,20 +18,20 @@ import CoreData
 class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
-    var runStore:[String]?
-    var runTimeStore: [String]?
-    var runDistanceStore: [String]?
-    var runDateStore: [String]?
-    var runCoordinates: [String]?
+    var runStore:[String] = []
+    var runTimeStore: [String] = []
+    var runDistanceStore: [String] = []
+    var runDateStore: [String] = []
+    var runCoordinatesStore: [[String]] = []
     //MARK: VIEW
     
     //MARK: runStoreTableView
     lazy var runStoreTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-       tableView.layer.borderWidth = 2
-       tableView.layer.borderColor = UIColor.gray.cgColor
-       tableView.layer.cornerRadius = 30
+        tableView.layer.borderWidth = 2
+        tableView.layer.borderColor = UIColor.gray.cgColor
+        tableView.layer.cornerRadius = 30
         tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
@@ -454,7 +454,7 @@ class RunViewController: UIViewController, TabItem {
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                runStore?.append(data.value(forKey: "data") as! String)
+                runStore.append(data.value(forKey: "data") as! String)
             }
         } catch {
             print("Failed")
@@ -464,18 +464,19 @@ class RunViewController: UIViewController, TabItem {
     //MARK: loadRunStore
     
     func  parseRunStore() {
-        guard let store = runStore else {return}
-        for data in store {
-            let masData = data.split(separator: ",")
-            let coordinates = Array<String>(masData[0 ..< masData.count - 3].map {String($0)})
-            let otherData = masData[masData.count - 3 ..< masData.count]
-            let time = String(otherData[0])
-            let distance = String(otherData[1])
-            let date = String(otherData[2])
-            runTimeStore?.append(time)
-            runDistanceStore?.append(distance)
-            runDateStore?.append(date)
-            runTimeStore?.append(contentsOf: coordinates)
+        if runStore.isEmpty == false{
+            for data in runStore {
+                let masData = data.split(separator: ",").map {String($0)}
+                let coordinates = Array<String>(masData[0 ..< masData.count - 3])
+                let otherData = Array<String>(masData[masData.count - 3 ..< masData.count])
+                let time = otherData[0]
+                let distance = otherData[1]
+                let date = otherData[2]
+                runTimeStore.append(time)
+                runDistanceStore.append(distance)
+                runDateStore.append(date)
+                runCoordinatesStore.append(coordinates)
+            }
         }
     }
     
@@ -686,15 +687,18 @@ extension RunViewController:AGCircularPickerDelegate {
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let store = runStore else { return 0}
-        return store.count
+        return runDistanceStore.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        guard let distance = runDistanceStore else {return cell}
-        cell.textLabel?.text = distance[indexPath.row]
-        return cell
+        if runDistanceStore.isEmpty == false{
+            cell.textLabel?.text = "1111"
+            cell.textLabel?.textColor = .black
+            return cell
+        }else{
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
