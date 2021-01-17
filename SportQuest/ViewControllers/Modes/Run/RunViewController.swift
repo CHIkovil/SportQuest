@@ -35,6 +35,8 @@ class RunViewController: UIViewController, TabItem {
         tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.bounces = false
+        tableView.isScrollEnabled = false
         return tableView
     }()
 
@@ -46,6 +48,8 @@ class RunViewController: UIViewController, TabItem {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize.height = 800
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
+        scrollView.bounces = false
         return scrollView
     }()
     
@@ -687,21 +691,56 @@ extension RunViewController:AGCircularPickerDelegate {
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return runDistanceStore.count
+        if runStore.isEmpty == false{
+            return runStore.count
+        }
+        else{
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        if runDistanceStore.isEmpty == false{
-            cell.textLabel?.text = "1111"
-            cell.textLabel?.textColor = .black
-            return cell
+        var cell: UITableViewCell? = nil
+        
+        cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+        
+        if cell == nil{
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "cellID")
+        }
+        
+        if runStore.isEmpty == false{
+            cell!.textLabel?.text = runDistanceStore[indexPath.row]
+            cell!.textLabel?.textColor = .black
+            return cell!
         }else{
-            return cell
+            cell!.textLabel?.text = "1111"
+            return cell!
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension RunViewController: UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let screenHeight = UIScreen.main.bounds.height
+        let scrollViewContentHeight = 1200 as CGFloat
+        let yOffset = runScrollView.contentOffset.y
+        
+        if scrollView == self.runScrollView {
+            if yOffset >= scrollViewContentHeight - screenHeight {
+                self.runScrollView.isScrollEnabled = false
+                self.runStoreTableView.isScrollEnabled = true
+            }
+        }
+        
+        if scrollView == self.runStoreTableView {
+            if yOffset <= 0 {
+                self.runScrollView.isScrollEnabled = true
+                self.runStoreTableView.isScrollEnabled = false
+            }
+        }
     }
 }
