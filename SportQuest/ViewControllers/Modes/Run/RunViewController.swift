@@ -260,6 +260,8 @@ class RunViewController: UIViewController, TabItem {
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadRunStore()
+        parseRunStore()
         view.backgroundColor = .lightGray
         
         view.addSubview(runScrollView)
@@ -308,8 +310,6 @@ class RunViewController: UIViewController, TabItem {
     //MARK: viewDidAppear
      override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        loadRunStore()
-        parseRunStore()
     }
     
     //MARK: STUFF
@@ -695,26 +695,21 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
             return runStore.count
         }
         else{
-            return 1
+            return 10
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell? = nil
-        
-        cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        
-        if cell == nil{
-            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "cellID")
-        }
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         
         if runStore.isEmpty == false{
-            cell!.textLabel?.text = runDistanceStore[indexPath.row]
-            cell!.textLabel?.textColor = .black
-            return cell!
+            cell.textLabel?.text = runDistanceStore[indexPath.row]
+            cell.textLabel?.textColor = .black
+            return cell
         }else{
-            cell!.textLabel?.text = "1111"
-            return cell!
+            cell.textLabel?.text = "1111"
+            return cell
         }
     }
     
@@ -726,7 +721,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
 extension RunViewController: UIScrollViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let screenHeight = UIScreen.main.bounds.height
-        let scrollViewContentHeight = 1200 as CGFloat
+        let scrollViewContentHeight = 800 as CGFloat
         let yOffset = runScrollView.contentOffset.y
         
         if scrollView == self.runScrollView {
