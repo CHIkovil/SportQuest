@@ -36,7 +36,8 @@ class RunViewController: UIViewController, TabItem {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.bounces = false
-        tableView.isScrollEnabled = false
+        tableView.showsVerticalScrollIndicator = false
+        tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
         return tableView
     }()
 
@@ -50,6 +51,7 @@ class RunViewController: UIViewController, TabItem {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         scrollView.bounces = false
+        scrollView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunScrollView)))
         return scrollView
     }()
     
@@ -71,7 +73,7 @@ class RunViewController: UIViewController, TabItem {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
-         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return view
     }()
     
@@ -159,6 +161,7 @@ class RunViewController: UIViewController, TabItem {
         circularPicker.options = [hourOption, minuteOption, secondOption]
         circularPicker.translatesAutoresizingMaskIntoConstraints = false
         circularPicker.delegate = self
+        circularPicker.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressRunStoreTableView)))
         return circularPicker
     }()
     
@@ -465,7 +468,7 @@ class RunViewController: UIViewController, TabItem {
         }
     }
     
-    //MARK: loadRunStore
+    //MARK: parseRunStore
     
     func  parseRunStore() {
         if runStore.isEmpty == false{
@@ -487,6 +490,21 @@ class RunViewController: UIViewController, TabItem {
     //MARK: @OBJC
     
     
+    //MARK: longPressRunStoreTableView
+    @objc func longPressRunStoreTableView() {
+        runScrollView.isScrollEnabled = false
+    }
+    //MARK: swipingRunStoreTableView
+    @objc func swipingRunStoreTableView() {
+        runStoreTableView.isScrollEnabled = true
+        runScrollView.isScrollEnabled = false
+    }
+    
+    //MARK: swipingRunScrollView
+    @objc func swipingRunScrollView() {
+        runStoreTableView.isScrollEnabled = false
+        runScrollView.isScrollEnabled = true
+    }
     
     //MARK: changeRunningActivityChart
     @objc func changeRunningActivityChart(){
@@ -672,7 +690,7 @@ class RunViewController: UIViewController, TabItem {
 }
 
 //MARK: extension
-extension RunViewController:AGCircularPickerDelegate {
+extension RunViewController: AGCircularPickerDelegate {
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
         let fullString = valueComponents.joined(separator: ":")
@@ -687,7 +705,9 @@ extension RunViewController:AGCircularPickerDelegate {
         
         runTargetTimeLabel.attributedText = attributedString
     }
+    
 }
+
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -718,24 +738,4 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension RunViewController: UIScrollViewDelegate{
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let screenHeight = UIScreen.main.bounds.height
-        let scrollViewContentHeight = 800 as CGFloat
-        let yOffset = runScrollView.contentOffset.y
-        
-        if scrollView == self.runScrollView {
-            if yOffset >= scrollViewContentHeight - screenHeight {
-                self.runScrollView.isScrollEnabled = false
-                self.runStoreTableView.isScrollEnabled = true
-            }
-        }
-        
-        if scrollView == self.runStoreTableView {
-            if yOffset <= 0 {
-                self.runScrollView.isScrollEnabled = true
-                self.runStoreTableView.isScrollEnabled = false
-            }
-        }
-    }
-}
+
