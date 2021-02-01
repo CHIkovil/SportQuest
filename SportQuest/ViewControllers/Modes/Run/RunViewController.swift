@@ -320,9 +320,6 @@ class RunViewController: UIViewController, TabItem {
         let data = CombinedChartData()
         data.lineData = generateLineData()
         data.barData = generateBarData()
-        data.bubbleData = generateBubbleData()
-        data.scatterData = generateScatterData()
-        data.candleData = generateCandleData()
         
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.25
         
@@ -334,9 +331,6 @@ class RunViewController: UIViewController, TabItem {
         let data = CombinedChartData()
         data.lineData = generateLineData()
         data.barData = generateBarData()
-        data.bubbleData = generateBubbleData()
-        data.scatterData = generateScatterData()
-        data.candleData = generateCandleData()
         
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.25
         
@@ -344,7 +338,7 @@ class RunViewController: UIViewController, TabItem {
     }
     
     func generateLineData() -> LineChartData {
-        let entries = (0..<12).map { (i) -> ChartDataEntry in
+        let entries = (1..<7).map { (i) -> ChartDataEntry in
             return ChartDataEntry(x: Double(i) + 0.5, y: Double(arc4random_uniform(15) + 5))
         }
         
@@ -366,35 +360,27 @@ class RunViewController: UIViewController, TabItem {
     }
     
     func generateBarData() -> BarChartData {
-        let entries1 = (0..<12).map { _ -> BarChartDataEntry in
-            return BarChartDataEntry(x: 0, y: Double(arc4random_uniform(25) + 25))
+        let entries2 = (1..<7).map { (i) -> BarChartDataEntry in
+            return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
         }
-        let entries2 = (0..<12).map { _ -> BarChartDataEntry in
-            return BarChartDataEntry(x: 0, yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
-        }
+
         
-        let set1 = BarChartDataSet(entries: entries1, label: "Bar 1")
-        set1.setColor(UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1))
-        set1.valueTextColor = UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1)
-        set1.valueFont = .systemFont(ofSize: 10)
-        set1.axisDependency = .left
-        
-        let set2 = BarChartDataSet(entries: entries2, label: "")
-        set2.stackLabels = ["Stack 1", "Stack 2"]
-        set2.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
+        let set = BarChartDataSet(entries: entries2, label: "")
+        set.stackLabels = ["Result", "Not performed"]
+        set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
         ]
-        set2.valueTextColor = UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1)
-        set2.valueFont = .systemFont(ofSize: 10)
-        set2.axisDependency = .left
+        set.valueTextColor = UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1)
+        set.valueFont = .systemFont(ofSize: 10)
+        set.axisDependency = .left
         
         let groupSpace = 0.06
-        let barSpace = 0.02 // x2 dataset
-        let barWidth = 0.45 // x2 dataset
+        let barSpace = 0.02
+        let barWidth = 0.45
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
         
         let data =  BarChartData()
-        data.dataSets = [set1, set2]
+        data.dataSets = [set]
         data.barWidth = barWidth
         
         // make this BarData object grouped
@@ -402,51 +388,51 @@ class RunViewController: UIViewController, TabItem {
         
         return data
     }
-    
-    func generateScatterData() -> ScatterChartData {
-        let entries = stride(from: 0.0, to: Double(12), by: 0.5).map { (i) -> ChartDataEntry in
-            return ChartDataEntry(x: i+0.25, y: Double(arc4random_uniform(10) + 55))
-        }
-        
-        let set = ScatterChartDataSet(entries: entries, label: "Scatter DataSet")
-        set.colors = ChartColorTemplates.material()
-        set.scatterShapeSize = 4.5
-        set.drawValuesEnabled = false
-        set.valueFont = .systemFont(ofSize: 10)
-        
-        return ScatterChartData(dataSet: set)
-    }
-    
-    func generateCandleData() -> CandleChartData {
-        let entries = stride(from: 0, to: 12, by: 2).map { (i) -> CandleChartDataEntry in
-            return CandleChartDataEntry(x: Double(i+1), shadowH: 90, shadowL: 70, open: 85, close: 75)
-        }
-        
-        let set = CandleChartDataSet(entries: entries, label: "Candle DataSet")
-        set.setColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1))
-        set.decreasingColor = UIColor(red: 142/255, green: 150/255, blue: 175/255, alpha: 1)
-        set.shadowColor = .darkGray
-        set.valueFont = .systemFont(ofSize: 10)
-        set.drawValuesEnabled = false
-        
-        return CandleChartData(dataSet: set)
-    }
-    
-    func generateBubbleData() -> BubbleChartData {
-        let entries = (0..<12).map { (i) -> BubbleChartDataEntry in
-            return BubbleChartDataEntry(x: Double(i) + 0.5,
-                                        y: Double(arc4random_uniform(10) + 105),
-                                        size: CGFloat(arc4random_uniform(50) + 105))
-        }
-        
-        let set = BubbleChartDataSet(entries: entries, label: "Bubble DataSet")
-        set.setColors(ChartColorTemplates.vordiplom(), alpha: 1)
-        set.valueTextColor = .white
-        set.valueFont = .systemFont(ofSize: 10)
-        set.drawValuesEnabled = true
-        
-        return BubbleChartData(dataSet: set)
-    }
+//
+//    func generateScatterData() -> ScatterChartData {
+//        let entries = stride(from: 0.0, to: Double(12), by: 0.5).map { (i) -> ChartDataEntry in
+//            return ChartDataEntry(x: i+0.25, y: Double(arc4random_uniform(10) + 55))
+//        }
+//
+//        let set = ScatterChartDataSet(entries: entries, label: "Scatter DataSet")
+//        set.colors = ChartColorTemplates.material()
+//        set.scatterShapeSize = 4.5
+//        set.drawValuesEnabled = false
+//        set.valueFont = .systemFont(ofSize: 10)
+//
+//        return ScatterChartData(dataSet: set)
+//    }
+//
+//    func generateCandleData() -> CandleChartData {
+//        let entries = stride(from: 0, to: 12, by: 2).map { (i) -> CandleChartDataEntry in
+//            return CandleChartDataEntry(x: Double(i+1), shadowH: 90, shadowL: 70, open: 85, close: 75)
+//        }
+//
+//        let set = CandleChartDataSet(entries: entries, label: "Candle DataSet")
+//        set.setColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1))
+//        set.decreasingColor = UIColor(red: 142/255, green: 150/255, blue: 175/255, alpha: 1)
+//        set.shadowColor = .darkGray
+//        set.valueFont = .systemFont(ofSize: 10)
+//        set.drawValuesEnabled = false
+//
+//        return CandleChartData(dataSet: set)
+//    }
+//
+//    func generateBubbleData() -> BubbleChartData {
+//        let entries = (0..<12).map { (i) -> BubbleChartDataEntry in
+//            return BubbleChartDataEntry(x: Double(i) + 0.5,
+//                                        y: Double(arc4random_uniform(10) + 105),
+//                                        size: CGFloat(arc4random_uniform(50) + 105))
+//        }
+//
+//        let set = BubbleChartDataSet(entries: entries, label: "Bubble DataSet")
+//        set.setColors(ChartColorTemplates.vordiplom(), alpha: 1)
+//        set.valueTextColor = .white
+//        set.valueFont = .systemFont(ofSize: 10)
+//        set.drawValuesEnabled = true
+//
+//        return BubbleChartData(dataSet: set)
+//    }
     
     //MARK: FUNC
     
@@ -492,7 +478,9 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: longPressRunStoreTableView
     @objc func longPressRunStoreTableView() {
-        runScrollView.isScrollEnabled = false
+        if runScrollView.isScrollEnabled == true {
+            runScrollView.isScrollEnabled = false
+        }
     }
     //MARK: swipingRunStoreTableView
     @objc func swipingRunStoreTableView() {
@@ -704,6 +692,7 @@ extension RunViewController: AGCircularPickerDelegate {
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.black), range: range)
         
         runTargetTimeLabel.attributedText = attributedString
+
     }
     
 }
