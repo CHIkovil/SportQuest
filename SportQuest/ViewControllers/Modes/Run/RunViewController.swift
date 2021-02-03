@@ -14,10 +14,13 @@ import fluid_slider
 import MarqueeLabel
 import AGCircularPicker
 import CoreData
+import  Foundation
+
 
 class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
+    let daysWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     var runStore:[String] = []
     var runTimeStore: [String] = []
     var runDistanceStore: [String] = []
@@ -47,7 +50,7 @@ class RunViewController: UIViewController, TabItem {
     lazy var runScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentSize.height = 800
+        scrollView.contentSize.height = 850
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         scrollView.bounces = false
@@ -79,10 +82,18 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: runningActivityChartView
     lazy var runActivityChartView: CombinedChartView = {
-        let barChartView = CombinedChartView()
-        barChartView.translatesAutoresizingMaskIntoConstraints = false
-        barChartView.backgroundColor = .lightGray
-        return barChartView
+        let chart = CombinedChartView()
+        chart.translatesAutoresizingMaskIntoConstraints = false
+        chart.backgroundColor = .lightGray
+        chart.leftAxis.enabled = false
+        chart.rightAxis.enabled = false
+        chart.chartDescription?.enabled = false
+        chart.highlightFullBarEnabled = false
+        chart.xAxis.labelPosition = .bothSided
+        chart.xAxis.axisMinimum = 0
+        chart.xAxis.granularity = 1
+        chart.xAxis.valueFormatter = self
+        return chart
     }()
     
     //MARK: formatForChartSwitchView
@@ -332,17 +343,17 @@ class RunViewController: UIViewController, TabItem {
         data.lineData = generateLineData()
         data.barData = generateBarData()
         
-        runActivityChartView.xAxis.axisMaximum = data.xMax + 0.25
-        
+        runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
+        runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
     }
     
     func generateLineData() -> LineChartData {
-        let entries = (1..<7).map { (i) -> ChartDataEntry in
-            return ChartDataEntry(x: Double(i) + 0.5, y: Double(arc4random_uniform(15) + 5))
+        let entries = (1..<8).map { (i) -> ChartDataEntry in
+            return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
         }
         
-        let set = LineChartDataSet(entries: entries, label: "Line DataSet")
+        let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
         set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
         set.lineWidth = 2.5
         set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
@@ -351,7 +362,7 @@ class RunViewController: UIViewController, TabItem {
         set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.mode = .cubicBezier
         set.drawValuesEnabled = true
-        set.valueFont = .systemFont(ofSize: 10)
+        set.valueFont = .systemFont(ofSize: 13)
         set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         
         set.axisDependency = .left
@@ -360,80 +371,27 @@ class RunViewController: UIViewController, TabItem {
     }
     
     func generateBarData() -> BarChartData {
-        let entries2 = (1..<7).map { (i) -> BarChartDataEntry in
+        let entries = (1..<8).map { (i) -> BarChartDataEntry in
             return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
         }
 
         
-        let set = BarChartDataSet(entries: entries2, label: "")
+        let set = BarChartDataSet(entries: entries, label: "")
         set.stackLabels = ["Result", "Not performed"]
         set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
         ]
-        set.valueTextColor = UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1)
-        set.valueFont = .systemFont(ofSize: 10)
+        set.valueTextColor = .white
+        set.valueFont = .systemFont(ofSize: 13)
         set.axisDependency = .left
-        
-        let groupSpace = 0.06
-        let barSpace = 0.02
-        let barWidth = 0.45
-        // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
         
         let data =  BarChartData()
         data.dataSets = [set]
-        data.barWidth = barWidth
-        
-        // make this BarData object grouped
-        data.groupBars(fromX: 0, groupSpace: groupSpace, barSpace: barSpace)
+        data.barWidth = 0.9
         
         return data
     }
-//
-//    func generateScatterData() -> ScatterChartData {
-//        let entries = stride(from: 0.0, to: Double(12), by: 0.5).map { (i) -> ChartDataEntry in
-//            return ChartDataEntry(x: i+0.25, y: Double(arc4random_uniform(10) + 55))
-//        }
-//
-//        let set = ScatterChartDataSet(entries: entries, label: "Scatter DataSet")
-//        set.colors = ChartColorTemplates.material()
-//        set.scatterShapeSize = 4.5
-//        set.drawValuesEnabled = false
-//        set.valueFont = .systemFont(ofSize: 10)
-//
-//        return ScatterChartData(dataSet: set)
-//    }
-//
-//    func generateCandleData() -> CandleChartData {
-//        let entries = stride(from: 0, to: 12, by: 2).map { (i) -> CandleChartDataEntry in
-//            return CandleChartDataEntry(x: Double(i+1), shadowH: 90, shadowL: 70, open: 85, close: 75)
-//        }
-//
-//        let set = CandleChartDataSet(entries: entries, label: "Candle DataSet")
-//        set.setColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1))
-//        set.decreasingColor = UIColor(red: 142/255, green: 150/255, blue: 175/255, alpha: 1)
-//        set.shadowColor = .darkGray
-//        set.valueFont = .systemFont(ofSize: 10)
-//        set.drawValuesEnabled = false
-//
-//        return CandleChartData(dataSet: set)
-//    }
-//
-//    func generateBubbleData() -> BubbleChartData {
-//        let entries = (0..<12).map { (i) -> BubbleChartDataEntry in
-//            return BubbleChartDataEntry(x: Double(i) + 0.5,
-//                                        y: Double(arc4random_uniform(10) + 105),
-//                                        size: CGFloat(arc4random_uniform(50) + 105))
-//        }
-//
-//        let set = BubbleChartDataSet(entries: entries, label: "Bubble DataSet")
-//        set.setColors(ChartColorTemplates.vordiplom(), alpha: 1)
-//        set.valueTextColor = .white
-//        set.valueFont = .systemFont(ofSize: 10)
-//        set.drawValuesEnabled = true
-//
-//        return BubbleChartData(dataSet: set)
-//    }
-    
+
     //MARK: FUNC
     
     
@@ -582,8 +540,8 @@ class RunViewController: UIViewController, TabItem {
     func createConstraintscreateRunActivityBarChartView() {
         runActivityChartView.topAnchor.constraint(equalTo: runScrollView.topAnchor, constant: 50).isActive = true
         runActivityChartView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
-        runActivityChartView.heightAnchor.constraint(equalToConstant: 250).isActive = true
-        runActivityChartView.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        runActivityChartView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        runActivityChartView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
     //MARK: ConstraintsRunningFormatForChartSwitchView
@@ -724,6 +682,12 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension RunViewController: IAxisValueFormatter{
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return daysWeek[Int(value) % daysWeek.count]
     }
 }
 

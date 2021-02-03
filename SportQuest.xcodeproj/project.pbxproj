@@ -18,7 +18,6 @@
 		9314E7432533A75500ED1DFA /* gnome.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E7422533A75400ED1DFA /* gnome.png */; };
 		9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74525363DEF00ED1DFA /* ModesViewController.swift */; };
 		9314E74A253646B300ED1DFA /* RunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E749253646B300ED1DFA /* RunViewController.swift */; };
-		9314E74C253646C700ED1DFA /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74B253646C700ED1DFA /* ExerciseViewController.swift */; };
 		9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74D253646D600ED1DFA /* AccountViewController.swift */; };
 		9314E75C253E26A900ED1DFA /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75B253E26A800ED1DFA /* running.png */; };
 		9314E760253E274A00ED1DFA /* magnifier.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75F253E274A00ED1DFA /* magnifier.png */; };
@@ -64,7 +63,6 @@
 		9314E7422533A75400ED1DFA /* gnome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gnome.png; sourceTree = "<group>"; };
 		9314E74525363DEF00ED1DFA /* ModesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModesViewController.swift; sourceTree = "<group>"; };
 		9314E749253646B300ED1DFA /* RunViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunViewController.swift; sourceTree = "<group>"; };
-		9314E74B253646C700ED1DFA /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		9314E74D253646D600ED1DFA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		9314E75B253E26A800ED1DFA /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
 		9314E75F253E274A00ED1DFA /* magnifier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magnifier.png; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 			children = (
 				93C62050257C444B008CADE7 /* ViewController */,
 				9314E766253E355400ED1DFA /* Run */,
-				9314E767253E356400ED1DFA /* Exercise */,
 				9314E768253E35AF00ED1DFA /* Account */,
 			);
 			path = Modes;
@@ -143,14 +140,6 @@
 				93C6204B2576D760008CADE7 /* RunProcess */,
 			);
 			path = Run;
-			sourceTree = "<group>";
-		};
-		9314E767253E356400ED1DFA /* Exercise */ = {
-			isa = PBXGroup;
-			children = (
-				9314E74B253646C700ED1DFA /* ExerciseViewController.swift */,
-			);
-			path = Exercise;
 			sourceTree = "<group>";
 		};
 		9314E768253E35AF00ED1DFA /* Account */ = {
@@ -466,7 +455,6 @@
 				9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */,
 				9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */,
 				93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */,
-				9314E74C253646C700ED1DFA /* ExerciseViewController.swift in Sources */,
 				93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */,
 				93418C04252528730004F813 /* SceneDelegate.swift in Sources */,
 				93C6204F257BADBF008CADE7 /* RunProcessPresentationController.swift in Sources */,
