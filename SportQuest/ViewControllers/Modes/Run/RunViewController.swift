@@ -20,12 +20,12 @@ import  Foundation
 class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
-    let daysWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     var runStore:[String] = []
-    var runTimeStore: [String] = []
-    var runDistanceStore: [String] = []
-    var runDateStore: [String] = []
-    var runCoordinatesStore: [[String]] = []
+    var isWeek = true
+    var weekStoreForCharts: [Double] = []
+    var monthStoreForCharts: [Double] = []
+    var runStoreForTable: [String] = []
     //MARK: VIEW
     
     //MARK: runStoreTableView
@@ -332,8 +332,8 @@ class RunViewController: UIViewController, TabItem {
         data.lineData = generateLineData()
         data.barData = generateBarData()
         
-        runActivityChartView.xAxis.axisMaximum = data.xMax + 0.25
-        
+        runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
+        runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
     }
     
@@ -349,7 +349,7 @@ class RunViewController: UIViewController, TabItem {
     }
     
     func generateLineData() -> LineChartData {
-        let entries = (1..<8).map { (i) -> ChartDataEntry in
+        let entries = (0..<7).map { (i) -> ChartDataEntry in
             return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
         }
         
@@ -371,7 +371,7 @@ class RunViewController: UIViewController, TabItem {
     }
     
     func generateBarData() -> BarChartData {
-        let entries = (1..<8).map { (i) -> BarChartDataEntry in
+        let entries = (0..<7).map { (i) -> BarChartDataEntry in
             return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
         }
 
@@ -413,9 +413,13 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: parseRunStore
-    
     func  parseRunStore() {
         if runStore.isEmpty == false{
+            var runTimeStore: [String] = []
+            var runDistanceStore: [String] = []
+            var runDateStore: [String] = []
+            var runCoordinatesStore: [[String]] = []
+            
             for data in runStore {
                 let masData = data.split(separator: ",").map {String($0)}
                 let coordinates = Array<String>(masData[0 ..< masData.count - 3])
@@ -428,9 +432,82 @@ class RunViewController: UIViewController, TabItem {
                 runDateStore.append(date)
                 runCoordinatesStore.append(coordinates)
             }
+            
+            
+            let datesCurrentWeek = getAllDaysOfTheCurrentWeek()
+//            weekStoreForCharts = datesCurrentWeek.map { date in
+//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
+//                    let allIndexRunStoreInDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
+//                    return runDistanceStore.enumerated().filter({allIndexRunStoreInDate.contains($0.offset)}).map({ $0.element }).reduce(0, +)
+//                }
+//                else {
+//                    return 0
+//                }
+//            }
+
+            let datesCurrentMonth = getAllDaysOfTheCurrentMonth()
+//            monthStoreForCharts = datesCurrentMonth.map { date in
+//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
+//                    let allIndexRunStoreInDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
+//                    return runDistanceStore.enumerated().filter({allIndexRunStoreInDate.contains($0.offset)}).map({ $0.element }).reduce(0, +)
+//                }
+//                else {
+//                    return 0
+//                }
+//            }
+            
+            
         }
     }
     
+    
+    //MARK: getAllDaysOfTheCurrentWeek
+    func getAllDaysOfTheCurrentWeek() -> [Date] {
+        var dates: [Date] = []
+        guard let dateInterval = Calendar.current.dateInterval(of: .weekOfYear,
+                                                               for: Date()) else {
+            return dates
+        }
+        
+        Calendar.current.enumerateDates(startingAfter: dateInterval.start,
+                                        matching: DateComponents(hour:0),
+                                        matchingPolicy: .nextTime) { date, _, stop in
+                guard let date = date else {
+                    return
+                }
+                if date <= dateInterval.end {
+                    dates.append(date)
+                } else {
+                    stop = true
+                }
+        }
+        
+        return dates
+    }
+    
+    //MARK: getAllDaysOfTheCurrentMonth
+    func getAllDaysOfTheCurrentMonth() -> [Date] {
+         var dates: [Date] = []
+        guard let dateInterval = Calendar.current.dateInterval(of: .month,
+                                                                for: Date()) else {
+             return dates
+         }
+         
+         Calendar.current.enumerateDates(startingAfter: dateInterval.start,
+                                         matching: DateComponents(hour:0),
+                                         matchingPolicy: .nextTime) { date, _, stop in
+                 guard let date = date else {
+                     return
+                 }
+                 if date <= dateInterval.end {
+                     dates.append(date)
+                 } else {
+                     stop = true
+                 }
+         }
+         
+         return dates
+     }
     //MARK: @OBJC
     
     
@@ -671,7 +748,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         
         if runStore.isEmpty == false{
-            cell.textLabel?.text = runDistanceStore[indexPath.row]
+//            cell.textLabel?.text = runDistanceStore[indexPath.row]
             cell.textLabel?.textColor = .black
             return cell
         }else{
@@ -687,7 +764,12 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension RunViewController: IAxisValueFormatter{
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return daysWeek[Int(value) % daysWeek.count]
+        if isWeek == true {
+            return daysWeek[Int(value) % daysWeek.count]
+        }
+        else{
+            return String(value)
+        }
     }
 }
 

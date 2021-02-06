@@ -27,7 +27,6 @@ import UIKit
         }
     }
     
-    
     /**
      The color of the border when it has content.
      
