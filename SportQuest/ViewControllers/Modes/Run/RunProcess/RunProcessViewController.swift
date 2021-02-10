@@ -15,11 +15,9 @@ import CoreData
 class RunProcessViewController: UIViewController {
     
     private var customTransitioningDelegate = RunProcessTransitionDelegate()
-    var hours: Int = 0
-    var minutes: Int = 0
-    var seconds: Int = 0
+    var runTime:Int = 0
     var runCoordinates: [CLLocationCoordinate2D] = []
-    var runDistance: Int = 0;
+    var runDistance: Int = 0
     
     //MARK: LOCATION MANAGER
     
@@ -139,26 +137,18 @@ class RunProcessViewController: UIViewController {
     
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {tempTimer in
-            if self.hours == 24 {
+            if self.runTime == 86400 {
                 self.dismiss(animated: true, completion: nil)
             }
-            
-            if self.seconds == 59 {
-                self.seconds = 0
-                if self.minutes == 59 {
-                    self.minutes = 0
-                    self.hours += 1
-                }
-                else{
-                    self.minutes += 1
-                }
-            }
-            else{
-                self.seconds += 1
-            }
-            self.runTimerLabel.text = String(format:"%02i:%02i:%02i", self.hours, self.minutes, self.seconds)
+            self.runTime += 1
+            let (hours,minutes,seconds) = self.secondsToHoursMinutesSeconds(seconds: self.runTime)
+            self.runTimerLabel.text = String(format:"%02i:%02i:%02i", hours, minutes, seconds)
         }
         
+    }
+    
+    func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+      return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     //MARK: CONSTRAINTS VIEW
 
@@ -222,11 +212,13 @@ class RunProcessViewController: UIViewController {
             let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
             let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
             
+            runDistance += Int(from.distance(from: to))
+            
             if from.distance(from: to) / 1000 > 1.0 {
-                return runDistanceLabel.text = String(Int(from.distance(from: to) / 1000)) + "km" + " " + String(Int(from.distance(from: to)) % 1000) + "m"
+                return runDistanceLabel.text = String(runDistance / 1000) + "km" + " " + String(runDistance % 1000) + "m"
             }
             else{
-                return runDistanceLabel.text = String(Int(from.distance(from: to))) + "m"
+                return runDistanceLabel.text = String(runDistance) + "m"
             }
    
         }
@@ -240,9 +232,7 @@ class RunProcessViewController: UIViewController {
         
         let currentDate = String(Date().timeIntervalSinceReferenceDate)
         var data: [String] = runCoordinates.map { String($0.latitude) + " " + String($0.longitude)}
-        guard let textTimerLabel = runTimerLabel.text else {return}
-        guard let textDistanceLabel = runDistanceLabel.text else {return}
-        data.append(contentsOf: [textTimerLabel, textDistanceLabel, currentDate])
+        data.append(contentsOf: [String(runTime), String(runDistance), currentDate])
         
         let resultData = data.joined(separator: ",")
         
