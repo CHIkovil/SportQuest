@@ -435,40 +435,20 @@ class RunViewController: UIViewController, TabItem {
             
             
             let datesCurrentWeek = getAllDaysOfTheCurrentWeek()
+            
 //            for date in datesCurrentWeek  {
-//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)){
+//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
 //                    let allIndexRunStoreInCurrentDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
 //                    let result = runDistanceStore.enumerated().filter({allIndexRunStoreInCurrentDate.contains($0.offset)}).map({ Int($0.element)! }).reduce(0, +)
+//
 //                    weekStoreForCharts.append(Double(result))
 //                }
 //                else {
 //                    return weekStoreForCharts.append(0)
 //                }
-//
-//
-//            }
-//            weekStoreForCharts = datesCurrentWeek.map { date in
-//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
-//                    let allIndexRunStoreInDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
-//                    return runDistanceStore.enumerated().filter({allIndexRunStoreInDate.contains($0.offset)}).map({ Int($0.element) }).reduce(0, +)
-//                }
-//                else {
-//                    return 0
-//                }
 //            }
 
             let datesCurrentMonth = getAllDaysOfTheCurrentMonth()
-//            monthStoreForCharts = datesCurrentMonth.map { date in
-//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
-//                    let allIndexRunStoreInDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
-//                    return runDistanceStore.enumerated().filter({allIndexRunStoreInDate.contains($0.offset)}).map({ $0.element }).reduce(0, +)
-//                }
-//                else {
-//                    return 0
-//                }
-//            }
-            
-            
         }
     }
     

@@ -26,7 +26,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -240,7 +240,6 @@ class RunProcessViewController: UIViewController {
         do{
             try context.save()
             self.dismiss(animated: true)
-            print("0_0")
         }
         catch{
             self.dismiss(animated: true)
@@ -259,7 +258,7 @@ extension RunProcessViewController: MKMapViewDelegate {
         point.coordinate = location.coordinate
         self.runMapView.removeAnnotations(self.runMapView.annotations)
         self.runMapView.addAnnotation(point)
-        let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 10, longitudinalMeters: 10)
+        let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 100, longitudinalMeters: 100)
         self.runMapView.setRegion(viewRegion, animated: true)
     }
     
