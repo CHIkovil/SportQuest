@@ -21,7 +21,10 @@ class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    var runStore:[String] = []
+    var runTimeStore: [String] = []
+    var runDistanceStore: [String] = []
+    var runDateStore: [String] = []
+    var runCoordinatesStore: [[String]] = []
     var isWeek = true
     var weekStoreForCharts: [Double] = []
     var monthStoreForCharts: [Double] = []
@@ -405,7 +408,10 @@ class RunViewController: UIViewController, TabItem {
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                runStore.append(data.value(forKey: "data") as! String)
+                runCoordinatesStore.append(data.value(forKey: "coordinates") as! [String])
+                runTimeStore.append(data.value(forKey: "time") as! String)
+                runDistanceStore.append(data.value(forKey: "distance") as! String)
+                runDateStore.append(data.value(forKey: "date") as! String)
             }
         } catch {
             print("Failed")
@@ -414,24 +420,24 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: parseRunStore
     func  parseRunStore() {
-        if runStore.isEmpty == false{
-            var runTimeStore: [String] = []
-            var runDistanceStore: [String] = []
-            var runDateStore: [String] = []
-            var runCoordinatesStore: [[String]] = []
-            
-            for data in runStore {
-                let masData = data.split(separator: ",").map {String($0)}
-                let coordinates = Array<String>(masData[0 ..< masData.count - 3])
-                let otherData = Array<String>(masData[masData.count - 3 ..< masData.count])
-                let time = otherData[0]
-                let distance = otherData[1]
-                let date = otherData[2]
-                runTimeStore.append(time)
-                runDistanceStore.append(distance)
-                runDateStore.append(date)
-                runCoordinatesStore.append(coordinates)
-            }
+//        if runStore.isEmpty == false{
+//            var runTimeStore: [String] = []
+//            var runDistanceStore: [String] = []
+//            var runDateStore: [String] = []
+//            var runCoordinatesStore: [[String]] = []
+//
+//            for data in runStore {
+//                let masData = data.split(separator: ",").map {String($0)}
+//                let coordinates = Array<String>(masData[0 ..< masData.count - 3])
+//                let otherData = Array<String>(masData[masData.count - 3 ..< masData.count])
+//                let time = otherData[0]
+//                let distance = otherData[1]
+//                let date = otherData[2]
+//                runTimeStore.append(time)
+//                runDistanceStore.append(distance)
+//                runDateStore.append(date)
+//                runCoordinatesStore.append(coordinates)
+//            }
             
             
             let datesCurrentWeek = getAllDaysOfTheCurrentWeek()
@@ -449,7 +455,7 @@ class RunViewController: UIViewController, TabItem {
 //            }
 
             let datesCurrentMonth = getAllDaysOfTheCurrentMonth()
-        }
+        
     }
     
     
@@ -727,8 +733,8 @@ extension RunViewController: AGCircularPickerDelegate {
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if runStore.isEmpty == false{
-            return runStore.count
+        if runDistanceStore.isEmpty == false{
+            return runDistanceStore.count
         }
         else{
             return 10
@@ -739,8 +745,8 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         
-        if runStore.isEmpty == false{
-//            cell.textLabel?.text = runDistanceStore[indexPath.row]
+        if runDistanceStore.isEmpty == false{
+            cell.textLabel?.text = runDistanceStore[indexPath.row]
             cell.textLabel?.textColor = .black
             return cell
         }else{
