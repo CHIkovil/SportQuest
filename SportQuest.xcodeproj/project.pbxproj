@@ -34,6 +34,8 @@
 		93418C0E252528750004F813 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0D252528750004F813 /* Assets.xcassets */; };
 		93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0F252528750004F813 /* LaunchScreen.storyboard */; };
 		93418C1C252528750004F813 /* SportQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C1B252528750004F813 /* SportQuestTests.swift */; };
+		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
+		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		93C62048256AA4DB008CADE7 /* batman.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93C62047256AA4DB008CADE7 /* batman.gif */; };
 		93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunProcessViewController.swift */; };
 		93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */; };
@@ -83,6 +85,8 @@
 		93418C17252528750004F813 /* SportQuestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportQuestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C1B252528750004F813 /* SportQuestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportQuestTests.swift; sourceTree = "<group>"; };
 		93418C1D252528750004F813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
+		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9393AC0EAE3ED5FFA59926D1 /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.debug.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93C62047256AA4DB008CADE7 /* batman.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = batman.gif; sourceTree = "<group>"; };
 		93C620492576C8CC008CADE7 /* RunProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessViewController.swift; sourceTree = "<group>"; };
@@ -126,7 +130,7 @@
 		9314E7442536388000ED1DFA /* Modes */ = {
 			isa = PBXGroup;
 			children = (
-				93C62050257C444B008CADE7 /* ViewController */,
+				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
 				9314E766253E355400ED1DFA /* Run */,
 				9314E768253E35AF00ED1DFA /* Account */,
 			);
@@ -192,6 +196,8 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9392E60D25D8A375007BC9DD /* batman.png */,
+				9392E60E25D8A375007BC9DD /* prize.png */,
 				93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */,
 				93C62047256AA4DB008CADE7 /* batman.gif */,
 				9314E7812561C66A00ED1DFA /* target.png */,
@@ -243,14 +249,6 @@
 				93C6204E257BADBF008CADE7 /* RunProcessPresentationController.swift */,
 			);
 			path = RunProcess;
-			sourceTree = "<group>";
-		};
-		93C62050257C444B008CADE7 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		9C4D89ABD4456366C19C0BD6 /* Pods */ = {
@@ -350,6 +348,7 @@
 			files = (
 				9314E780255F288F00ED1DFA /* cloud-computing.png in Resources */,
 				93C62048256AA4DB008CADE7 /* batman.gif in Resources */,
+				9392E61025D8A375007BC9DD /* prize.png in Resources */,
 				9314E73B2533A47E00ED1DFA /* orc.png in Resources */,
 				9314E7402533A6C900ED1DFA /* human.png in Resources */,
 				9314E77A255C83A600ED1DFA /* flame.png in Resources */,
@@ -365,6 +364,7 @@
 				9314E7412533A6C900ED1DFA /* elf.png in Resources */,
 				9314E760253E274A00ED1DFA /* magnifier.png in Resources */,
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
+				9392E60F25D8A375007BC9DD /* batman.png in Resources */,
 				9314E762253E2F5D00ED1DFA /* account.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

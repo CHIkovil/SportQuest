@@ -26,7 +26,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 5
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -50,9 +50,9 @@ class RunProcessViewController: UIViewController {
      lazy var runMapView: MKMapView = {
         let view = MKMapView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 45
         view.overrideUserInterfaceStyle = .dark
         view.delegate = self
-        view.layer.cornerRadius = 45
         return view
      }()
     
@@ -94,13 +94,9 @@ class RunProcessViewController: UIViewController {
     lazy var stopRunButton: UIButton = {
         let button = UIButton(frame:CGRect(x: 0, y: 0, width: 60, height: 60))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .clear
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.red.cgColor
-        button.setTitle("Finish", for: .normal)
-        button.setTitleColor(.red, for: .normal)
+        button.setImage(UIImage(named:"prize.png"), for: .normal)
         button.addTarget(self, action: #selector(stopRun), for: .touchUpInside)
         return button
     }()
@@ -230,12 +226,6 @@ class RunProcessViewController: UIViewController {
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
-//        let currentDate = String(Date().timeIntervalSince1970)
-//        var data: [String] = runCoordinates.map { String($0.latitude) + " " + String($0.longitude)}
-//        data.append(contentsOf: [String(runTime), String(runDistance), currentDate])
-//
-//        let resultData = data.joined(separator: ",")
-        
         let date = String(Date().timeIntervalSince1970)
         let coordinates: [String] = runCoordinates.map { String($0.latitude) + " " + String($0.longitude)}
         let time = String(runTime)
@@ -260,12 +250,38 @@ class RunProcessViewController: UIViewController {
 //MARK: extension
 extension RunProcessViewController: MKMapViewDelegate {
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        let identifier = "MyCustomAnnotation"
+
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            annotationView!.image = UIImage(named: "batman.png")
+
+        } else {
+            annotationView!.annotation = annotation
+        }
+
+        return annotationView
+    }
+
+
     func updateLocationOnMap(to location: CLLocation, with title: String?) {
+
         let point = MKPointAnnotation()
         point.title = title
         point.coordinate = location.coordinate
-        self.runMapView.removeAnnotations(self.runMapView.annotations)
-        self.runMapView.addAnnotation(point)
+        if runMapView.annotations.count == 1 {
+            self.runMapView.removeAnnotations(runMapView.annotations)
+            self.runMapView.addAnnotation(point)
+        } else{
+            self.runMapView.addAnnotation(point)
+        }
         let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 100, longitudinalMeters: 100)
         self.runMapView.setRegion(viewRegion, animated: true)
     }
@@ -276,7 +292,7 @@ extension RunProcessViewController: MKMapViewDelegate {
                 polylineRenderer.fillColor = UIColor.red
                 polylineRenderer.strokeColor = UIColor.red
                 polylineRenderer.lineWidth = 2
-            
+
             return polylineRenderer
      }
         return MKOverlayRenderer(overlay: overlay)
@@ -293,7 +309,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        updateLocationOnMap(to: runLocationManager.location!, with: nil)
+        updateLocationOnMap(to: runLocationManager.location!, with: "Warrior")
         drawRunDistance()
         showRunDistanceToLabel()
     }
