@@ -261,9 +261,17 @@ extension RunProcessViewController: MKMapViewDelegate {
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
-            annotationView!.image = UIImage(named: "batman.png")
-
+            if runMapView.annotations.count == 1{
+                annotationView!.image = UIImage(named: "batman.png")
+            } else {
+                annotationView!.image = UIImage(named: "queen.png")
+            }
         } else {
+            if runMapView.annotations.count == 1{
+                annotationView!.image = UIImage(named: "batman.png")
+            } else {
+                annotationView!.image = UIImage(named: "queen.png")
+            }
             annotationView!.annotation = annotation
         }
 
@@ -276,8 +284,8 @@ extension RunProcessViewController: MKMapViewDelegate {
         let point = MKPointAnnotation()
         point.title = title
         point.coordinate = location.coordinate
-        if runMapView.annotations.count == 1 {
-            self.runMapView.removeAnnotations(runMapView.annotations)
+        if runMapView.annotations.count > 1 {
+            self.runMapView.removeAnnotation(runMapView.annotations.last!)
             self.runMapView.addAnnotation(point)
         } else{
             self.runMapView.addAnnotation(point)
