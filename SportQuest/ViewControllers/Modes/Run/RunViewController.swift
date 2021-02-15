@@ -21,10 +21,10 @@ class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    var runTimeStore: [String] = []
-    var runDistanceStore: [String] = []
-    var runDateStore: [String] = []
-    var runCoordinatesStore: [[String]] = []
+    var runTimeStore: [Int] = []
+    var runDistanceStore: [Int] = []
+    var runDateStore: [Date] = []
+    var runCoordinatesStore: [String] = []
     var isWeek = true
     var weekStoreForCharts: [Double] = []
     var monthStoreForCharts: [Double] = []
@@ -225,19 +225,21 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: runningMotivationLabel
     lazy var runMotivationLabel:MarqueeLabel = {
-        let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
+        let text = "When you’re riding, only the race in which you’re riding is important."
+        let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: CGFloat(text.count))
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "When you’re riding, only the race in which you’re riding is important."
+        label.text = text
         label.font = label.font.withSize(20)
         return label
     }()
     
     //MARK: runningAllStatisticsLabel
     lazy var runAllStatisticsLabel:MarqueeLabel = {
-         let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: 10.0)
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.text = "The only way to prove that you’re a good sport is to lose."
-         label.font = label.font.withSize(20)
+        let text = "The only way to prove that you’re a good sport is to lose."
+        let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: CGFloat(text.count))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+        label.font = label.font.withSize(20)
         label.textColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
          return label
      }()
@@ -326,7 +328,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: viewDidAppear
      override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
+        super.viewDidAppear(true)
     }
     
     //MARK: STUFF
@@ -408,10 +410,10 @@ class RunViewController: UIViewController, TabItem {
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                runCoordinatesStore.append(data.value(forKey: "coordinates") as! [String])
-                runTimeStore.append(data.value(forKey: "time") as! String)
-                runDistanceStore.append(data.value(forKey: "distance") as! String)
-                runDateStore.append(data.value(forKey: "date") as! String)
+                runCoordinatesStore.append(data.value(forKey: "coordinates") as! String)
+                runTimeStore.append(data.value(forKey: "time") as! Int)
+                runDistanceStore.append(data.value(forKey: "distance") as! Int)
+                runDateStore.append(data.value(forKey: "date") as! Date)
             }
         } catch {
             print("Failed")
@@ -420,48 +422,43 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: parseRunStore
     func  parseRunStore() {
-//        if runStore.isEmpty == false{
-//            var runTimeStore: [String] = []
-//            var runDistanceStore: [String] = []
-//            var runDateStore: [String] = []
-//            var runCoordinatesStore: [[String]] = []
-//
-//            for data in runStore {
-//                let masData = data.split(separator: ",").map {String($0)}
-//                let coordinates = Array<String>(masData[0 ..< masData.count - 3])
-//                let otherData = Array<String>(masData[masData.count - 3 ..< masData.count])
-//                let time = otherData[0]
-//                let distance = otherData[1]
-//                let date = otherData[2]
-//                runTimeStore.append(time)
-//                runDistanceStore.append(distance)
-//                runDateStore.append(date)
-//                runCoordinatesStore.append(coordinates)
-//            }
-            
+        if runDateStore.isEmpty == false {
+            let parseDate: [String] = runDateStore.map({date in
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd-MM-yyyy"
+                return dateFormatter.string(from: date)
+            })
             
             let datesCurrentWeek = getAllDaysOfTheCurrentWeek()
-            
-//            for date in datesCurrentWeek  {
-//                if runDateStore.contains(String(date.timeIntervalSinceReferenceDate)) {
-//                    let allIndexRunStoreInCurrentDate = runDateStore.enumerated().filter({ String(date.timeIntervalSinceReferenceDate) == $0.element }).map({ $0.offset })
-//                    let result = runDistanceStore.enumerated().filter({allIndexRunStoreInCurrentDate.contains($0.offset)}).map({ Int($0.element)! }).reduce(0, +)
-//
-//                    weekStoreForCharts.append(Double(result))
-//                }
-//                else {
-//                    return weekStoreForCharts.append(0)
-//                }
-//            }
 
+            
+            for date in datesCurrentWeek {
+                if parseDate.contains(date) {
+                    let result = runDistanceStore.enumerated().filter({parseDate[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                    weekStoreForCharts.append(Double(result))
+                } else {
+                    weekStoreForCharts.append(0)
+                }
+            }
+            
             let datesCurrentMonth = getAllDaysOfTheCurrentMonth()
-        
+            
+            for date in datesCurrentMonth {
+                if parseDate.contains(date) {
+                    let result = runDistanceStore.enumerated().filter({parseDate[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                    monthStoreForCharts.append(Double(result))
+                } else {
+                    monthStoreForCharts.append(0)
+                }
+            }
+            
+        }
     }
     
     
     //MARK: getAllDaysOfTheCurrentWeek
-    func getAllDaysOfTheCurrentWeek() -> [Date] {
-        var dates: [Date] = []
+    func getAllDaysOfTheCurrentWeek() -> [String] {
+        var dates: [String] = []
         guard let dateInterval = Calendar.current.dateInterval(of: .weekOfYear,
                                                                for: Date()) else {
             return dates
@@ -474,7 +471,9 @@ class RunViewController: UIViewController, TabItem {
                     return
                 }
                 if date <= dateInterval.end {
-                    dates.append(date)
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd-MM-yyyy"
+                    dates.append(dateFormatter.string(from: date))
                 } else {
                     stop = true
                 }
@@ -484,8 +483,8 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: getAllDaysOfTheCurrentMonth
-    func getAllDaysOfTheCurrentMonth() -> [Date] {
-         var dates: [Date] = []
+    func getAllDaysOfTheCurrentMonth() -> [String] {
+         var dates: [String] = []
         guard let dateInterval = Calendar.current.dateInterval(of: .month,
                                                                 for: Date()) else {
              return dates
@@ -498,7 +497,9 @@ class RunViewController: UIViewController, TabItem {
                      return
                  }
                  if date <= dateInterval.end {
-                     dates.append(date)
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd-MM-yyyy"
+                    dates.append(dateFormatter.string(from: date))
                  } else {
                      stop = true
                  }
@@ -746,7 +747,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         
         if runDistanceStore.isEmpty == false{
-            cell.textLabel?.text = runDistanceStore[indexPath.row]
+            cell.textLabel?.text = String(runDistanceStore[indexPath.row])
             cell.textLabel?.textColor = .black
             return cell
         }else{

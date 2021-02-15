@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="RunData" representedClassName="RunData" syncable="YES" codeGenerationType="class">
-        <attribute name="coordinates" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String]"/>
-        <attribute name="date" optional="YES" attributeType="String"/>
-        <attribute name="distance" optional="YES" attributeType="String"/>
-        <attribute name="time" optional="YES" attributeType="String"/>
+        <attribute name="coordinates" optional="YES" attributeType="String" valueTransformerName="" customClassName="[String]"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="distance" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="time" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="RunData" positionX="-1236.40625" positionY="62.55859375" width="128" height="103"/>
