@@ -19,16 +19,16 @@ import  Foundation
 
 class RunViewController: UIViewController, TabItem {
     //MARK: let, var
-    
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    let dateMonth:[String] = []
     var runTimeStore: [Int] = []
     var runDistanceStore: [Int] = []
     var runDateStore: [Date] = []
     var runCoordinatesStore: [String] = []
-    var isWeek = true
     var weekStoreForCharts: [Double] = []
     var monthStoreForCharts: [Double] = []
-    var runStoreForTable: [String] = []
+    var isWeek: Bool = true
+    
     //MARK: VIEW
     
     //MARK: runStoreTableView
@@ -92,9 +92,7 @@ class RunViewController: UIViewController, TabItem {
         chart.rightAxis.enabled = false
         chart.chartDescription?.enabled = false
         chart.highlightFullBarEnabled = false
-        chart.xAxis.labelPosition = .bothSided
-        chart.xAxis.axisMinimum = 0
-        chart.xAxis.granularity = 1
+        chart.xAxis.labelPosition = .top
         chart.xAxis.valueFormatter = self
         return chart
     }()
@@ -332,69 +330,121 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: STUFF
-    func setWeekDataForRunningActivityBarChartView() {
+    func setWeekData() {
+        isWeek = true
         let data = CombinedChartData()
         data.lineData = generateLineData()
         data.barData = generateBarData()
         
+        runActivityChartView.xAxis.granularity = 1
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
     }
     
     
-    func setMonthDataRunningActivityBarChartView() {
+    func setMonthData() {
+        isWeek = false
         let data = CombinedChartData()
         data.lineData = generateLineData()
         data.barData = generateBarData()
         
+        runActivityChartView.xAxis.granularity = 3
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
     }
     
     func generateLineData() -> LineChartData {
-        let entries = (0..<7).map { (i) -> ChartDataEntry in
-            return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
+        
+        if isWeek == true {
+               let entries = (0..<7).map { (i) -> ChartDataEntry in
+                    return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
+                }
+                
+                let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
+                set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+                set.lineWidth = 2.5
+                set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+                set.circleRadius = 5
+                set.circleHoleRadius = 2.5
+                set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+                set.mode = .cubicBezier
+                set.drawValuesEnabled = true
+                set.valueFont = .systemFont(ofSize: 13)
+                set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+                
+                set.axisDependency = .left
+                
+                return LineChartData(dataSet: set)
+            
+        }else {
+            let entries = (0..<monthStoreForCharts.count).map { (i) -> ChartDataEntry in
+                 return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
+             }
+             
+             let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
+             set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+             set.lineWidth = 2.5
+             set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+             set.circleRadius = 5
+             set.circleHoleRadius = 2.5
+             set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+             set.mode = .cubicBezier
+             set.drawValuesEnabled = true
+             set.valueFont = .systemFont(ofSize: 10)
+             set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+             
+             set.axisDependency = .left
+             
+             return LineChartData(dataSet: set)
+
         }
-        
-        let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
-        set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-        set.lineWidth = 2.5
-        set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-        set.circleRadius = 5
-        set.circleHoleRadius = 2.5
-        set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-        set.mode = .cubicBezier
-        set.drawValuesEnabled = true
-        set.valueFont = .systemFont(ofSize: 13)
-        set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-        
-        set.axisDependency = .left
-        
-        return LineChartData(dataSet: set)
     }
     
     func generateBarData() -> BarChartData {
-        let entries = (0..<7).map { (i) -> BarChartDataEntry in
-            return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
+        if isWeek == true {
+            let entries = (0..<7).map { (i) -> BarChartDataEntry in
+                 return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
+             }
+             
+             
+             let set = BarChartDataSet(entries: entries, label: "")
+             set.stackLabels = ["Result", "Not performed"]
+             set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
+                            UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
+             ]
+             set.valueTextColor = .white
+             set.valueFont = .systemFont(ofSize: 13)
+             set.axisDependency = .left
+             
+             let data =  BarChartData()
+             data.dataSets = [set]
+             data.barWidth = 0.9
+             
+             return data
+        } else {
+            let entries = (0..<monthStoreForCharts.count).map { (i) -> BarChartDataEntry in
+                  return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
+              }
+              
+              
+              let set = BarChartDataSet(entries: entries, label: "")
+              set.stackLabels = ["Result", "Not performed"]
+              set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
+                             UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
+              ]
+              set.valueTextColor = .white
+              set.valueFont = .systemFont(ofSize: 0)
+              set.axisDependency = .left
+                
+              
+              let data =  BarChartData()
+              data.dataSets = [set]
+              data.barWidth = 0.8
+              
+              return data
         }
-
-        
-        let set = BarChartDataSet(entries: entries, label: "")
-        set.stackLabels = ["Result", "Not performed"]
-        set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
-                       UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
-        ]
-        set.valueTextColor = .white
-        set.valueFont = .systemFont(ofSize: 13)
-        set.axisDependency = .left
-        
-        let data =  BarChartData()
-        data.dataSets = [set]
-        data.barWidth = 0.9
-        
-        return data
     }
 
     //MARK: FUNC
@@ -531,9 +581,9 @@ class RunViewController: UIViewController, TabItem {
     //MARK: changeRunningActivityChart
     @objc func changeRunningActivityChart(){
         if runFormatForChartSwitchView.index == 0 {
-            setWeekDataForRunningActivityBarChartView()
+            setWeekData()
         }else{
-            setMonthDataRunningActivityBarChartView()
+            setMonthData()
         }
     }
     
@@ -572,7 +622,6 @@ class RunViewController: UIViewController, TabItem {
      //MARK: showRunningProcess
     @objc func showRunningProcess(){
         let viewController = RunProcessViewController()
-        
         self.present(viewController, animated: true)
     }
 
@@ -767,7 +816,7 @@ extension RunViewController: IAxisValueFormatter{
             return daysWeek[Int(value) % daysWeek.count]
         }
         else{
-            return String(value)
+            return String(Int(value) + 1)
         }
     }
 }
