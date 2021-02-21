@@ -24,7 +24,6 @@
 		9314E762253E2F5D00ED1DFA /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E761253E2F5D00ED1DFA /* account.png */; };
 		9314E764253E301200ED1DFA /* muscle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E763253E301200ED1DFA /* muscle.png */; };
 		9314E77A255C83A600ED1DFA /* flame.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E779255C83A500ED1DFA /* flame.png */; };
-		9314E77E255F288F00ED1DFA /* bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E77B255F288E00ED1DFA /* bar-chart.png */; };
 		9314E780255F288F00ED1DFA /* cloud-computing.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E77D255F288E00ED1DFA /* cloud-computing.png */; };
 		9314E7822561C66A00ED1DFA /* target.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E7812561C66A00ED1DFA /* target.png */; };
 		93418C02252528730004F813 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C01252528730004F813 /* AppDelegate.swift */; };
@@ -72,7 +71,6 @@
 		9314E761253E2F5D00ED1DFA /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
 		9314E763253E301200ED1DFA /* muscle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muscle.png; sourceTree = "<group>"; };
 		9314E779255C83A500ED1DFA /* flame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flame.png; sourceTree = "<group>"; };
-		9314E77B255F288E00ED1DFA /* bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar-chart.png"; sourceTree = "<group>"; };
 		9314E77D255F288E00ED1DFA /* cloud-computing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud-computing.png"; sourceTree = "<group>"; };
 		9314E7812561C66A00ED1DFA /* target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = target.png; sourceTree = "<group>"; };
 		93418BFE252528730004F813 /* SportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +202,6 @@
 				93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */,
 				93C62047256AA4DB008CADE7 /* batman.gif */,
 				9314E7812561C66A00ED1DFA /* target.png */,
-				9314E77B255F288E00ED1DFA /* bar-chart.png */,
 				9314E77D255F288E00ED1DFA /* cloud-computing.png */,
 				9314E779255C83A500ED1DFA /* flame.png */,
 				9314E763253E301200ED1DFA /* muscle.png */,
@@ -360,7 +357,6 @@
 				93C62058257D1CA4008CADE7 /* batman-logo-silhouette.png in Resources */,
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
-				9314E77E255F288F00ED1DFA /* bar-chart.png in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
 				9314E764253E301200ED1DFA /* muscle.png in Resources */,
 				9314E75C253E26A900ED1DFA /* running.png in Resources */,

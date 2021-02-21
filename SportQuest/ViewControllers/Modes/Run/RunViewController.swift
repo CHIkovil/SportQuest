@@ -61,18 +61,7 @@ class RunViewController: UIViewController, TabItem {
         return scrollView
     }()
     
-    //MARK: runningParametersBlockView
-    lazy var runParametersBlockView:UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 30
-        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        return view
-    }()
-    
-    //MARK: runningTargetTimeBlockView
+    //MARK: runTargetTimeBlockView
     lazy var runTargetTimeBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +72,7 @@ class RunViewController: UIViewController, TabItem {
         return view
     }()
     
-    //MARK: runningActivityChartView
+    //MARK: runActivityChartView
     lazy var runActivityChartView: CombinedChartView = {
         let chart = CombinedChartView()
         chart.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +81,7 @@ class RunViewController: UIViewController, TabItem {
         chart.rightAxis.enabled = false
         chart.chartDescription?.enabled = false
         chart.highlightFullBarEnabled = false
-        chart.xAxis.labelPosition = .top
+        chart.xAxis.labelPosition = .bottom
         chart.xAxis.valueFormatter = self
         return chart
     }()
@@ -109,9 +98,9 @@ class RunViewController: UIViewController, TabItem {
         return segmentView
     }()
     
-    //MARK: runningBlockSwitchView
+    //MARK: runBlockSwitchView
     lazy var runBlockSwitchView: BetterSegmentedControl = {
-        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "bar-chart.png")!, UIImage(named: "cloud-computing.png")!, UIImage(named: "target.png")!],
+        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "target.png")!, UIImage(named: "cloud-computing.png")!],
                                        iconSize: CGSize(width: 30, height: 30),
                                        normalIconTintColor: .lightGray,
                                        selectedIconTintColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
@@ -123,31 +112,7 @@ class RunViewController: UIViewController, TabItem {
         return segmentView
     }()
     
-    //MARK: runningNormSliderView
-    lazy var runNormSliderView:Slider = {
-        let slider = Slider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.attributedTextForFraction = { fraction in
-            let formatter = NumberFormatter()
-            formatter.maximumIntegerDigits = 3
-            formatter.maximumFractionDigits = 0
-            let string = formatter.string(from: (fraction * 500) as NSNumber) ?? ""
-            return NSAttributedString(string: string)
-        }
-        slider.setMinimumLabelAttributedText(NSAttributedString(string: "0"))
-        slider.setMaximumLabelAttributedText(NSAttributedString(string: "500"))
-        slider.contentViewCornerRadius = 25
-        slider.fraction = 0.5
-        slider.shadowOffset = CGSize(width: 0, height: 10)
-        slider.shadowBlur = 5
-        slider.shadowColor = UIColor(white: 0, alpha: 0.1)
-        slider.contentViewColor = UIColor(red: 78/255.0, green: 77/255.0, blue: 224/255.0, alpha: 1)
-        slider.valueViewColor = .white
-        slider.addTarget(self, action: #selector(changeNormSlider), for: .valueChanged)
-        return slider
-    }()
-    
-    //MARK: runningTargetTimeView
+    //MARK: runTargetTimeView
     lazy var runTargetTimeView:AGCircularPicker = {
         let circularPicker = AGCircularPicker()
         let hourColor1 = UIColor.rgb_color(r: 0, g: 237, b: 233)
@@ -179,48 +144,6 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: LABEL
     
-    
-    
-    //MARK: runningNormLabel
-    lazy var runNormLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "N"
-        label.font = UIFont.systemFont(ofSize: 20.0)
-        label.bounds = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-        label.layer.cornerRadius = 35 / 2
-        label.layer.borderWidth = 3.0
-        label.layer.backgroundColor = UIColor.clear.cgColor
-        label.layer.borderColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
-        label.textAlignment = .center
-        label.layer.shadowColor = UIColor.gray.cgColor
-        label.layer.shadowRadius = 3.0
-        label.layer.shadowOpacity = 1.0
-        label.layer.shadowOffset = CGSize(width: 4, height: 4)
-        label.layer.masksToBounds = false
-        return label
-    }()
-    
-    //MARK: runningStatisticsLabel
-    lazy var runStatisticsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "S"
-        label.font = UIFont.systemFont(ofSize: 20.0)
-        label.bounds = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-        label.layer.cornerRadius = 35 / 2
-        label.layer.borderWidth = 3.0
-        label.layer.backgroundColor = UIColor.clear.cgColor
-        label.layer.borderColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
-        label.textAlignment = .center
-        label.layer.shadowColor = UIColor.gray.cgColor
-        label.layer.shadowRadius = 3.0
-        label.layer.shadowOpacity = 1.0
-        label.layer.shadowOffset = CGSize(width: 4, height: 4)
-        label.layer.masksToBounds = false
-        return label
-    }()
-    
     //MARK: runningMotivationLabel
     lazy var runMotivationLabel:MarqueeLabel = {
         let text = "When you’re riding, only the race in which you’re riding is important."
@@ -231,8 +154,8 @@ class RunViewController: UIViewController, TabItem {
         return label
     }()
     
-    //MARK: runningAllStatisticsLabel
-    lazy var runAllStatisticsLabel:MarqueeLabel = {
+    //MARK: runningStatisticsLabel
+    lazy var runStatisticsLabel:MarqueeLabel = {
         let text = "The only way to prove that you’re a good sport is to lose."
         let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: CGFloat(text.count))
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -285,42 +208,34 @@ class RunViewController: UIViewController, TabItem {
         createConstraintsRunningScrollView()
         
         runScrollView.addSubview(runActivityChartView)
+        runScrollView.addSubview(runStatisticsLabel)
+        runScrollView.addSubview(runMotivationLabel)
         runScrollView.addSubview(runFormatForChartSwitchView)
         runScrollView.addSubview(runBlockSwitchView)
-        runScrollView.addSubview(runParametersBlockView)
-        runParametersBlockView.addSubview(runMotivationLabel)
-        runParametersBlockView.addSubview(runNormSliderView)
-        runParametersBlockView.addSubview(runNormLabel)
-        runParametersBlockView.addSubview(runStatisticsLabel)
-        runParametersBlockView.addSubview(runAllStatisticsLabel)
+  
         
-        runScrollView.addSubview(runStoreTableView)
         runScrollView.addSubview(runTargetTimeBlockView)
-        
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
         runTargetTimeBlockView.addSubview(runTargetTimeView)
         
+        runScrollView.addSubview(runStoreTableView)
+
 
         runScrollView.addSubview(runStartButton)
         
         createConstraintscreateRunActivityBarChartView()
         createConstraintsRunFormatForChartSwitchView()
         createConstraintsRunBlockSwitchView()
-        createConstraintsRunParameterBlockView()
         createConstraintsRunMotivationLabel()
-        createConstraintsRunNormLabel()
-        createConstraintsRunNormSliderView()
         createConstraintsRunStatisticsLabel()
-        createConstraintsRunAllStatisticsLabel()
         createConstraintsRunStoreTableView()
         createConstraintsRunTargetTimeBlockView()
         createConstraintsRunTargetTimeLabel()
         createConstraintsRunTargetTimeView()
         createConstraintsRunStartButton()
 
-        runParametersBlockView.isHidden = false
+        runTargetTimeBlockView.isHidden = false
         runStoreTableView.isHidden = true
-        runTargetTimeBlockView.isHidden = true
         
     }
     
@@ -349,102 +264,67 @@ class RunViewController: UIViewController, TabItem {
         data.lineData = generateLineData()
         data.barData = generateBarData()
         
-        runActivityChartView.xAxis.granularity = 3
+        runActivityChartView.xAxis.granularity = 1
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
     }
     
     func generateLineData() -> LineChartData {
-        
+        let entries: [ChartDataEntry];
         if isWeek == true {
-               let entries = (0..<7).map { (i) -> ChartDataEntry in
-                    return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
-                }
-                
-                let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
-                set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-                set.lineWidth = 2.5
-                set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-                set.circleRadius = 5
-                set.circleHoleRadius = 2.5
-                set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-                set.mode = .cubicBezier
-                set.drawValuesEnabled = true
-                set.valueFont = .systemFont(ofSize: 13)
-                set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-                
-                set.axisDependency = .left
-                
-                return LineChartData(dataSet: set)
-            
+           entries = (0..<7).map { (i) -> ChartDataEntry in
+                return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
+            }
         }else {
-            let entries = (0..<monthStoreForCharts.count).map { (i) -> ChartDataEntry in
+           entries = (0..<monthStoreForCharts.count).map { (i) -> ChartDataEntry in
                  return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
              }
-             
-             let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
-             set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-             set.lineWidth = 2.5
-             set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
-             set.circleRadius = 5
-             set.circleHoleRadius = 2.5
-             set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-             set.mode = .cubicBezier
-             set.drawValuesEnabled = true
-             set.valueFont = .systemFont(ofSize: 10)
-             set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
-             
-             set.axisDependency = .left
-             
-             return LineChartData(dataSet: set)
-
         }
+        
+        let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
+        set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+        set.lineWidth = 2.5
+        set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
+        set.circleRadius = 5
+        set.circleHoleRadius = 2.5
+        set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+        set.mode = .cubicBezier
+        set.drawValuesEnabled = true
+        set.valueFont = .systemFont(ofSize: 13)
+        set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
+        set.axisDependency = .left
+        
+        return LineChartData(dataSet: set)
     }
     
     func generateBarData() -> BarChartData {
+        let entries: [ChartDataEntry];
         if isWeek == true {
-            let entries = (0..<7).map { (i) -> BarChartDataEntry in
+            entries = (0..<7).map { (i) -> BarChartDataEntry in
                  return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
              }
-             
-             
-             let set = BarChartDataSet(entries: entries, label: "")
-             set.stackLabels = ["Result", "Not performed"]
-             set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
-                            UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
-             ]
-             set.valueTextColor = .white
-             set.valueFont = .systemFont(ofSize: 13)
-             set.axisDependency = .left
-             
-             let data =  BarChartData()
-             data.dataSets = [set]
-             data.barWidth = 0.9
-             
-             return data
         } else {
-            let entries = (0..<monthStoreForCharts.count).map { (i) -> BarChartDataEntry in
+            entries = (0..<monthStoreForCharts.count).map { (i) -> BarChartDataEntry in
                   return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
               }
-              
-              
-              let set = BarChartDataSet(entries: entries, label: "")
-              set.stackLabels = ["Result", "Not performed"]
-              set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
-                             UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
-              ]
-              set.valueTextColor = .white
-              set.valueFont = .systemFont(ofSize: 0)
-              set.axisDependency = .left
-                
-              
-              let data =  BarChartData()
-              data.dataSets = [set]
-              data.barWidth = 0.8
-              
-              return data
         }
+        
+        let set = BarChartDataSet(entries: entries, label: "")
+        set.stackLabels = ["Result", "Not performed"]
+        set.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
+                       UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
+        ]
+        set.valueTextColor = .white
+        set.valueFont = .systemFont(ofSize: 13)
+        set.axisDependency = .left
+          
+        
+        let data =  BarChartData()
+        data.dataSets = [set]
+        data.barWidth = 0.9
+        
+        return data
     }
 
     //MARK: FUNC
@@ -590,33 +470,15 @@ class RunViewController: UIViewController, TabItem {
     //MARK: changeRunningBlock
     @objc func changeRunningBlock(){
         if runBlockSwitchView.index == 0 {
-            runParametersBlockView.isHidden = false
+            runTargetTimeBlockView.isHidden = false
             runStoreTableView.isHidden = true
-            runTargetTimeBlockView.isHidden = true
+
         }
         if runBlockSwitchView.index == 1 {
-            runParametersBlockView.isHidden = true
-            runStoreTableView.isHidden = false
             runTargetTimeBlockView.isHidden = true
+            runStoreTableView.isHidden = false
+
         }
-        if runBlockSwitchView.index == 2 {
-            runParametersBlockView.isHidden = true
-            runStoreTableView.isHidden = true
-            runTargetTimeBlockView.isHidden = false
-        }
-    }
-     //MARK: endChangeNormSlider
-    @objc func endChangeNormSlider(){
-        if runNormSliderView.isTracking == false {
-            runMotivationLabel.isHidden = false
-        }
-    }
-     //MARK: changeNormSlider
-    @objc func changeNormSlider(){
-        runMotivationLabel.isHidden = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-            self.endChangeNormSlider()
-        })
     }
 
      //MARK: showRunningProcess
@@ -635,14 +497,6 @@ class RunViewController: UIViewController, TabItem {
         runScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         runScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         runScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-    
-    //MARK: ConstraintsRunningParameterBlockView
-    func createConstraintsRunParameterBlockView() {
-        runParametersBlockView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runParametersBlockView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
-        runParametersBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runParametersBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
     //MARK: ConstraintsRunningStoreBlockView
@@ -671,7 +525,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningFormatForChartSwitchView
     func createConstraintsRunFormatForChartSwitchView() {
-        runFormatForChartSwitchView.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 10).isActive = true
+        runFormatForChartSwitchView.topAnchor.constraint(equalTo: runMotivationLabel.bottomAnchor, constant: 10).isActive = true
         runFormatForChartSwitchView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
         runFormatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         runFormatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -683,14 +537,6 @@ class RunViewController: UIViewController, TabItem {
         runBlockSwitchView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
         runBlockSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         runBlockSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-    }
-    
-    //MARK: ConstraintsRunningNormSliderView
-    func createConstraintsRunNormSliderView() {
-        runNormSliderView.topAnchor.constraint(equalTo: runMotivationLabel.bottomAnchor, constant: 10).isActive = true
-        runNormSliderView.trailingAnchor.constraint(equalTo: runParametersBlockView.trailingAnchor,constant: -10).isActive = true
-        runNormSliderView.widthAnchor.constraint(equalToConstant: 230).isActive = true
-        runNormSliderView.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     //MARK: createConstraintsRunningRunningTargetTimeView
@@ -707,41 +553,25 @@ class RunViewController: UIViewController, TabItem {
     
     
     
-    //MARK: ConstraintsRunningNormLabel
-    func createConstraintsRunNormLabel() {
-        runNormLabel.centerYAnchor.constraint(equalTo: runNormSliderView.centerYAnchor).isActive = true
-        runNormLabel.trailingAnchor.constraint(equalTo: runNormSliderView.leadingAnchor, constant: -10).isActive = true
-        runNormLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        runNormLabel.widthAnchor.constraint(equalToConstant: 35).isActive = true
-    }
-    
-    //MARK: createConstraintsRunningStatisticsLabel
+    //MARK: createConstraintsRunStatisticsLabel
      func createConstraintsRunStatisticsLabel() {
-         runStatisticsLabel.centerYAnchor.constraint(equalTo: runAllStatisticsLabel.centerYAnchor).isActive = true
-         runStatisticsLabel.trailingAnchor.constraint(equalTo: runAllStatisticsLabel.leadingAnchor, constant: -20).isActive = true
-         runStatisticsLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
-         runStatisticsLabel.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        runStatisticsLabel.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 2).isActive = true
+         runStatisticsLabel.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
+         runStatisticsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+         runStatisticsLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
      }
     
     //MARK: createConstraintsRunningMotivationLabel
     func createConstraintsRunMotivationLabel() {
-        runMotivationLabel.topAnchor.constraint(equalTo: runParametersBlockView.topAnchor, constant: 10).isActive = true
-        runMotivationLabel.centerXAnchor.constraint(equalTo: runParametersBlockView.centerXAnchor).isActive = true
-        runMotivationLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        runMotivationLabel.widthAnchor.constraint(equalToConstant: 260).isActive = true
-    }
-    
-    //MARK: createConstraintsRunningAllStatisticsLabel
-    func createConstraintsRunAllStatisticsLabel() {
-        runAllStatisticsLabel.topAnchor.constraint(equalTo: runNormSliderView.bottomAnchor, constant: 10).isActive = true
-        runAllStatisticsLabel.trailingAnchor.constraint(equalTo: runParametersBlockView.trailingAnchor,constant: -20).isActive = true
-        runAllStatisticsLabel.widthAnchor.constraint(equalToConstant: 210).isActive = true
-        runAllStatisticsLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        runMotivationLabel.topAnchor.constraint(equalTo: runStatisticsLabel.bottomAnchor, constant: 2).isActive = true
+        runMotivationLabel.centerXAnchor.constraint(equalTo: runBlockSwitchView.centerXAnchor).isActive = true
+        runMotivationLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        runMotivationLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
     }
     
     //MARK: createConstraintsRunningTargetTimeLabel
     func createConstraintsRunTargetTimeLabel() {
-        runTargetTimeLabel.topAnchor.constraint(equalTo: runTargetTimeBlockView.topAnchor, constant: 20).isActive = true
+        runTargetTimeLabel.topAnchor.constraint(equalTo: runTargetTimeBlockView.topAnchor, constant: 10).isActive = true
         runTargetTimeLabel.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
         runTargetTimeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         runTargetTimeLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
@@ -752,7 +582,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: ConstraintsRunningStartButton
     func createConstraintsRunStartButton() {
-        runStartButton.topAnchor.constraint(equalTo: runParametersBlockView.bottomAnchor, constant: 10).isActive = true
+        runStartButton.topAnchor.constraint(equalTo: runStoreTableView.bottomAnchor, constant: 10).isActive = true
         runStartButton.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
         runStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         runStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
