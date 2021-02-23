@@ -19,6 +19,9 @@ class RunProcessViewController: UIViewController {
     var runCoordinates: [CLLocationCoordinate2D] = []
     var runDistance: Int = 0
     
+    typealias ReturnRoutine = (String, Int, Int, Date) -> ()
+    var runDataTransfer: ReturnRoutine?
+    
     //MARK: LOCATION MANAGER
     
     
@@ -116,8 +119,8 @@ class RunProcessViewController: UIViewController {
         view.addSubview(runTimerLabel)
         view.addSubview(runDistanceLabel)
         view.addSubview(stopRunButton)
-        createConstraintsRunnningBatmanImageView()
-        createConstraintsRunningMapView()
+        createConstraintsRunImageView()
+        createConstraintsRunMapView()
         createConstraintsRunTimerLabel()
         createConstraintsRunDistanceLabel()
         createConstraintsStopRunButton()
@@ -150,16 +153,16 @@ class RunProcessViewController: UIViewController {
 
     
     
-    //MARK: createConstraintsRunnningBatmanImageView
-     func createConstraintsRunnningBatmanImageView() {
+    //MARK: createConstraintsRunImageView
+     func createConstraintsRunImageView() {
          runBatmanImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
          runBatmanImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
          runBatmanImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         runBatmanImageView.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
      }
      
-     //MARK: createConstraintsRunningMapView
-      func createConstraintsRunningMapView() {
+     //MARK: createConstraintsRunMapView
+      func createConstraintsRunMapView() {
         runMapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
          runMapView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runMapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -203,7 +206,7 @@ class RunProcessViewController: UIViewController {
         self.runMapView.addOverlay(geodesic)
     }
     
-    func showRunDistanceToLabel(){
+    func showRunDistance(){
         if runCoordinates.count != 1 {
             let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
             let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
@@ -227,15 +230,20 @@ class RunProcessViewController: UIViewController {
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
 
-        let date = Date()
+        let currentDate = Date()
         let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
         
         newRunData.setValue(coordinates, forKey: "coordinates")
         newRunData.setValue(runTime, forKey: "time")
         newRunData.setValue(runDistance, forKey: "distance")
-        newRunData.setValue(date, forKey: "date")
+        newRunData.setValue(currentDate, forKey: "date")
+        
+
         do{
             try context.save()
+            if let runDataTransfer = runDataTransfer{
+                runDataTransfer(coordinates, runTime, runDistance, currentDate)
+            }
             self.dismiss(animated: true)
         }
         catch{
@@ -319,7 +327,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         updateLocationOnMap(to: runLocationManager.location!, with: "Warrior")
         drawRunDistance()
-        showRunDistanceToLabel()
+        showRunDistance()
     }
     
 }
