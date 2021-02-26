@@ -172,6 +172,17 @@ class RunViewController: UIViewController, TabItem {
     //MARK: BUTTON
     
     
+    //MARK: showValueChartButton
+    lazy var showValueChartButton:UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("value", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 2
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
     //MARK: runStartButton
     lazy var runStartButton: UIButton = {
@@ -206,6 +217,7 @@ class RunViewController: UIViewController, TabItem {
         runScrollView.addSubview(runActivityChartView)
         runScrollView.addSubview(runStatisticsLabel)
         runScrollView.addSubview(runMotivationLabel)
+        runScrollView.addSubview(showValueChartButton)
         runScrollView.addSubview(runFormatForChartSwitchView)
         runScrollView.addSubview(runBlockSwitchView)
   
@@ -224,6 +236,7 @@ class RunViewController: UIViewController, TabItem {
         createConstraintsRunBlockSwitchView()
         createConstraintsRunMotivationLabel()
         createConstraintsRunStatisticsLabel()
+        createConstraintsShowValueChartButton()
         createConstraintsRunStoreTableView()
         createConstraintsRunTargetTimeBlockView()
         createConstraintsRunTargetTimeLabel()
@@ -296,6 +309,7 @@ class RunViewController: UIViewController, TabItem {
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
+    
     }
     
     //MARK: getLineData
@@ -320,7 +334,12 @@ class RunViewController: UIViewController, TabItem {
         set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.mode = .cubicBezier
         set.drawValuesEnabled = true
-        set.valueFont = .systemFont(ofSize: 13)
+        if runFormatForChartSwitchView.index == 0 {
+            set.valueFont = .systemFont(ofSize: 13)
+        } else {
+            set.valueFont = .systemFont(ofSize: 9)
+        }
+  
         set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.axisDependency = .left
         
@@ -346,7 +365,11 @@ class RunViewController: UIViewController, TabItem {
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
         ]
         set.valueTextColor = .white
-        set.valueFont = .systemFont(ofSize: 13)
+        if runFormatForChartSwitchView.index == 0 {
+            set.valueFont = .systemFont(ofSize: 13)
+        } else {
+            set.valueFont = .systemFont(ofSize: 9)
+        }
         set.axisDependency = .left
           
         
@@ -547,6 +570,15 @@ class RunViewController: UIViewController, TabItem {
     //MARK:CONSTRAINTS BUTTON
     
 
+    
+    //MARK: createConstraintsShowValueChartButton
+    func createConstraintsShowValueChartButton() {
+        showValueChartButton.bottomAnchor.constraint(equalTo: runActivityChartView.bottomAnchor,constant: -5).isActive = true
+        showValueChartButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        showValueChartButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        showValueChartButton.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -5).isActive = true
+    }
+    
     
     //MARK: createConstraintsRunStartButton
     func createConstraintsRunStartButton() {
