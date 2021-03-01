@@ -269,11 +269,13 @@ extension RunProcessViewController: MKMapViewDelegate {
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
+            
             if runMapView.annotations.count == 1{
                 annotationView!.image = UIImage(named: "batman.png")
             } else {
                 annotationView!.image = UIImage(named: "queen.png")
             }
+            
         } else {
             if runMapView.annotations.count == 1{
                 annotationView!.image = UIImage(named: "batman.png")

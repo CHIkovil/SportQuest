@@ -25,6 +25,7 @@ class RunViewController: UIViewController, TabItem {
     var runDistanceStore: [Int] = []
     var runDateStore: [String] = []
     var runCoordinatesStore: [String] = []
+    var showValueChart: Bool = false
     
     //MARK: VIEW
     
@@ -181,6 +182,7 @@ class RunViewController: UIViewController, TabItem {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(showValueChart), for: .allEvents)
         return button
     }()
     
@@ -333,13 +335,16 @@ class RunViewController: UIViewController, TabItem {
         set.circleHoleRadius = 2.5
         set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.mode = .cubicBezier
-        set.drawValuesEnabled = true
         if runFormatForChartSwitchView.index == 0 {
             set.valueFont = .systemFont(ofSize: 13)
         } else {
             set.valueFont = .systemFont(ofSize: 9)
         }
-  
+        if showValueChart == true {
+            set.drawValuesEnabled = true
+        }else {
+            set.drawValuesEnabled = false
+        }
         set.valueTextColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.axisDependency = .left
         
@@ -370,9 +375,13 @@ class RunViewController: UIViewController, TabItem {
         } else {
             set.valueFont = .systemFont(ofSize: 9)
         }
+        if showValueChart == true {
+            set.drawValuesEnabled = true
+        }else {
+            set.drawValuesEnabled = false
+        }
         set.axisDependency = .left
           
-        
         let data =  BarChartData()
         data.dataSets = [set]
         data.barWidth = 0.9
@@ -427,6 +436,21 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: @OBJC
     
+    
+    
+    //MARK: enableShowValueChart
+    @objc func showValueChart(){
+        if showValueChart == true {
+            showValueChart = false
+        }else {
+            showValueChart = true
+        }
+        if runFormatForChartSwitchView.index == 0{
+            setWeekData()
+        }else {
+            setMonthData()
+        }
+    }
     
     //MARK: longPressRunStoreTableView
     @objc func longPressRunStoreTableView() {
