@@ -21,11 +21,9 @@ class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
-    var runTimeStore: [Int] = []
-    var runDistanceStore: [Int] = []
-    var runDateStore: [String] = []
-    var runCoordinatesStore: [String] = []
-    var showValueChart: Bool = false
+    var weekDataForChart: [Double]?
+    var monthDataForChart: [Double]?
+    var showValueCharts: Bool = false
     
     //MARK: VIEW
     
@@ -41,23 +39,9 @@ class RunViewController: UIViewController, TabItem {
         tableView.dataSource = self
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
         return tableView
     }()
 
-    
-    
-    //MARK: runScrollView
-    lazy var runScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentSize.height = 850
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.delegate = self
-        scrollView.bounces = false
-        scrollView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunScrollView)))
-        return scrollView
-    }()
     
     //MARK: runTargetTimeBlockView
     lazy var runTargetTimeBlockView:UIView = {
@@ -91,7 +75,7 @@ class RunViewController: UIViewController, TabItem {
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
-                              action: #selector(changeRunningActivityChart),
+                              action: #selector(changeRunActivityChart),
                               for: .valueChanged)
         return segmentView
     }()
@@ -105,7 +89,7 @@ class RunViewController: UIViewController, TabItem {
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
-                              action: #selector(changeRunBlock),
+                              action: #selector(changeBlock),
                               for: .valueChanged)
         return segmentView
     }()
@@ -136,7 +120,6 @@ class RunViewController: UIViewController, TabItem {
         circularPicker.options = [hourOption, minuteOption, secondOption]
         circularPicker.translatesAutoresizingMaskIntoConstraints = false
         circularPicker.delegate = self
-        circularPicker.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressRunStoreTableView)))
         return circularPicker
     }()
     
@@ -174,7 +157,7 @@ class RunViewController: UIViewController, TabItem {
     
     
     //MARK: showValueChartButton
-    lazy var showValueChartButton:UIButton = {
+    lazy var showValueChartsButton:UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("value", for: .normal)
@@ -182,7 +165,7 @@ class RunViewController: UIViewController, TabItem {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(showValueChart), for: .allEvents)
+        button.addTarget(self, action: #selector(showValueForChart), for: .touchUpInside)
         return button
     }()
     
@@ -212,26 +195,23 @@ class RunViewController: UIViewController, TabItem {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         loadAndParseRunStore()
-        
-        view.addSubview(runScrollView)
-        createConstraintsRunScrollView()
-        
-        runScrollView.addSubview(runActivityChartView)
-        runScrollView.addSubview(runStatisticsLabel)
-        runScrollView.addSubview(runMotivationLabel)
-        runScrollView.addSubview(showValueChartButton)
-        runScrollView.addSubview(runFormatForChartSwitchView)
-        runScrollView.addSubview(runBlockSwitchView)
+
+        view.addSubview(runActivityChartView)
+        view.addSubview(runStatisticsLabel)
+        view.addSubview(runMotivationLabel)
+        view.addSubview(showValueChartsButton)
+        view.addSubview(runFormatForChartSwitchView)
+        view.addSubview(runBlockSwitchView)
   
         
-        runScrollView.addSubview(runTargetTimeBlockView)
+        view.addSubview(runTargetTimeBlockView)
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
         runTargetTimeBlockView.addSubview(runTargetTimeView)
         
-        runScrollView.addSubview(runStoreTableView)
+        view.addSubview(runStoreTableView)
 
 
-        runScrollView.addSubview(runStartButton)
+        view.addSubview(runStartButton)
         
         createConstraintscreateRunActivityBarChartView()
         createConstraintsRunFormatForChartSwitchView()
@@ -262,23 +242,12 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: setWeekData
     func setWeekData() {
+        guard let weekData = weekDataForChart else {return}
+        
         let data = CombinedChartData()
         
-        let datesCurrentWeek = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .weekOfMonth,for: Date())!)
-        
-        var weekDataForCharts: [Double] = []
-        
-        datesCurrentWeek.map {date in
-            if runDateStore.contains(date) {
-                let result = runDistanceStore.enumerated().filter({runDateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
-                weekDataForCharts.append(Double(result))
-            } else {
-                weekDataForCharts.append(0)
-            }
-        }
-        
-        data.lineData = getLineData(dataForCharts: weekDataForCharts)
-        data.barData = getBarData(dataForCharts: weekDataForCharts)
+        data.lineData = getLineData(dataForCharts: weekData)
+        data.barData = getBarData(dataForCharts: weekData)
         
         runActivityChartView.xAxis.granularity = 1
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
@@ -289,29 +258,16 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: setMonthData
     func setMonthData() {
+        guard let monthData = monthDataForChart else {return}
         let data = CombinedChartData()
         
-        let datesCurrentMonth = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .month,for: Date())!)
-        
-        var monthDataForCharts: [Double] = []
-            
-        datesCurrentMonth.map {date in
-            if runDateStore.contains(date) {
-                let result = runDistanceStore.enumerated().filter({runDateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
-                monthDataForCharts.append(Double(result))
-            } else {
-                monthDataForCharts.append(0)
-            }
-        }
-        
-        data.lineData = getLineData(dataForCharts:monthDataForCharts)
-        data.barData = getBarData(dataForCharts:monthDataForCharts)
+        data.lineData = getLineData(dataForCharts:monthData)
+        data.barData = getBarData(dataForCharts:monthData)
         
         runActivityChartView.xAxis.granularity = 1
         runActivityChartView.xAxis.axisMaximum = data.xMax + 0.45
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         runActivityChartView.data = data
-    
     }
     
     //MARK: getLineData
@@ -340,7 +296,7 @@ class RunViewController: UIViewController, TabItem {
         } else {
             set.valueFont = .systemFont(ofSize: 9)
         }
-        if showValueChart == true {
+        if showValueCharts == true {
             set.drawValuesEnabled = true
         }else {
             set.drawValuesEnabled = false
@@ -375,7 +331,7 @@ class RunViewController: UIViewController, TabItem {
         } else {
             set.valueFont = .systemFont(ofSize: 9)
         }
-        if showValueChart == true {
+        if showValueCharts == true {
             set.drawValuesEnabled = true
         }else {
             set.drawValuesEnabled = false
@@ -393,22 +349,59 @@ class RunViewController: UIViewController, TabItem {
     func loadAndParseRunStore() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
         request.returnsObjectsAsFaults = false
+        
+        var timeStore: [Int] = []
+        var distanceStore: [Int] = []
+        var dateStore: [String] = []
+        var coordinatesStore: [String] = []
+        
         do {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
             let result = try context.fetch(request)
+            
             for data in result as! [NSManagedObject] {
-                runCoordinatesStore.append(data.value(forKey: "coordinates") as! String)
-                runTimeStore.append(data.value(forKey: "time") as! Int)
-                runDistanceStore.append(data.value(forKey: "distance") as! Int)
+                coordinatesStore.append(data.value(forKey: "coordinates") as! String)
+                timeStore.append(data.value(forKey: "time") as! Int)
+                distanceStore.append(data.value(forKey: "distance") as! Int)
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd-MM-yyyy"
-                runDateStore.append(dateFormatter.string(from: data.value(forKey: "date") as! Date))
+                dateStore.append(dateFormatter.string(from: data.value(forKey: "date") as! Date))
             }
+            
         } catch {
-            print("Failed")
+            showValueChartsButton.isHidden = true
+            return
         }
+        
+        var weekDataForChart: [Double] = []
+        var monthDataForChart: [Double] = []
+        
+        let datesCurrentWeek = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .weekOfMonth,for: Date())!)
+        let datesCurrentMonth = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .month,for: Date())!)
+        
+        for date in datesCurrentWeek {
+            if dateStore.contains(date) {
+                let result = distanceStore.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                weekDataForChart.append(Double(result))
+            } else {
+                weekDataForChart.append(0)
+            }
+        }
+        
+        for date in datesCurrentMonth {
+            if dateStore.contains(date) {
+                let result = distanceStore.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                monthDataForChart.append(Double(result))
+            } else {
+                monthDataForChart.append(0)
+            }
+        }
+
+        self.weekDataForChart = weekDataForChart
+        self.monthDataForChart = monthDataForChart
+        showValueChartsButton.isHidden = false
     }
     
     
@@ -438,12 +431,14 @@ class RunViewController: UIViewController, TabItem {
     
     
     
-    //MARK: enableShowValueChart
-    @objc func showValueChart(){
-        if showValueChart == true {
-            showValueChart = false
+    //MARK: showValueChart
+    @objc func showValueForChart(){
+        if showValueCharts == true {
+            showValueCharts = false
+            showValueChartsButton.layer.borderColor = UIColor.white.cgColor
         }else {
-            showValueChart = true
+            showValueCharts = true
+            showValueChartsButton.layer.borderColor = UIColor.yellow.cgColor
         }
         if runFormatForChartSwitchView.index == 0{
             setWeekData()
@@ -452,26 +447,8 @@ class RunViewController: UIViewController, TabItem {
         }
     }
     
-    //MARK: longPressRunStoreTableView
-    @objc func longPressRunStoreTableView() {
-        if runScrollView.isScrollEnabled == true {
-            runScrollView.isScrollEnabled = false
-        }
-    }
-    //MARK: swipingRunStoreTableView
-    @objc func swipingRunStoreTableView() {
-        runStoreTableView.isScrollEnabled = true
-        runScrollView.isScrollEnabled = false
-    }
-    
-    //MARK: swipingRunScrollView
-    @objc func swipingRunScrollView() {
-        runStoreTableView.isScrollEnabled = false
-        runScrollView.isScrollEnabled = true
-    }
-    
-    //MARK: changeRunningActivityChart
-    @objc func changeRunningActivityChart(){
+    //MARK: changeRunActivityChart
+    @objc func changeRunActivityChart(){
         if runFormatForChartSwitchView.index == 0 {
             setWeekData()
         }else{
@@ -479,8 +456,8 @@ class RunViewController: UIViewController, TabItem {
         }
     }
     
-    //MARK: changeRunBlock
-    @objc func changeRunBlock(){
+    //MARK: changeBlock
+    @objc func changeBlock(){
         if runBlockSwitchView.index == 0 {
             runTargetTimeBlockView.isHidden = false
             runStoreTableView.isHidden = true
@@ -506,18 +483,11 @@ class RunViewController: UIViewController, TabItem {
     
     
     
-    //MARK: createConstraintsRunScrollView
-    func createConstraintsRunScrollView() {
-        runScrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        runScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        runScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        runScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
     
     //MARK: createConstraintsRunStoreTableView
     func createConstraintsRunStoreTableView() {
         runStoreTableView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runStoreTableView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runStoreTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runStoreTableView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runStoreTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
@@ -525,15 +495,15 @@ class RunViewController: UIViewController, TabItem {
     //MARK: createConstraintsRunTargetTimeBlockView
     func createConstraintsRunTargetTimeBlockView() {
         runTargetTimeBlockView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runTargetTimeBlockView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runTargetTimeBlockView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runTargetTimeBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runTargetTimeBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
     //MARK: createConstraintscreateRunActivityBarChartView
     func createConstraintscreateRunActivityBarChartView() {
-        runActivityChartView.topAnchor.constraint(equalTo: runScrollView.topAnchor, constant: 50).isActive = true
-        runActivityChartView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runActivityChartView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        runActivityChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runActivityChartView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         runActivityChartView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
@@ -541,7 +511,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: createConstraintsRunFormatForChartSwitchView
     func createConstraintsRunFormatForChartSwitchView() {
         runFormatForChartSwitchView.topAnchor.constraint(equalTo: runMotivationLabel.bottomAnchor, constant: 10).isActive = true
-        runFormatForChartSwitchView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runFormatForChartSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runFormatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         runFormatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
@@ -549,7 +519,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: createConstraintsRunBlockSwitchView
     func createConstraintsRunBlockSwitchView() {
         runBlockSwitchView.topAnchor.constraint(equalTo: runFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
-        runBlockSwitchView.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runBlockSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runBlockSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         runBlockSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
@@ -597,17 +567,17 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsShowValueChartButton
     func createConstraintsShowValueChartButton() {
-        showValueChartButton.bottomAnchor.constraint(equalTo: runActivityChartView.bottomAnchor,constant: -5).isActive = true
-        showValueChartButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        showValueChartButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        showValueChartButton.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -5).isActive = true
+        showValueChartsButton.bottomAnchor.constraint(equalTo: runActivityChartView.bottomAnchor,constant: -5).isActive = true
+        showValueChartsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        showValueChartsButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        showValueChartsButton.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -5).isActive = true
     }
     
     
     //MARK: createConstraintsRunStartButton
     func createConstraintsRunStartButton() {
         runStartButton.topAnchor.constraint(equalTo: runStoreTableView.bottomAnchor, constant: 10).isActive = true
-        runStartButton.centerXAnchor.constraint(equalTo: runScrollView.centerXAnchor).isActive = true
+        runStartButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         runStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
@@ -637,26 +607,14 @@ extension RunViewController: AGCircularPickerDelegate {
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if runDistanceStore.isEmpty == false{
-            return runDistanceStore.count
-        }
-        else{
             return 10
-        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        
-        if runDistanceStore.isEmpty == false{
-            cell.textLabel?.text = String(runDistanceStore[indexPath.row])
-            cell.textLabel?.textColor = .black
-            return cell
-        }else{
-            cell.textLabel?.text = "1111"
-            return cell
-        }
+        cell.textLabel?.text = "1111"
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
