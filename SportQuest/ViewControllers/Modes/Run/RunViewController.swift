@@ -69,7 +69,7 @@ class RunViewController: UIViewController, TabItem {
     }()
     
     //MARK: formatForChartSwitchView
-    lazy var runFormatForChartSwitchView: BetterSegmentedControl = {
+    lazy var formatForChartSwitchView: BetterSegmentedControl = {
         let segmentView = BetterSegmentedControl(frame: CGRect(), segments: LabelSegment.segments(withTitles:["Week","Month"], normalTextColor: .lightGray,
         selectedTextColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
         segmentView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,8 +80,8 @@ class RunViewController: UIViewController, TabItem {
         return segmentView
     }()
     
-    //MARK: runBlockSwitchView
-    lazy var runBlockSwitchView: BetterSegmentedControl = {
+    //MARK: blockSwitchView
+    lazy var targetBlockSwitchView: BetterSegmentedControl = {
         let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "target.png")!, UIImage(named: "cloud-computing.png")!],
                                        iconSize: CGSize(width: 30, height: 30),
                                        normalIconTintColor: .lightGray,
@@ -89,7 +89,7 @@ class RunViewController: UIViewController, TabItem {
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
-                              action: #selector(changeBlock),
+                              action: #selector(changeTargetBlock),
                               for: .valueChanged)
         return segmentView
     }()
@@ -125,8 +125,8 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: LABEL
     
-    //MARK: runningMotivationLabel
-    lazy var runMotivationLabel:MarqueeLabel = {
+    //MARK: motivationLabel
+    lazy var motivationLabel:MarqueeLabel = {
         let text = "When you’re riding, only the race in which you’re riding is important."
         let label = MarqueeLabel(frame: CGRect(), duration: 8.0, fadeLength: CGFloat(text.count))
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -198,10 +198,10 @@ class RunViewController: UIViewController, TabItem {
 
         view.addSubview(runActivityChartView)
         view.addSubview(runStatisticsLabel)
-        view.addSubview(runMotivationLabel)
+        view.addSubview(motivationLabel)
         view.addSubview(showValueChartsButton)
-        view.addSubview(runFormatForChartSwitchView)
-        view.addSubview(runBlockSwitchView)
+        view.addSubview(formatForChartSwitchView)
+        view.addSubview(targetBlockSwitchView)
   
         
         view.addSubview(runTargetTimeBlockView)
@@ -213,12 +213,12 @@ class RunViewController: UIViewController, TabItem {
 
         view.addSubview(runStartButton)
         
-        createConstraintscreateRunActivityBarChartView()
-        createConstraintsRunFormatForChartSwitchView()
-        createConstraintsRunBlockSwitchView()
-        createConstraintsRunMotivationLabel()
+        createConstraintsRunActivityChartView()
+        createConstraintsFormatForChartSwitchView()
+        createConstraintsTargetBlockSwitchView()
+        createConstraintsMotivationLabel()
         createConstraintsRunStatisticsLabel()
-        createConstraintsShowValueChartButton()
+        createConstraintsShowValueChartsButton()
         createConstraintsRunStoreTableView()
         createConstraintsRunTargetTimeBlockView()
         createConstraintsRunTargetTimeLabel()
@@ -273,7 +273,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: getLineData
     func getLineData(dataForCharts:[Double]) -> LineChartData {
         let entries: [ChartDataEntry];
-        if runFormatForChartSwitchView.index == 0{
+        if formatForChartSwitchView.index == 0{
            entries = (0..<7).map { (i) -> ChartDataEntry in
                 return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
             }
@@ -291,7 +291,7 @@ class RunViewController: UIViewController, TabItem {
         set.circleHoleRadius = 2.5
         set.fillColor = UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1)
         set.mode = .cubicBezier
-        if runFormatForChartSwitchView.index == 0 {
+        if formatForChartSwitchView.index == 0 {
             set.valueFont = .systemFont(ofSize: 13)
         } else {
             set.valueFont = .systemFont(ofSize: 9)
@@ -310,7 +310,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: getBarData
     func getBarData(dataForCharts: [Double]) -> BarChartData {
         let entries: [ChartDataEntry];
-        if runFormatForChartSwitchView.index == 0 {
+        if formatForChartSwitchView.index == 0 {
             entries = (0..<7).map { (i) -> BarChartDataEntry in
                  return BarChartDataEntry(x: Double(i), yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
              }
@@ -326,7 +326,7 @@ class RunViewController: UIViewController, TabItem {
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
         ]
         set.valueTextColor = .white
-        if runFormatForChartSwitchView.index == 0 {
+        if formatForChartSwitchView.index == 0 {
             set.valueFont = .systemFont(ofSize: 13)
         } else {
             set.valueFont = .systemFont(ofSize: 9)
@@ -431,7 +431,7 @@ class RunViewController: UIViewController, TabItem {
     
     
     
-    //MARK: showValueChart
+    //MARK: showValueForChart
     @objc func showValueForChart(){
         if showValueCharts == true {
             showValueCharts = false
@@ -440,7 +440,7 @@ class RunViewController: UIViewController, TabItem {
             showValueCharts = true
             showValueChartsButton.layer.borderColor = UIColor.yellow.cgColor
         }
-        if runFormatForChartSwitchView.index == 0{
+        if formatForChartSwitchView.index == 0{
             setWeekData()
         }else {
             setMonthData()
@@ -449,21 +449,21 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: changeRunActivityChart
     @objc func changeRunActivityChart(){
-        if runFormatForChartSwitchView.index == 0 {
+        if formatForChartSwitchView.index == 0 {
             setWeekData()
         }else{
             setMonthData()
         }
     }
     
-    //MARK: changeBlock
-    @objc func changeBlock(){
-        if runBlockSwitchView.index == 0 {
+    //MARK: changeTargetBlock
+    @objc func changeTargetBlock(){
+        if targetBlockSwitchView.index == 0 {
             runTargetTimeBlockView.isHidden = false
             runStoreTableView.isHidden = true
 
         }
-        if runBlockSwitchView.index == 1 {
+        if targetBlockSwitchView.index == 1 {
             runTargetTimeBlockView.isHidden = true
             runStoreTableView.isHidden = false
 
@@ -486,7 +486,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunStoreTableView
     func createConstraintsRunStoreTableView() {
-        runStoreTableView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runStoreTableView.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runStoreTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runStoreTableView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runStoreTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
@@ -494,34 +494,34 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunTargetTimeBlockView
     func createConstraintsRunTargetTimeBlockView() {
-        runTargetTimeBlockView.topAnchor.constraint(equalTo: runBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runTargetTimeBlockView.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runTargetTimeBlockView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runTargetTimeBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         runTargetTimeBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
-    //MARK: createConstraintscreateRunActivityBarChartView
-    func createConstraintscreateRunActivityBarChartView() {
+    //MARK: createConstraintsRunActivityChartView
+    func createConstraintsRunActivityChartView() {
         runActivityChartView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         runActivityChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         runActivityChartView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         runActivityChartView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
-    //MARK: createConstraintsRunFormatForChartSwitchView
-    func createConstraintsRunFormatForChartSwitchView() {
-        runFormatForChartSwitchView.topAnchor.constraint(equalTo: runMotivationLabel.bottomAnchor, constant: 10).isActive = true
-        runFormatForChartSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runFormatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        runFormatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+    //MARK: createConstraintsFormatForChartSwitchView
+    func createConstraintsFormatForChartSwitchView() {
+        formatForChartSwitchView.topAnchor.constraint(equalTo: motivationLabel.bottomAnchor, constant: 10).isActive = true
+        formatForChartSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        formatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        formatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
-    //MARK: createConstraintsRunBlockSwitchView
-    func createConstraintsRunBlockSwitchView() {
-        runBlockSwitchView.topAnchor.constraint(equalTo: runFormatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
-        runBlockSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runBlockSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        runBlockSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+    //MARK: createConstraintsTargetBlockSwitchView
+    func createConstraintsTargetBlockSwitchView() {
+        targetBlockSwitchView.topAnchor.constraint(equalTo: formatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
+        targetBlockSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        targetBlockSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        targetBlockSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
     //MARK: createConstraintsRunTargetTimeView
@@ -541,17 +541,17 @@ class RunViewController: UIViewController, TabItem {
     //MARK: createConstraintsRunStatisticsLabel
      func createConstraintsRunStatisticsLabel() {
         runStatisticsLabel.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 2).isActive = true
-         runStatisticsLabel.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
-         runStatisticsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-         runStatisticsLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        runStatisticsLabel.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
+        runStatisticsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        runStatisticsLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
      }
     
-    //MARK: createConstraintsRunMotivationLabel
-    func createConstraintsRunMotivationLabel() {
-        runMotivationLabel.topAnchor.constraint(equalTo: runStatisticsLabel.bottomAnchor, constant: 2).isActive = true
-        runMotivationLabel.centerXAnchor.constraint(equalTo: runBlockSwitchView.centerXAnchor).isActive = true
-        runMotivationLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        runMotivationLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
+    //MARK: createConstraintsMotivationLabel
+    func createConstraintsMotivationLabel() {
+        motivationLabel.topAnchor.constraint(equalTo: runStatisticsLabel.bottomAnchor, constant: 2).isActive = true
+        motivationLabel.centerXAnchor.constraint(equalTo: targetBlockSwitchView.centerXAnchor).isActive = true
+        motivationLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        motivationLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
     }
     
     //MARK: createConstraintsRunTargetTimeLabel
@@ -561,12 +561,13 @@ class RunViewController: UIViewController, TabItem {
         runTargetTimeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         runTargetTimeLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
+    
     //MARK:CONSTRAINTS BUTTON
     
 
     
-    //MARK: createConstraintsShowValueChartButton
-    func createConstraintsShowValueChartButton() {
+    //MARK: createConstraintsShowValueChartsButton
+    func createConstraintsShowValueChartsButton() {
         showValueChartsButton.bottomAnchor.constraint(equalTo: runActivityChartView.bottomAnchor,constant: -5).isActive = true
         showValueChartsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         showValueChartsButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
@@ -584,7 +585,8 @@ class RunViewController: UIViewController, TabItem {
     
 }
 
-//MARK: extension
+//MARK: EXTENSION
+
 extension RunViewController: AGCircularPickerDelegate {
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
@@ -603,7 +605,6 @@ extension RunViewController: AGCircularPickerDelegate {
     }
     
 }
-
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -624,7 +625,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension RunViewController: IAxisValueFormatter{
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        if runFormatForChartSwitchView.index == 0 {
+        if formatForChartSwitchView.index == 0 {
             return daysWeek[Int(value) % daysWeek.count]
         }
         else{
@@ -632,5 +633,3 @@ extension RunViewController: IAxisValueFormatter{
         }
     }
 }
-
-
