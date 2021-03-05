@@ -17,7 +17,6 @@ pod 'WCLShineButton'
 pod 'AMTabView'
 pod 'Charts'
 pod 'BetterSegmentedControl'
-pod 'fluid-slider'
 pod 'MarqueeLabel'
 pod "AGCircularPicker"
 pod 'SwiftGifOrigin'

@@ -10,14 +10,14 @@ import UIKit
 import AMTabView
 import BetterSegmentedControl
 import Charts
-import fluid_slider
 import MarqueeLabel
 import AGCircularPicker
 import CoreData
-import  Foundation
+import Foundation
 
 
 class RunViewController: UIViewController, TabItem {
+    
     //MARK: let, var
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
@@ -27,18 +27,31 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: VIEW
     
+    //MARK: scrollView
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentSize.height = 950
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
+        scrollView.bounces = false
+        scrollView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingScrollView)))
+        return scrollView
+    }()
+    
     //MARK: runStoreTableView
     lazy var runStoreTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.borderWidth = 2
         tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 30
+        tableView.layer.cornerRadius = 40
         tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
+        tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
         return tableView
     }()
 
@@ -49,7 +62,18 @@ class RunViewController: UIViewController, TabItem {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 30
+        view.layer.cornerRadius = 40
+        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        return view
+    }()
+    
+    //MARK: runStoreBlockView
+    lazy var runStoreBlockView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.cornerRadius = 40
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return view
     }()
@@ -94,8 +118,12 @@ class RunViewController: UIViewController, TabItem {
         return segmentView
     }()
     
-    //MARK: runTargetTimeView
-    lazy var runTargetTimeView:AGCircularPicker = {
+    //MARK: PICKER
+    
+    
+    
+    //MARK: runTargetTimePicker
+    lazy var runTargetTimePicker:AGCircularPicker = {
         let circularPicker = AGCircularPicker()
         let hourColor1 = UIColor.rgb_color(r: 0, g: 237, b: 233)
         let hourColor2 = UIColor.rgb_color(r: 0, g: 135, b: 217)
@@ -176,7 +204,7 @@ class RunViewController: UIViewController, TabItem {
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = #colorLiteral(red: 0.883168757, green: 0.2952281535, blue: 0.2945016026, alpha: 1)
         button.backgroundColor = .white
-        button.frame = CGRect(x: 0, y: 0 , width: 100, height: 100)
+        button.frame = CGRect(x: 0, y: 0 , width: 110, height: 110)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.setImage(UIImage(named:"flame.png"), for: .normal)
@@ -195,23 +223,28 @@ class RunViewController: UIViewController, TabItem {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         loadAndParseRunStore()
-
-        view.addSubview(runActivityChartView)
-        view.addSubview(runStatisticsLabel)
-        view.addSubview(motivationLabel)
-        view.addSubview(showValueChartsButton)
-        view.addSubview(formatForChartSwitchView)
-        view.addSubview(targetBlockSwitchView)
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(runActivityChartView)
+        scrollView.addSubview(runStatisticsLabel)
+        scrollView.addSubview(motivationLabel)
+        scrollView.addSubview(showValueChartsButton)
+        scrollView.addSubview(formatForChartSwitchView)
+        scrollView.addSubview(targetBlockSwitchView)
   
         
-        view.addSubview(runTargetTimeBlockView)
+        scrollView.addSubview(runTargetTimeBlockView)
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
-        runTargetTimeBlockView.addSubview(runTargetTimeView)
+        runTargetTimeBlockView.addSubview(runTargetTimePicker)
         
-        view.addSubview(runStoreTableView)
+        scrollView.addSubview(runStoreBlockView)
+        runStoreBlockView.addSubview(runStoreTableView)
 
 
-        view.addSubview(runStartButton)
+        scrollView.addSubview(runStartButton)
+        
+        
+        createConstraintsScrollView()
         
         createConstraintsRunActivityChartView()
         createConstraintsFormatForChartSwitchView()
@@ -219,14 +252,17 @@ class RunViewController: UIViewController, TabItem {
         createConstraintsMotivationLabel()
         createConstraintsRunStatisticsLabel()
         createConstraintsShowValueChartsButton()
+        
+        createConstraintsRunStoreBlockView()
         createConstraintsRunStoreTableView()
+        
         createConstraintsRunTargetTimeBlockView()
         createConstraintsRunTargetTimeLabel()
         createConstraintsRunTargetTimeView()
         createConstraintsRunStartButton()
 
         runTargetTimeBlockView.isHidden = false
-        runStoreTableView.isHidden = true
+        runStoreBlockView.isHidden = true
         
     }
     
@@ -431,6 +467,23 @@ class RunViewController: UIViewController, TabItem {
     
     
     
+    //MARK: rotationTargetTimePicker
+    @objc func rotationTargetTimePicker() {
+        scrollView.isScrollEnabled = false
+    }
+    
+    //MARK: swipingRunStoreTableView
+    @objc func swipingRunStoreTableView() {
+        runStoreTableView.isScrollEnabled = true
+        scrollView.isScrollEnabled = false
+    }
+    
+    //MARK: swipingScrollView
+    @objc func swipingScrollView() {
+        runStoreTableView.isScrollEnabled = false
+        scrollView.isScrollEnabled = true
+    }
+    
     //MARK: showValueForChart
     @objc func showValueForChart(){
         if showValueCharts == true {
@@ -460,12 +513,12 @@ class RunViewController: UIViewController, TabItem {
     @objc func changeTargetBlock(){
         if targetBlockSwitchView.index == 0 {
             runTargetTimeBlockView.isHidden = false
-            runStoreTableView.isHidden = true
+            runStoreBlockView.isHidden = true
 
         }
         if targetBlockSwitchView.index == 1 {
             runTargetTimeBlockView.isHidden = true
-            runStoreTableView.isHidden = false
+            runStoreBlockView.isHidden = false
 
         }
     }
@@ -484,55 +537,72 @@ class RunViewController: UIViewController, TabItem {
     
     
     
-    //MARK: createConstraintsRunStoreTableView
-    func createConstraintsRunStoreTableView() {
-        runStoreTableView.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runStoreTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runStoreTableView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runStoreTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
-    }
     
-    //MARK: createConstraintsRunTargetTimeBlockView
-    func createConstraintsRunTargetTimeBlockView() {
-        runTargetTimeBlockView.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
-        runTargetTimeBlockView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runTargetTimeBlockView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        runTargetTimeBlockView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+    //MARK: createConstraintsScrollView
+    func createConstraintsScrollView() {
+        scrollView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
     //MARK: createConstraintsRunActivityChartView
     func createConstraintsRunActivityChartView() {
-        runActivityChartView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        runActivityChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runActivityChartView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        runActivityChartView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 70).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
     }
     
     //MARK: createConstraintsFormatForChartSwitchView
     func createConstraintsFormatForChartSwitchView() {
-        formatForChartSwitchView.topAnchor.constraint(equalTo: motivationLabel.bottomAnchor, constant: 10).isActive = true
-        formatForChartSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        formatForChartSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        formatForChartSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        formatForChartSwitchView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: motivationLabel.bottomAnchor, constant: 10).isActive = true
+        formatForChartSwitchView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        formatForChartSwitchView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        formatForChartSwitchView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
     }
+    
     
     //MARK: createConstraintsTargetBlockSwitchView
     func createConstraintsTargetBlockSwitchView() {
-        targetBlockSwitchView.topAnchor.constraint(equalTo: formatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
-        targetBlockSwitchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        targetBlockSwitchView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        targetBlockSwitchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        targetBlockSwitchView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: formatForChartSwitchView.bottomAnchor, constant: 10).isActive = true
+        targetBlockSwitchView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        targetBlockSwitchView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        targetBlockSwitchView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+    }
+    
+    //MARK: createConstraintsRunStoreBlockView
+    func createConstraintsRunStoreBlockView() {
+        runStoreBlockView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runStoreBlockView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        runStoreBlockView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        runStoreBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+    }
+    
+    //MARK: createConstraintsRunStoreTableView
+    func createConstraintsRunStoreTableView() {
+        runStoreTableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.topAnchor).isActive = true
+        runStoreTableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor).isActive = true
+        runStoreTableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: runStoreBlockView.leadingAnchor).isActive = true
+        runStoreTableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runStoreBlockView.trailingAnchor).isActive = true
+
+    }
+    
+    //MARK: createConstraintsRunTargetTimeBlockView
+    func createConstraintsRunTargetTimeBlockView() {
+        runTargetTimeBlockView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
+        runTargetTimeBlockView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        runTargetTimeBlockView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        runTargetTimeBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
     }
     
     //MARK: createConstraintsRunTargetTimeView
     func createConstraintsRunTargetTimeView() {
-        runTargetTimeView.topAnchor.constraint(equalTo: runTargetTimeLabel.bottomAnchor, constant: -10).isActive = true
-        runTargetTimeView.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
-        runTargetTimeView.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        runTargetTimeView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        runTargetTimePicker.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runTargetTimeLabel.bottomAnchor, constant: -5).isActive = true
+        runTargetTimePicker.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
+        runTargetTimePicker.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 125).isActive = true
+        runTargetTimePicker.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
     }
-    
- 
     
     //MARK: CONSTRAINTS LABEL
     
@@ -540,26 +610,26 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunStatisticsLabel
      func createConstraintsRunStatisticsLabel() {
-        runStatisticsLabel.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 2).isActive = true
-        runStatisticsLabel.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
-        runStatisticsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        runStatisticsLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        runStatisticsLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 10).isActive = true
+        runStatisticsLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
+        runStatisticsLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        runStatisticsLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.75).isActive = true
      }
     
     //MARK: createConstraintsMotivationLabel
     func createConstraintsMotivationLabel() {
-        motivationLabel.topAnchor.constraint(equalTo: runStatisticsLabel.bottomAnchor, constant: 2).isActive = true
-        motivationLabel.centerXAnchor.constraint(equalTo: targetBlockSwitchView.centerXAnchor).isActive = true
-        motivationLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        motivationLabel.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        motivationLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStatisticsLabel.bottomAnchor, constant: 10).isActive = true
+        motivationLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: targetBlockSwitchView.centerXAnchor).isActive = true
+        motivationLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        motivationLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.75).isActive = true
     }
     
     //MARK: createConstraintsRunTargetTimeLabel
     func createConstraintsRunTargetTimeLabel() {
-        runTargetTimeLabel.topAnchor.constraint(equalTo: runTargetTimeBlockView.topAnchor, constant: 10).isActive = true
-        runTargetTimeLabel.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
-        runTargetTimeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        runTargetTimeLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        runTargetTimeLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runTargetTimeBlockView.topAnchor, constant: 10).isActive = true
+        runTargetTimeLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
+        runTargetTimeLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        runTargetTimeLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     //MARK:CONSTRAINTS BUTTON
@@ -568,19 +638,19 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsShowValueChartsButton
     func createConstraintsShowValueChartsButton() {
-        showValueChartsButton.bottomAnchor.constraint(equalTo: runActivityChartView.bottomAnchor,constant: -5).isActive = true
-        showValueChartsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        showValueChartsButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        showValueChartsButton.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -5).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runActivityChartView.topAnchor).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -10).isActive = true
     }
     
     
     //MARK: createConstraintsRunStartButton
     func createConstraintsRunStartButton() {
-        runStartButton.topAnchor.constraint(equalTo: runStoreTableView.bottomAnchor, constant: 10).isActive = true
-        runStartButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runStartButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runStartButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        runStartButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor, constant: 10).isActive = true
+        runStartButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        runStartButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        runStartButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 110).isActive = true
     }
     
 }
@@ -594,7 +664,7 @@ extension RunViewController: AGCircularPickerDelegate {
         let attributedString = NSMutableAttributedString(string:fullString)
         let fullRange = (fullString as NSString).range(of: fullString)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white.withAlphaComponent(0.5), range: fullRange)
-        attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.bold), range: fullRange)
+        attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold), range: fullRange)
         
         let range = NSMakeRange(selectedIndex * 2 + selectedIndex, 2)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: values[selectedIndex].color, range: range)
@@ -608,7 +678,7 @@ extension RunViewController: AGCircularPickerDelegate {
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 10
+            return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
