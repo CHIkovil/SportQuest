@@ -21,6 +21,12 @@ class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
+    
+    var runTimeStore: [Int]?
+    var runDistanceStore: [Int]?
+    var runDateStore: [String]?
+    var runCoordinatesStore: [String]?
+    
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
     var showValueCharts: Bool = false
@@ -222,7 +228,8 @@ class RunViewController: UIViewController, TabItem {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
-        loadAndParseRunStore()
+        loadRunStore()
+        parseRunStore()
         
         view.addSubview(scrollView)
         scrollView.addSubview(runActivityChartView)
@@ -381,15 +388,15 @@ class RunViewController: UIViewController, TabItem {
         return data
     }
 
-    //MARK: loadAndParseRunStore
-    func loadAndParseRunStore() {
+    //MARK: loadRunStore
+    func loadRunStore() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
         request.returnsObjectsAsFaults = false
         
-        var timeStore: [Int] = []
+        var coordinatesStore:[String] = []
+        var timeStore:[Int] = []
         var distanceStore: [Int] = []
         var dateStore: [String] = []
-        var coordinatesStore: [String] = []
         
         do {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -411,6 +418,16 @@ class RunViewController: UIViewController, TabItem {
             return
         }
         
+        runTimeStore = timeStore
+        runDistanceStore = distanceStore
+        runCoordinatesStore = coordinatesStore
+        runDateStore = dateStore
+    }
+    
+    //MARK: parseRunStore
+    func parseRunStore() {
+        guard let dateStore = runDateStore else {return}
+        
         var weekDataForChart: [Double] = []
         var monthDataForChart: [Double] = []
         
@@ -419,7 +436,7 @@ class RunViewController: UIViewController, TabItem {
         
         for date in datesCurrentWeek {
             if dateStore.contains(date) {
-                let result = distanceStore.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
                 weekDataForChart.append(Double(result))
             } else {
                 weekDataForChart.append(0)
@@ -428,7 +445,7 @@ class RunViewController: UIViewController, TabItem {
         
         for date in datesCurrentMonth {
             if dateStore.contains(date) {
-                let result = distanceStore.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
                 monthDataForChart.append(Double(result))
             } else {
                 monthDataForChart.append(0)
@@ -439,7 +456,6 @@ class RunViewController: UIViewController, TabItem {
         self.monthDataForChart = monthDataForChart
         showValueChartsButton.isHidden = false
     }
-    
     
     //MARK: getAllDaysWeekOrMonth
     func getAllDaysWeekOrMonth(dateInterval: DateInterval) -> [String] {
