@@ -19,8 +19,7 @@ class RunProcessViewController: UIViewController {
     var runCoordinates: [CLLocationCoordinate2D] = []
     var runDistance: Int = 0
     
-    typealias ReturnRoutine = (String, Int, Int, Date) -> ()
-    var runDataTransfer: ReturnRoutine?
+    var runDataTransfer: ((Int, Int, String, String) -> ())?
     
     //MARK: LOCATION MANAGER
     
@@ -189,7 +188,7 @@ class RunProcessViewController: UIViewController {
        runDistanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
-    //MARK: CONSTRAINTS LABEL
+    //MARK: CONSTRAINTS BUTTON
     
     
     //MARK: createConstraintsStopRunButton
@@ -199,14 +198,17 @@ class RunProcessViewController: UIViewController {
         stopRunButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         stopRunButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
+    
     //MARK: FUNC
+    
+    
     func drawRunDistance(){
         runCoordinates.append(runLocationManager.location!.coordinate)
         let geodesic = MKGeodesicPolyline(coordinates: runCoordinates, count: runCoordinates.count)
         self.runMapView.addOverlay(geodesic)
     }
     
-    func showRunDistance(){
+    func showRunDistanceToLabel(){
         if runCoordinates.count != 1 {
             let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
             let from = CLLocation(latitude: runCoordinates[runCoordinates.count - 2].latitude, longitude: runCoordinates[runCoordinates.count - 2].longitude)
@@ -229,8 +231,10 @@ class RunProcessViewController: UIViewController {
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
-
-        let currentDate = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        let currentDate = dateFormatter.string(from: Date())
         let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
         
         newRunData.setValue(coordinates, forKey: "coordinates")
@@ -242,7 +246,7 @@ class RunProcessViewController: UIViewController {
         do{
             try context.save()
             if let runDataTransfer = runDataTransfer{
-                runDataTransfer(coordinates, runTime, runDistance, currentDate)
+                runDataTransfer(runTime, runDistance, coordinates, currentDate)
             }
             self.dismiss(animated: true)
         }
@@ -266,26 +270,26 @@ extension RunProcessViewController: MKMapViewDelegate {
         let identifier = "MyCustomAnnotation"
 
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
-            
-            if runMapView.annotations.count == 1{
+            if mapView.annotations.count == 1{
                 annotationView!.image = UIImage(named: "batman.png")
-            } else {
+            }else{
                 annotationView!.image = UIImage(named: "queen.png")
             }
-            
+            return annotationView
         } else {
-            if runMapView.annotations.count == 1{
+            if mapView.annotations.count == 1{
                 annotationView!.image = UIImage(named: "batman.png")
-            } else {
+            } else{
                 annotationView!.image = UIImage(named: "queen.png")
             }
             annotationView!.annotation = annotation
+            return annotationView
         }
-
-        return annotationView
+      
     }
 
 
@@ -329,7 +333,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         updateLocationOnMap(to: runLocationManager.location!, with: "Warrior")
         drawRunDistance()
-        showRunDistance()
+        showRunDistanceToLabel()
     }
     
 }
