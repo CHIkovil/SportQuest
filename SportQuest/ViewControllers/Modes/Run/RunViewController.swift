@@ -51,7 +51,7 @@ class RunViewController: UIViewController, TabItem {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.borderWidth = 2
         tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 40
+        tableView.layer.cornerRadius = 30
         tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
@@ -80,7 +80,7 @@ class RunViewController: UIViewController, TabItem {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 40
+        view.layer.cornerRadius = 30
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         view.isHidden = true
         return view
@@ -281,7 +281,6 @@ class RunViewController: UIViewController, TabItem {
     
     
     
- 
     //MARK: setWeekData
     func setWeekData() {
         guard let weekData = weekDataForChart else {return}
@@ -703,14 +702,34 @@ extension RunViewController: AGCircularPickerDelegate {
 }
 
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 7
+    }
+    
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 7
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .gray
+        return view
     }
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         cell.textLabel?.text = "1111"
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 8
+        cell.clipsToBounds = true
+        
         return cell
     }
     
