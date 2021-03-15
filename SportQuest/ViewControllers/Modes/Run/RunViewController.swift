@@ -270,12 +270,97 @@ class RunViewController: UIViewController, TabItem {
         parseActivityChartStore()
         parseTableStore()
         setWeekData()
-        runStoreTableView.reloadData()
     }
     
     //MARK: FUNC
     
     
+    
+    //MARK: loadRunStore
+    func loadRunStore() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
+        request.returnsObjectsAsFaults = false
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        
+        var coordinatesStore:[String] = []
+        var timeStore:[Int] = []
+        var distanceStore: [Int] = []
+        var dateStore: [String] = []
+        
+        do {
+            let result = try context.fetch(request)
+            
+            for data in result as! [NSManagedObject] {
+                timeStore.append(data.value(forKey: "time") as! Int)
+                distanceStore.append(data.value(forKey: "distance") as! Int)
+                dateStore.append(data.value(forKey: "date") as! String)
+                coordinatesStore.append(data.value(forKey: "coordinates") as! String)
+            }
+            
+        } catch {
+            showValueChartsButton.isHidden = true
+            return
+        }
+        
+        runTimeStore = timeStore
+        runDistanceStore = distanceStore
+        runCoordinatesStore = coordinatesStore
+        runDateStore = dateStore
+    }
+    
+    //MARK: parseActivityChartStore
+    func parseActivityChartStore() {
+        guard let dateStore = runDateStore else {return}
+        var weekDataForChart: [Double] = []
+        var monthDataForChart: [Double] = []
+        
+        let datesCurrentWeek = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .weekOfMonth,for: Date())!)
+        let datesCurrentMonth = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .month,for: Date())!)
+        
+        for date in datesCurrentWeek {
+            if dateStore.contains(date) {
+                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                weekDataForChart.append(Double(result))
+            } else {
+                weekDataForChart.append(0)
+            }
+        }
+        
+        for date in datesCurrentMonth {
+            if dateStore.contains(date) {
+                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
+                monthDataForChart.append(Double(result))
+            } else {
+                monthDataForChart.append(0)
+            }
+        }
+
+        self.weekDataForChart = weekDataForChart
+        self.monthDataForChart = monthDataForChart
+        showValueChartsButton.isHidden = false
+    }
+    
+    //MARK: parseTableStore
+    func parseTableStore() {
+        guard let dateStore = runDateStore else {return}
+        
+        var tableStore: [NSMutableAttributedString] = []
+        for index in 0..<dateStore.count {
+            let distance = String(runDistanceStore![index])
+            let time = String(runTimeStore![index])
+            let data = distance + " " + time + " " + dateStore[index]
+            let mutableString = NSMutableAttributedString.init(string: data)
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)], range: (mutableString.string as NSString).range(of: distance))
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], range: (mutableString.string as NSString).range(of: time))
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], range: (mutableString.string as NSString).range(of: dateStore[index]))
+            tableStore.append(mutableString)
+            
+        }
+        self.tableStore = tableStore.reversed()
+        runStoreTableView.reloadData()
+    }
     
     //MARK: setWeekData
     func setWeekData() {
@@ -382,90 +467,6 @@ class RunViewController: UIViewController, TabItem {
         data.barWidth = 0.9
         
         return data
-    }
-    
-    //MARK: loadRunStore
-    func loadRunStore() {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
-        request.returnsObjectsAsFaults = false
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        
-        var coordinatesStore:[String] = []
-        var timeStore:[Int] = []
-        var distanceStore: [Int] = []
-        var dateStore: [String] = []
-        
-        do {
-            let result = try context.fetch(request)
-            
-            for data in result as! [NSManagedObject] {
-                timeStore.append(data.value(forKey: "time") as! Int)
-                distanceStore.append(data.value(forKey: "distance") as! Int)
-                dateStore.append(data.value(forKey: "date") as! String)
-                coordinatesStore.append(data.value(forKey: "coordinates") as! String)
-            }
-            
-        } catch {
-            showValueChartsButton.isHidden = true
-            return
-        }
-        
-        runTimeStore = timeStore
-        runDistanceStore = distanceStore
-        runCoordinatesStore = coordinatesStore
-        runDateStore = dateStore
-    }
-    
-    //MARK: parseActivityChartStore
-    func parseActivityChartStore() {
-        guard let dateStore = runDateStore else {return}
-        var weekDataForChart: [Double] = []
-        var monthDataForChart: [Double] = []
-        
-        let datesCurrentWeek = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .weekOfMonth,for: Date())!)
-        let datesCurrentMonth = getAllDaysWeekOrMonth(dateInterval: Calendar.current.dateInterval(of: .month,for: Date())!)
-        
-        for date in datesCurrentWeek {
-            if dateStore.contains(date) {
-                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
-                weekDataForChart.append(Double(result))
-            } else {
-                weekDataForChart.append(0)
-            }
-        }
-        
-        for date in datesCurrentMonth {
-            if dateStore.contains(date) {
-                let result = runDistanceStore!.enumerated().filter({dateStore[$0.offset] == date}).map({$0.element}).reduce(0, +)
-                monthDataForChart.append(Double(result))
-            } else {
-                monthDataForChart.append(0)
-            }
-        }
-
-        self.weekDataForChart = weekDataForChart
-        self.monthDataForChart = monthDataForChart
-        showValueChartsButton.isHidden = false
-    }
-    
-    func parseTableStore() {
-        guard let dateStore = runDateStore else {return}
-        
-        var tableStore: [NSMutableAttributedString] = []
-        for index in 0..<dateStore.count {
-            let distance = String(runDistanceStore![index])
-            let time = String(runTimeStore![index])
-            let data = distance + " " + time + " " + dateStore[index]
-            let mutableString = NSMutableAttributedString.init(string: data)
-            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)], range: (mutableString.string as NSString).range(of: distance))
-            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], range: (mutableString.string as NSString).range(of: time))
-            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], range: (mutableString.string as NSString).range(of: dateStore[index]))
-            tableStore.append(mutableString)
-            
-        }
-        self.tableStore = tableStore.reversed()
     }
     
     //MARK: getAllDaysWeekOrMonth
@@ -751,7 +752,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .white
         cell.layer.borderColor = UIColor.clear.cgColor
         cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 25
+        cell.layer.cornerRadius = 20
         cell.clipsToBounds = true
         cell.textLabel?.attributedText = tableStore[indexPath.section]
         return cell
