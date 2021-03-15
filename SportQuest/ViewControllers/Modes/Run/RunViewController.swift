@@ -21,7 +21,6 @@ class RunViewController: UIViewController, TabItem {
     //MARK: let, var
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
-    
     var runTimeStore: [Int]?
     var runDistanceStore: [Int]?
     var runDateStore: [String]?
@@ -31,6 +30,7 @@ class RunViewController: UIViewController, TabItem {
     var monthDataForChart: [Double]?
     var showValueCharts: Bool = false
     
+    var tableStore:[NSMutableAttributedString]?
     //MARK: VIEW
     
     //MARK: scrollView
@@ -49,10 +49,8 @@ class RunViewController: UIViewController, TabItem {
     lazy var runStoreTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.layer.borderWidth = 2
-        tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 30
-        tableView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        tableView.backgroundColor = .lightGray
+        tableView.rowHeight = 58
         tableView.delegate = self
         tableView.dataSource = self
         tableView.bounces = false
@@ -61,14 +59,13 @@ class RunViewController: UIViewController, TabItem {
         return tableView
     }()
 
-    
     //MARK: runTargetTimeBlockView
     lazy var runTargetTimeBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 40
+        view.layer.cornerRadius = 30
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         view.isHidden = false
         return view
@@ -78,10 +75,7 @@ class RunViewController: UIViewController, TabItem {
     lazy var runStoreBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.layer.cornerRadius = 30
-        view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        view.backgroundColor = .lightGray
         view.isHidden = true
         return view
     }()
@@ -274,7 +268,9 @@ class RunViewController: UIViewController, TabItem {
         super.viewDidAppear(true)
         loadRunStore()
         parseActivityChartStore()
+        parseTableStore()
         setWeekData()
+        runStoreTableView.reloadData()
     }
     
     //MARK: FUNC
@@ -454,6 +450,24 @@ class RunViewController: UIViewController, TabItem {
         showValueChartsButton.isHidden = false
     }
     
+    func parseTableStore() {
+        guard let dateStore = runDateStore else {return}
+        
+        var tableStore: [NSMutableAttributedString] = []
+        for index in 0..<dateStore.count {
+            let distance = String(runDistanceStore![index])
+            let time = String(runTimeStore![index])
+            let data = distance + " " + time + " " + dateStore[index]
+            let mutableString = NSMutableAttributedString.init(string: data)
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)], range: (mutableString.string as NSString).range(of: distance))
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], range: (mutableString.string as NSString).range(of: time))
+            mutableString.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], range: (mutableString.string as NSString).range(of: dateStore[index]))
+            tableStore.append(mutableString)
+            
+        }
+        self.tableStore = tableStore.reversed()
+    }
+    
     //MARK: getAllDaysWeekOrMonth
     func getAllDaysWeekOrMonth(dateInterval: DateInterval) -> [String] {
         var dates: [String] = []
@@ -596,7 +610,7 @@ class RunViewController: UIViewController, TabItem {
         runStoreBlockView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runStoreBlockView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runStoreBlockView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        runStoreBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        runStoreBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.77).isActive = true
     }
     
     //MARK: createConstraintsRunStoreTableView
@@ -613,7 +627,7 @@ class RunViewController: UIViewController, TabItem {
         runTargetTimeBlockView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: targetBlockSwitchView.bottomAnchor, constant: 10).isActive = true
         runTargetTimeBlockView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runTargetTimeBlockView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        runTargetTimeBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        runTargetTimeBlockView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.77).isActive = true
     }
     
     //MARK: createConstraintsRunTargetTimeView
@@ -621,7 +635,7 @@ class RunViewController: UIViewController, TabItem {
         runTargetTimePicker.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runTargetTimeLabel.bottomAnchor, constant: -5).isActive = true
         runTargetTimePicker.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: runTargetTimeBlockView.centerXAnchor).isActive = true
         runTargetTimePicker.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 125).isActive = true
-        runTargetTimePicker.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        runTargetTimePicker.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.77).isActive = true
     }
     
     //MARK: CONSTRAINTS LABEL
@@ -667,7 +681,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunStartButton
     func createConstraintsRunStartButton() {
-        runStartButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor, constant: 10).isActive = true
+        runStartButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor, constant: 5).isActive = true
         runStartButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runStartButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 110).isActive = true
         runStartButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 110).isActive = true
@@ -704,32 +718,42 @@ extension RunViewController: AGCircularPickerDelegate {
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        guard let tableStore = tableStore else {
+            return 0
+        }
+        return tableStore.count
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = .gray
+        view.backgroundColor = .lightGray
         return view
     }
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        cell.textLabel?.text = "1111"
-        cell.layer.borderColor = UIColor.gray.cgColor
+        guard let tableStore = tableStore else{
+            return cell
+        }
+        cell.backgroundColor = .white
+        cell.layer.borderColor = UIColor.clear.cgColor
         cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 8
+        cell.layer.cornerRadius = 25
         cell.clipsToBounds = true
-        
+        cell.textLabel?.attributedText = tableStore[indexPath.section]
         return cell
     }
     
