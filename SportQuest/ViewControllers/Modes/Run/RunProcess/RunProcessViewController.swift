@@ -237,25 +237,11 @@ class RunProcessViewController: UIViewController {
         let currentDate = dateFormatter.string(from: Date())
         let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
         
-        if let intervalCurrentMonth = Calendar.current.dateInterval(of: .month, for: Date()) {
-            if Date().timeIntervalSince1970 < intervalCurrentMonth.start.timeIntervalSince1970 {
-                let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                do {
-                    try context.execute(deleteRequest)
-                    try context.save()
-                } catch {
-                    print("Fuck")
-                }
-            }
-        }
-        
         newRunData.setValue(coordinates, forKey: "coordinates")
         newRunData.setValue(runTime, forKey: "time")
         newRunData.setValue(runDistance, forKey: "distance")
         newRunData.setValue(currentDate, forKey: "date")
         
-
         do{
             try context.save()
             if let runDataTransfer = runDataTransfer{
@@ -264,7 +250,6 @@ class RunProcessViewController: UIViewController {
             self.dismiss(animated: true)
         }
         catch{
-            print("Fuck")
             self.dismiss(animated: true)
         }
         

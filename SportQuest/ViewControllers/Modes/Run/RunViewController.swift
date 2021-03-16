@@ -55,6 +55,7 @@ class RunViewController: UIViewController, TabItem {
         tableView.dataSource = self
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
+        tableView.separatorColor = .clear
         tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
         return tableView
     }()
@@ -91,6 +92,9 @@ class RunViewController: UIViewController, TabItem {
         chart.highlightFullBarEnabled = false
         chart.xAxis.labelPosition = .bottom
         chart.xAxis.valueFormatter = self
+        chart.noDataText = "Not data"
+        chart.noDataFont = UIFont(name: "TrebuchetMS", size: 18)!
+        chart.noDataTextColor = .white
         return chart
     }()
     
@@ -195,6 +199,7 @@ class RunViewController: UIViewController, TabItem {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
+        button.isHidden = true
         button.addTarget(self, action: #selector(showValueForChart), for: .touchUpInside)
         return button
     }()
@@ -302,6 +307,25 @@ class RunViewController: UIViewController, TabItem {
         } catch {
             showValueChartsButton.isHidden = true
             return
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        if let intervalCurrentMonth = Calendar.current.dateInterval(of: .month, for: Date()) {
+            guard let lastDateStore = dateStore.last else{
+                return
+            }
+            if dateFormatter.date(from: lastDateStore)!.timeIntervalSince1970 < intervalCurrentMonth.start.timeIntervalSince1970 {
+                let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                do {
+                    try context.execute(deleteRequest)
+                    try context.save()
+                    return
+                } catch {
+                }
+            }
         }
         
         runTimeStore = timeStore
@@ -554,14 +578,23 @@ class RunViewController: UIViewController, TabItem {
     @objc func showRunProcess(){
         let viewController = RunProcessViewController()
         viewController.runDataTransfer = {time, distance, coordinates, date in
-            self.runTimeStore!.append(time)
-            self.runDistanceStore!.append(distance)
-            self.runCoordinatesStore!.append(coordinates)
-            self.runDateStore!.append(date)
-            
-            let queue = DispatchQueue.global(qos: .userInteractive)
-            queue.async {[weak self] in
-                self!.parseActivityChartStore()
+            if self.runDateStore != nil{
+                self.runTimeStore!.append(time)
+                self.runDistanceStore!.append(distance)
+                self.runCoordinatesStore!.append(coordinates)
+                self.runDateStore!.append(date)
+            }else{
+                self.runTimeStore = [time]
+                self.runDistanceStore = [distance]
+                self.runCoordinatesStore = [coordinates]
+                self.runDateStore = [date]
+            }
+            self.parseActivityChartStore()
+            self.parseTableStore()
+            if self.formatForChartSwitchView.index == 0{
+                self.setWeekData()
+            }else{
+                self.setMonthData()
             }
         }
         self.present(viewController, animated: true)
@@ -719,8 +752,8 @@ extension RunViewController: AGCircularPickerDelegate {
 extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let tableStore = tableStore else {
-            return 0
+        guard let tableStore = tableStore else{
+            return 1
         }
         return tableStore.count
     }
@@ -746,14 +779,19 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+        cell.layer.borderColor = UIColor.clear.cgColor
+        cell.clipsToBounds = true
+        
         guard let tableStore = tableStore else{
+            cell.backgroundColor = .lightGray
+            cell.textLabel?.text = "Not data"
+            cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
+            cell.textLabel?.textColor = .white
+            cell.textLabel?.textAlignment = .center
             return cell
         }
         cell.backgroundColor = .white
-        cell.layer.borderColor = UIColor.clear.cgColor
-        cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 20
-        cell.clipsToBounds = true
         cell.textLabel?.attributedText = tableStore[indexPath.section]
         return cell
     }
@@ -773,3 +811,4 @@ extension RunViewController: IAxisValueFormatter{
         }
     }
 }
+
