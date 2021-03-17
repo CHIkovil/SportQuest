@@ -297,11 +297,30 @@ class RunViewController: UIViewController, TabItem {
         do {
             let result = try context.fetch(request)
             
+            if result.count == 0 {
+                showValueChartsButton.isHidden = true
+                return
+            }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            
+            let intervalCurrentMonth = Calendar.current.dateInterval(of: .month, for: Date())
+            
             for data in result as! [NSManagedObject] {
-                timeStore.append(data.value(forKey: "time") as! Int)
-                distanceStore.append(data.value(forKey: "distance") as! Int)
-                dateStore.append(data.value(forKey: "date") as! String)
-                coordinatesStore.append(data.value(forKey: "coordinates") as! String)
+                let time = data.value(forKey: "time") as! Int
+                let distance = data.value(forKey: "distance") as! Int
+                let date = data.value(forKey: "date") as! String
+                let coordinate = data.value(forKey: "coordinates") as! String
+                
+                if intervalCurrentMonth!.contains(dateFormatter.date(from: date)!) {
+                    timeStore.append(time)
+                    distanceStore.append(distance)
+                    dateStore.append(date)
+                    coordinatesStore.append(coordinate)
+                }else{
+                    context.delete(data)
+                }
             }
             
         } catch {
@@ -309,29 +328,17 @@ class RunViewController: UIViewController, TabItem {
             return
         }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        
-        if let intervalCurrentMonth = Calendar.current.dateInterval(of: .month, for: Date()) {
-            guard let lastDateStore = dateStore.last else{
-                return
-            }
-            if dateFormatter.date(from: lastDateStore)!.timeIntervalSince1970 < intervalCurrentMonth.start.timeIntervalSince1970 {
-                let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                do {
-                    try context.execute(deleteRequest)
-                    try context.save()
-                    return
-                } catch {
-                }
-            }
-        }
-        
         runTimeStore = timeStore
         runDistanceStore = distanceStore
         runCoordinatesStore = coordinatesStore
         runDateStore = dateStore
+        
+        do {
+            try context.save()
+        }
+        catch let error{
+            print(error.localizedDescription)
+        }
     }
     
     //MARK: parseActivityChartStore

@@ -5,7 +5,7 @@
 //  Created by Никита Бычков on 01.12.2020.
 //  Copyright © 2020 Никита Бычков. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import MapKit
 import CoreLocation
