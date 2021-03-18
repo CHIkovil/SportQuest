@@ -134,7 +134,8 @@ class RunProcessViewController: UIViewController {
     }
     
     func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {tempTimer in
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] tempTimer in
+            guard let self = self else { return }
             if self.runTime == 86400 {
                 self.dismiss(animated: true, completion: nil)
             }
@@ -202,12 +203,15 @@ class RunProcessViewController: UIViewController {
     //MARK: FUNC
     
     
+    
+    //MARK: drawRunDistance
     func drawRunDistance(){
         runCoordinates.append(runLocationManager.location!.coordinate)
         let geodesic = MKGeodesicPolyline(coordinates: runCoordinates, count: runCoordinates.count)
         self.runMapView.addOverlay(geodesic)
     }
     
+    //MARK: showRunDistanceToLabel
     func showRunDistanceToLabel(){
         if runCoordinates.count != 1 {
             let to = CLLocation(latitude: runLocationManager.location!.coordinate.latitude, longitude: runLocationManager.location!.coordinate.longitude)
@@ -225,23 +229,47 @@ class RunProcessViewController: UIViewController {
         }
     }
     
+    //MARK: getRunRegion
+    func getRunRegion() {
+        let runLatitude = runCoordinates.map {$0.latitude}
+        let runLongitude = runCoordinates.map {$0.longitude}
+        
+        let minLatitude = runLatitude.min()!
+        let minLongitude = runLongitude.min()!
+        let maxLatitude = runLatitude.max()!
+        let maxLongitude = runLongitude.max()!
+        
+        let c1 = CLLocation(latitude: minLatitude, longitude: minLongitude)
+        
+        let c2 = CLLocation(latitude: maxLatitude, longitude: maxLongitude)
+        
+        let zoom = c1.distance(from: c2)
+        
+        let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
+        
+        runMapView.setRegion(region, animated: true)
+    }
+    
+    //MARK: stopRun
     @objc func stopRun() {
+        getRunRegion()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
         let newRunData = NSManagedObject(entity: entity!, insertInto: context)
-        
-        
+
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         let currentDate = dateFormatter.string(from: Date())
         let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
-        
+
         newRunData.setValue(coordinates, forKey: "coordinates")
         newRunData.setValue(runTime, forKey: "time")
         newRunData.setValue(runDistance, forKey: "distance")
         newRunData.setValue(currentDate, forKey: "date")
-        
+
         do{
             try context.save()
             if let runDataTransfer = runDataTransfer{
@@ -252,7 +280,7 @@ class RunProcessViewController: UIViewController {
         catch{
             self.dismiss(animated: true)
         }
-        
+
     }
     
 }
@@ -266,28 +294,14 @@ extension RunProcessViewController: MKMapViewDelegate {
         }
         
         let identifier = "MyCustomAnnotation"
-
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
-            if mapView.annotations.count == 1{
-                annotationView!.image = UIImage(named: "batman.png")
-            }else{
-                annotationView!.image = UIImage(named: "queen.png")
-            }
-            return annotationView
-        } else {
-            if mapView.annotations.count == 1{
-                annotationView!.image = UIImage(named: "batman.png")
-            } else{
-                annotationView!.image = UIImage(named: "queen.png")
-            }
-            annotationView!.annotation = annotation
-            return annotationView
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        if mapView.annotations.count == 1{
+            annotationView.image = UIImage(named: "batman.png")
+        }else{
+            annotationView.image = UIImage(named: "queen.png")
         }
-      
+        return annotationView
     }
 
 

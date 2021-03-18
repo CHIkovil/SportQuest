@@ -30,7 +30,7 @@ class RunViewController: UIViewController, TabItem {
     var monthDataForChart: [Double]?
     var showValueCharts: Bool = false
     
-    var tableStore:[NSMutableAttributedString]?
+    var tableStore: [NSMutableAttributedString]?
     //MARK: VIEW
     
     //MARK: scrollView
@@ -59,7 +59,7 @@ class RunViewController: UIViewController, TabItem {
         tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
         return tableView
     }()
-
+    
     //MARK: runTargetTimeBlockView
     lazy var runTargetTimeBlockView:UIView = {
         let view = UIView()
@@ -101,7 +101,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: formatForChartSwitchView
     lazy var formatForChartSwitchView: BetterSegmentedControl = {
         let segmentView = BetterSegmentedControl(frame: CGRect(), segments: LabelSegment.segments(withTitles:["Week","Month"], normalTextColor: .lightGray,
-        selectedTextColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
+                                                                                                  selectedTextColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
@@ -113,9 +113,9 @@ class RunViewController: UIViewController, TabItem {
     //MARK: blockSwitchView
     lazy var targetBlockSwitchView: BetterSegmentedControl = {
         let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "target.png")!, UIImage(named: "cloud-computing.png")!],
-                                       iconSize: CGSize(width: 30, height: 30),
-                                       normalIconTintColor: .lightGray,
-                                       selectedIconTintColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
+                                                                                                 iconSize: CGSize(width: 30, height: 30),
+                                                                                                 normalIconTintColor: .lightGray,
+                                                                                                 selectedIconTintColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
         segmentView.translatesAutoresizingMaskIntoConstraints = false
         segmentView.cornerRadius = 20
         segmentView.addTarget(self,
@@ -178,9 +178,9 @@ class RunViewController: UIViewController, TabItem {
         label.font = label.font.withSize(20)
         label.textColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
         return label
-     }()
+    }()
     
-     //MARK: runTargetTimeLabel
+    //MARK: runTargetTimeLabel
     lazy var runTargetTimeLabel:UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -226,10 +226,10 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: VIEWDIDLOAD
-     override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
-
+        
         view.addSubview(scrollView)
         scrollView.addSubview(runActivityChartView)
         scrollView.addSubview(runStatisticsLabel)
@@ -237,7 +237,7 @@ class RunViewController: UIViewController, TabItem {
         scrollView.addSubview(showValueChartsButton)
         scrollView.addSubview(formatForChartSwitchView)
         scrollView.addSubview(targetBlockSwitchView)
-  
+        
         
         scrollView.addSubview(runTargetTimeBlockView)
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
@@ -245,8 +245,8 @@ class RunViewController: UIViewController, TabItem {
         
         scrollView.addSubview(runStoreBlockView)
         runStoreBlockView.addSubview(runStoreTableView)
-
-
+        
+        
         scrollView.addSubview(runStartButton)
         
         
@@ -269,7 +269,7 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: viewDidAppear
-     override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         loadRunStore()
         parseActivityChartStore()
@@ -367,7 +367,7 @@ class RunViewController: UIViewController, TabItem {
                 monthDataForChart.append(0)
             }
         }
-
+        
         self.weekDataForChart = weekDataForChart
         self.monthDataForChart = monthDataForChart
         showValueChartsButton.isHidden = false
@@ -428,13 +428,13 @@ class RunViewController: UIViewController, TabItem {
     func getLineData(dataForCharts:[Double]) -> LineChartData {
         let entries: [ChartDataEntry];
         if formatForChartSwitchView.index == 0{
-           entries = (0..<7).map { (i) -> ChartDataEntry in
+            entries = (0..<7).map { (i) -> ChartDataEntry in
                 return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
             }
         }else {
-           entries = (0..<dataForCharts.count).map { (i) -> ChartDataEntry in
-                 return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
-             }
+            entries = (0..<dataForCharts.count).map { (i) -> ChartDataEntry in
+                return ChartDataEntry(x: Double(i), y: Double(arc4random_uniform(15) + 5))
+            }
         }
         
         let set = LineChartDataSet(entries: entries, label: "Percentage of completion")
@@ -480,7 +480,7 @@ class RunViewController: UIViewController, TabItem {
                       UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
         ]
         set.valueTextColor = .white
-    
+        
         if formatForChartSwitchView.index == 0 {
             set.valueFont = .systemFont(ofSize: 13)
         } else {
@@ -507,16 +507,16 @@ class RunViewController: UIViewController, TabItem {
         Calendar.current.enumerateDates(startingAfter: dateInterval.start,
                                         matching: DateComponents(hour:0),
                                         matchingPolicy: .nextTime) { date, _, stop in
-                guard let date = date else {
-                    return
-                }
-                if date <= dateInterval.end {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd-MM-yyyy"
-                    dates.append(dateFormatter.string(from: date))
-                } else {
-                    stop = true
-                }
+                                            guard let date = date else {
+                                                return
+                                            }
+                                            if date <= dateInterval.end {
+                                                let dateFormatter = DateFormatter()
+                                                dateFormatter.dateFormat = "dd-MM-yyyy"
+                                                dates.append(dateFormatter.string(from: date))
+                                            } else {
+                                                stop = true
+                                            }
         }
         
         return dates
@@ -547,13 +547,13 @@ class RunViewController: UIViewController, TabItem {
         if showValueCharts == true {
             showValueCharts = false
             showValueChartsButton.layer.borderColor = UIColor.white.cgColor
-        }else {
+        } else {
             showValueCharts = true
             showValueChartsButton.layer.borderColor = UIColor.yellow.cgColor
         }
         if formatForChartSwitchView.index == 0{
             setWeekData()
-        }else {
+        } else {
             setMonthData()
         }
     }
@@ -572,19 +572,20 @@ class RunViewController: UIViewController, TabItem {
         if targetBlockSwitchView.index == 0 {
             runTargetTimeBlockView.isHidden = false
             runStoreBlockView.isHidden = true
-
+            
         }
         if targetBlockSwitchView.index == 1 {
             runTargetTimeBlockView.isHidden = true
             runStoreBlockView.isHidden = false
-
+            
         }
     }
-
-     //MARK: showRunProcess
+    
+    //MARK: showRunProcess
     @objc func showRunProcess(){
         let viewController = RunProcessViewController()
-        viewController.runDataTransfer = {time, distance, coordinates, date in
+        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date in
+            guard let self = self else { return }
             if self.runDateStore != nil{
                 self.runTimeStore!.append(time)
                 self.runDistanceStore!.append(distance)
@@ -606,7 +607,7 @@ class RunViewController: UIViewController, TabItem {
         }
         self.present(viewController, animated: true)
     }
-
+    
     //MARK: CONSTRAINTS VIEW
     
     
@@ -660,7 +661,7 @@ class RunViewController: UIViewController, TabItem {
         runStoreTableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor).isActive = true
         runStoreTableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: runStoreBlockView.leadingAnchor).isActive = true
         runStoreTableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runStoreBlockView.trailingAnchor).isActive = true
-
+        
     }
     
     //MARK: createConstraintsRunTargetTimeBlockView
@@ -684,12 +685,12 @@ class RunViewController: UIViewController, TabItem {
     
     
     //MARK: createConstraintsRunStatisticsLabel
-     func createConstraintsRunStatisticsLabel() {
+    func createConstraintsRunStatisticsLabel() {
         runStatisticsLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runActivityChartView.bottomAnchor, constant: 10).isActive = true
         runStatisticsLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: runActivityChartView.centerXAnchor).isActive = true
         runStatisticsLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 25).isActive = true
         runStatisticsLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.75).isActive = true
-     }
+    }
     
     //MARK: createConstraintsMotivationLabel
     func createConstraintsMotivationLabel() {
@@ -709,7 +710,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK:CONSTRAINTS BUTTON
     
-
+    
     
     //MARK: createConstraintsShowValueChartsButton
     func createConstraintsShowValueChartsButton() {
@@ -735,7 +736,7 @@ class RunViewController: UIViewController, TabItem {
 
 extension RunViewController: AGCircularPickerDelegate {
     
-     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
+    func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
         let fullString = valueComponents.joined(separator: ":")
         let attributedString = NSMutableAttributedString(string:fullString)
@@ -765,7 +766,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         return tableStore.count
     }
     
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
@@ -783,7 +784,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         cell.layer.borderColor = UIColor.clear.cgColor
@@ -803,13 +804,13 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension RunViewController: IAxisValueFormatter{
-     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         if formatForChartSwitchView.index == 0 {
             return daysWeek[Int(value) % daysWeek.count]
         }
