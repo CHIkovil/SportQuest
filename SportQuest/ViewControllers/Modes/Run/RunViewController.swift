@@ -25,6 +25,8 @@ class RunViewController: UIViewController, TabItem {
     var runDistanceStore: [Int]?
     var runDateStore: [String]?
     var runCoordinatesStore: [String]?
+    var runRegionImageStore: [Data]?
+    
     
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
@@ -522,6 +524,32 @@ class RunViewController: UIViewController, TabItem {
         return dates
     }
     
+    //MARK: setDataTransfer
+    func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String, regionImage: Data) -> Void{
+          if runDateStore != nil{
+                runTimeStore!.append(time)
+                runDistanceStore!.append(distance)
+                runCoordinatesStore!.append(coordinates)
+                runDateStore!.append(date)
+                runRegionImageStore!.append(regionImage)
+            }else{
+                runTimeStore = [time]
+                runDistanceStore = [distance]
+                runCoordinatesStore = [coordinates]
+                runDateStore = [date]
+                runRegionImageStore = [regionImage]
+            }
+        
+            self.parseActivityChartStore()
+            self.parseTableStore()
+        
+            if self.formatForChartSwitchView.index == 0{
+                self.setWeekData()
+            }else{
+                self.setMonthData()
+            }
+        
+    }
     //MARK: @OBJC
     
     
@@ -584,26 +612,10 @@ class RunViewController: UIViewController, TabItem {
     //MARK: showRunProcess
     @objc func showRunProcess(){
         let viewController = RunProcessViewController()
-        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date in
+        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date, regionImage in
             guard let self = self else { return }
-            if self.runDateStore != nil{
-                self.runTimeStore!.append(time)
-                self.runDistanceStore!.append(distance)
-                self.runCoordinatesStore!.append(coordinates)
-                self.runDateStore!.append(date)
-            }else{
-                self.runTimeStore = [time]
-                self.runDistanceStore = [distance]
-                self.runCoordinatesStore = [coordinates]
-                self.runDateStore = [date]
-            }
-            self.parseActivityChartStore()
-            self.parseTableStore()
-            if self.formatForChartSwitchView.index == 0{
-                self.setWeekData()
-            }else{
-                self.setMonthData()
-            }
+            self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
+ 
         }
         self.present(viewController, animated: true)
     }
@@ -624,7 +636,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunActivityChartView
     func createConstraintsRunActivityChartView() {
-        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 70).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant:90).isActive = true
         runActivityChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runActivityChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
         runActivityChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
@@ -737,6 +749,9 @@ class RunViewController: UIViewController, TabItem {
 extension RunViewController: AGCircularPickerDelegate {
     
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
+        scrollView.isScrollEnabled = false
+        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
+        
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
         let fullString = valueComponents.joined(separator: ":")
         let attributedString = NSMutableAttributedString(string:fullString)
@@ -748,10 +763,6 @@ extension RunViewController: AGCircularPickerDelegate {
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: values[selectedIndex].color, range: range)
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.black), range: range)
         
-        if attributedString.string != "00:00:00" {
-            scrollView.isScrollEnabled = false
-            Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
-        }
         runTargetTimeLabel.attributedText = attributedString
     }
     

@@ -8,6 +8,8 @@
 	<string>Necessary if you want everything to work.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Necessary if you want everything to work.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Necessary if you want everything to work.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

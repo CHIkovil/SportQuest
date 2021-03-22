@@ -35,7 +35,6 @@
 		93418C1C252528750004F813 /* SportQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C1B252528750004F813 /* SportQuestTests.swift */; };
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
-		9392E61425D8B48A007BC9DD /* queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61325D8B48A007BC9DD /* queen.png */; };
 		93C62048256AA4DB008CADE7 /* batman.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93C62047256AA4DB008CADE7 /* batman.gif */; };
 		93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunProcessViewController.swift */; };
 		93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */; };
@@ -86,7 +85,6 @@
 		93418C1D252528750004F813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
-		9392E61325D8B48A007BC9DD /* queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queen.png; sourceTree = "<group>"; };
 		9393AC0EAE3ED5FFA59926D1 /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.debug.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93C62047256AA4DB008CADE7 /* batman.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = batman.gif; sourceTree = "<group>"; };
 		93C620492576C8CC008CADE7 /* RunProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessViewController.swift; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
-				9392E61325D8B48A007BC9DD /* queen.png */,
 				9392E60D25D8A375007BC9DD /* batman.png */,
 				9392E60E25D8A375007BC9DD /* prize.png */,
 				93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */,
@@ -365,7 +362,6 @@
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
 				9392E60F25D8A375007BC9DD /* batman.png in Resources */,
 				9314E762253E2F5D00ED1DFA /* account.png in Resources */,
-				9392E61425D8B48A007BC9DD /* queen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
