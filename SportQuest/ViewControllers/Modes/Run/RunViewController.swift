@@ -25,8 +25,6 @@ class RunViewController: UIViewController, TabItem {
     var runDistanceStore: [Int]?
     var runDateStore: [String]?
     var runCoordinatesStore: [String]?
-    var runRegionImageStore: [Data]?
-    
     
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
@@ -525,19 +523,17 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: setDataTransfer
-    func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String, regionImage: Data) -> Void{
+    func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String) -> Void{
           if runDateStore != nil{
                 runTimeStore!.append(time)
                 runDistanceStore!.append(distance)
                 runCoordinatesStore!.append(coordinates)
                 runDateStore!.append(date)
-                runRegionImageStore!.append(regionImage)
             }else{
                 runTimeStore = [time]
                 runDistanceStore = [distance]
                 runCoordinatesStore = [coordinates]
                 runDateStore = [date]
-                runRegionImageStore = [regionImage]
             }
         
             self.parseActivityChartStore()
@@ -612,9 +608,9 @@ class RunViewController: UIViewController, TabItem {
     //MARK: showRunProcess
     @objc func showRunProcess(){
         let viewController = RunProcessViewController()
-        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date, regionImage in
+        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date in
             guard let self = self else { return }
-            self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
+            self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date)
  
         }
         self.present(viewController, animated: true)
@@ -800,13 +796,13 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         cell.layer.borderColor = UIColor.clear.cgColor
         cell.clipsToBounds = true
+        cell.textLabel?.textAlignment = .center
+        cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
         
         guard let tableStore = tableStore else{
             cell.backgroundColor = .lightGray
             cell.textLabel?.text = "Not data"
-            cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
             cell.textLabel?.textColor = .white
-            cell.textLabel?.textAlignment = .center
             return cell
         }
         cell.backgroundColor = .white

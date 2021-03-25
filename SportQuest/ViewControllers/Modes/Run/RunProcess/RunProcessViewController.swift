@@ -20,7 +20,7 @@ class RunProcessViewController: UIViewController {
     var runDistance: Int = 0
     var runRegionImage: Data?
     
-    var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
+    var runDataTransfer: ((Int, Int, String, String) -> ())?
     
     //MARK: LOCATION MANAGER
     
@@ -205,10 +205,10 @@ class RunProcessViewController: UIViewController {
     
     
     //MARK: drawRunDistance
-    //    func drawRunDistance(){
-    //        let polyline = MKGeodesicPolyline(coordinates: [runCoordinates[runCoordinates.count - 1], runCoordinates.last!], count: 2)
-    //        self.runMapView.addOverlay(polyline)
-    //    }
+        func drawRunDistance(){
+            let polyline = MKGeodesicPolyline(coordinates: [runCoordinates[runCoordinates.count - 2], runCoordinates.last!], count: 2)
+            self.runMapView.addOverlay(polyline)
+        }
     
     //MARK: parseRunDistanceToLabel
     func parseRunDistanceToLabel() {
@@ -229,43 +229,41 @@ class RunProcessViewController: UIViewController {
     }
     
     //MARK: setRunRegion
-    func setRunRegion() {
-        self.runLocationManager.stopUpdatingLocation()
-        let runLatitude = runCoordinates.map {$0.latitude}
-        let runLongitude = runCoordinates.map {$0.longitude}
-        
-        let minLatitude = runLatitude.min()!
-        let minLongitude = runLongitude.min()!
-        let maxLatitude = runLatitude.max()!
-        let maxLongitude = runLongitude.max()!
-        
-        let c1 = CLLocation(latitude: minLatitude, longitude: minLongitude)
-        
-        let c2 = CLLocation(latitude: maxLatitude, longitude: maxLongitude)
-        
-        let zoom = c1.distance(from: c2)
-        
-        let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
-        let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
-        
-        runMapView.setRegion(region, animated: true)
-    }
+//    func setRunRegion() {
+//        self.runLocationManager.stopUpdatingLocation()
+//        let runLatitude = runCoordinates.map {$0.latitude}
+//        let runLongitude = runCoordinates.map {$0.longitude}
+//
+//        let minLatitude = runLatitude.min()!
+//        let minLongitude = runLongitude.min()!
+//        let maxLatitude = runLatitude.max()!
+//        let maxLongitude = runLongitude.max()!
+//
+//        let c1 = CLLocation(latitude: minLatitude, longitude: minLongitude)
+//
+//        let c2 = CLLocation(latitude: maxLatitude, longitude: maxLongitude)
+//
+//        let zoom = c1.distance(from: c2)
+//
+//        let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
+//        let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
+//
+//        runMapView.setRegion(region, animated: true)
+//    }
     
-    func getSnapshotRegion() {
-        let options = MKMapSnapshotter.Options()
-        options.camera = runMapView.camera
-        options.region = runMapView.region
-        options.size = runMapView.frame.size
-        options.scale = UIScreen.main.scale
-        options.showsBuildings = true
-        options.size = CGSize(width: 100, height: 100)
-        
-        let snapshotter = MKMapSnapshotter(options: options)
-        snapshotter.start {[weak self] snapshot, error in
-            guard let self = self else { return }
-            self.runRegionImage = snapshot?.image.pngData()
-        }
-    }
+//    func getSnapshotRegion() {
+//        let options = MKMapSnapshotter.Options()
+//        options.region = runMapView.region
+//        options.size = runMapView.frame.size
+//        options.scale = UIScreen.main.scale
+//        options.showsBuildings = false
+//        options.size = CGSize(width: 100, height: 100);
+//
+//        let snapshotter = MKMapSnapshotter(options: options)
+//        snapshotter.start {[weak self] snapshot, error in
+//            self?.runRegionImage = snapshot?.image.pngData()
+//        }
+//    }
     
     
     //MARK: stopRun
@@ -274,43 +272,36 @@ class RunProcessViewController: UIViewController {
             self.dismiss(animated: true)
             return
         }
-        setRunRegion()
-        getSnapshotRegion()
-//        guard let regionImage = runRegionImage else{
-//            self.dismiss(animated: true)
-//            return
-//        }
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        //        let context = appDelegate.persistentContainer.viewContext
-        //        let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
-        //        let newRunData = NSManagedObject(entity: entity!, insertInto: context)
-        //
-        //
-        //        let dateFormatter = DateFormatter()
-        //        dateFormatter.dateFormat = "dd-MM-yyyy"
-        //
-        //        let currentDate = dateFormatter.string(from: Date())
-        //
-        //        let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
-        //
-        //
-        //        newRunData.setValue(coordinates, forKey: "coordinates")
-        //        newRunData.setValue(runTime, forKey: "time")
-        //        newRunData.setValue(runDistance, forKey: "distance")
-        //        newRunData.setValue(currentDate, forKey: "date")
-        //        newRunData.setValue(regionImage, forKey: "regionImage")
-        //
-        //        do{
-        //            try context.save()
-        //            if let runDataTransfer = runDataTransfer{
-        //                runDataTransfer(runTime, runDistance, coordinates, currentDate, regionImage)
-        //            }
-        //            self.dismiss(animated: true)
-        //        }
-        //        catch{
-        //            self.dismiss(animated: true)
-        //        }
+//        setRunRegion()
+//        getSnapshotRegion()
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
+        let newRunData = NSManagedObject(entity: entity!, insertInto: context)
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        let currentDate = dateFormatter.string(from: Date())
+        let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
+        
+        newRunData.setValue(coordinates, forKey: "coordinates")
+        newRunData.setValue(runTime, forKey: "time")
+        newRunData.setValue(runDistance, forKey: "distance")
+        newRunData.setValue(currentDate, forKey: "date")
+
+        do{
+            try context.save()
+            if let runDataTransfer = runDataTransfer{
+                runDataTransfer(runTime, runDistance, coordinates, currentDate)
+            }
+            self.dismiss(animated: true)
+        }
+        catch{
+            self.dismiss(animated: true)
+        }
+
     }
     
 }
@@ -323,7 +314,6 @@ extension RunProcessViewController: MKMapViewDelegate {
             return nil
         }
         let identifier = "Annotation"
-        
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         annotationView.image = UIImage(named: "batman.png")
         return annotationView
@@ -340,9 +330,15 @@ extension RunProcessViewController: MKMapViewDelegate {
         self.runMapView.setRegion(viewRegion, animated: true)
     }
     
-    //    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-    //
-    //    }
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if (overlay is MKPolyline) {
+            let polyline = MKPolylineRenderer(overlay: overlay)
+            polyline.strokeColor = UIColor.red
+            polyline.lineWidth = 5
+            return polyline
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
 }
 
 extension RunProcessViewController: CLLocationManagerDelegate {
@@ -353,8 +349,10 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         }
         runCoordinates.append(location.coordinate)
         showLocationOnMap(to: location, with: "Warrior")
-        //        drawRunDistance()
-        parseRunDistanceToLabel()
+        if runCoordinates.count > 2{
+            drawRunDistance()
+            parseRunDistanceToLabel()
+        }
     }
     
 }
