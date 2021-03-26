@@ -4,9 +4,10 @@
         <attribute name="coordinates" optional="YES" attributeType="String" valueTransformerName="" customClassName="[String]"/>
         <attribute name="date" optional="YES" attributeType="String"/>
         <attribute name="distance" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="regionImage" optional="YES" attributeType="Binary"/>
         <attribute name="time" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="RunData" positionX="-1236.40625" positionY="62.55859375" width="128" height="103"/>
+        <element name="RunData" positionX="-1236.40625" positionY="62.55859375" width="128" height="118"/>
     </elements>
 </model>

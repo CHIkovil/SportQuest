@@ -18,9 +18,15 @@ class RunProcessViewController: UIViewController {
     var runTime:Int = 0
     var runCoordinates: [CLLocationCoordinate2D] = []
     var runDistance: Int = 0
-    var runRegionImage: Data?
+    var runRegionImage: Data? {
+        get{return nil}
+        set{
+            guard let newValue = newValue else{return}
+            saveRunData(regionImage: newValue)
+        }
+    }
     
-    var runDataTransfer: ((Int, Int, String, String) -> ())?
+    var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
     
     //MARK: LOCATION MANAGER
     
@@ -206,7 +212,7 @@ class RunProcessViewController: UIViewController {
     
     //MARK: drawRunDistance
         func drawRunDistance(){
-            let polyline = MKGeodesicPolyline(coordinates: [runCoordinates[runCoordinates.count - 2], runCoordinates.last!], count: 2)
+            let polyline = MKPolyline(coordinates: [runCoordinates[runCoordinates.count - 2], runCoordinates.last!], count: 2)
             self.runMapView.addOverlay(polyline)
         }
     
@@ -229,52 +235,46 @@ class RunProcessViewController: UIViewController {
     }
     
     //MARK: setRunRegion
-//    func setRunRegion() {
-//        self.runLocationManager.stopUpdatingLocation()
-//        let runLatitude = runCoordinates.map {$0.latitude}
-//        let runLongitude = runCoordinates.map {$0.longitude}
-//
-//        let minLatitude = runLatitude.min()!
-//        let minLongitude = runLongitude.min()!
-//        let maxLatitude = runLatitude.max()!
-//        let maxLongitude = runLongitude.max()!
-//
-//        let c1 = CLLocation(latitude: minLatitude, longitude: minLongitude)
-//
-//        let c2 = CLLocation(latitude: maxLatitude, longitude: maxLongitude)
-//
-//        let zoom = c1.distance(from: c2)
-//
-//        let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
-//        let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
-//
-//        runMapView.setRegion(region, animated: true)
-//    }
-    
-//    func getSnapshotRegion() {
-//        let options = MKMapSnapshotter.Options()
-//        options.region = runMapView.region
-//        options.size = runMapView.frame.size
-//        options.scale = UIScreen.main.scale
-//        options.showsBuildings = false
-//        options.size = CGSize(width: 100, height: 100);
-//
-//        let snapshotter = MKMapSnapshotter(options: options)
-//        snapshotter.start {[weak self] snapshot, error in
-//            self?.runRegionImage = snapshot?.image.pngData()
-//        }
-//    }
-    
-    
-    //MARK: stopRun
-    @objc func stopRun() {
-        if runCoordinates.isEmpty || runCoordinates.count == 1{
-            self.dismiss(animated: true)
-            return
-        }
-//        setRunRegion()
-//        getSnapshotRegion()
+    func setRunRegion() {
+        self.runLocationManager.stopUpdatingLocation()
+        let runLatitude = runCoordinates.map {$0.latitude}
+        let runLongitude = runCoordinates.map {$0.longitude}
 
+        let minLatitude = runLatitude.min()!
+        let minLongitude = runLongitude.min()!
+        let maxLatitude = runLatitude.max()!
+        let maxLongitude = runLongitude.max()!
+
+        let c1 = CLLocation(latitude: minLatitude, longitude: minLongitude)
+
+        let c2 = CLLocation(latitude: maxLatitude, longitude: maxLongitude)
+
+        let zoom = c1.distance(from: c2)
+
+        let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
+
+        runMapView.setRegion(region, animated: true)
+    }
+    
+    //MARK: getSnapshotRegion
+    func getSnapshotRegion() {
+        let options = MKMapSnapshotter.Options()
+        options.region = runMapView.region
+        options.size = runMapView.frame.size
+        options.scale = UIScreen.main.scale
+        options.size = CGSize(width: 100, height: 100);
+
+        let snapshotter = MKMapSnapshotter(options: options)
+        
+        snapshotter.start {[weak self] snapshot, error in
+            guard let self = self,let snapshot = snapshot else{return}
+            self.runRegionImage = snapshot.image.pngData()
+        }
+    }
+    
+    //MARK: saveRunData
+    func saveRunData(regionImage: Data) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "RunData", in: context)
@@ -284,24 +284,35 @@ class RunProcessViewController: UIViewController {
         dateFormatter.dateFormat = "dd-MM-yyyy"
         
         let currentDate = dateFormatter.string(from: Date())
-        let coordinates: String = runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
+        let coordinates: String = self.runCoordinates.map {String($0.latitude) + " " + String($0.longitude)}.joined(separator: ",")
         
         newRunData.setValue(coordinates, forKey: "coordinates")
-        newRunData.setValue(runTime, forKey: "time")
-        newRunData.setValue(runDistance, forKey: "distance")
+        newRunData.setValue(self.runTime, forKey: "time")
+        newRunData.setValue(self.runDistance, forKey: "distance")
         newRunData.setValue(currentDate, forKey: "date")
-
+        newRunData.setValue(regionImage, forKey: "regionImage")
+        
         do{
             try context.save()
-            if let runDataTransfer = runDataTransfer{
-                runDataTransfer(runTime, runDistance, coordinates, currentDate)
+            if let runDataTransfer = self.runDataTransfer{
+                runDataTransfer(self.runTime, self.runDistance, coordinates, currentDate, regionImage)
             }
             self.dismiss(animated: true)
         }
         catch{
             self.dismiss(animated: true)
         }
-
+    }
+    
+    //MARK: stopRun
+    @objc func stopRun() {
+        if runCoordinates.isEmpty || runCoordinates.count == 1{
+            self.dismiss(animated: true)
+            return
+        }
+        
+        setRunRegion()
+        getSnapshotRegion()
     }
     
 }
@@ -349,7 +360,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         }
         runCoordinates.append(location.coordinate)
         showLocationOnMap(to: location, with: "Warrior")
-        if runCoordinates.count > 2{
+        if runCoordinates.count > 1{
             drawRunDistance()
             parseRunDistanceToLabel()
         }

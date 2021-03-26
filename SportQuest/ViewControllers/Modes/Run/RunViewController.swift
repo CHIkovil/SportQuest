@@ -25,6 +25,7 @@ class RunViewController: UIViewController, TabItem {
     var runDistanceStore: [Int]?
     var runDateStore: [String]?
     var runCoordinatesStore: [String]?
+    var runRegionImageStore: [Data]?
     
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
@@ -53,6 +54,7 @@ class RunViewController: UIViewController, TabItem {
         tableView.rowHeight = 58
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.dragDelegate = self
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorColor = .clear
@@ -523,17 +525,19 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: setDataTransfer
-    func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String) -> Void{
+    func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String, regionImage: Data) -> Void{
           if runDateStore != nil{
                 runTimeStore!.append(time)
                 runDistanceStore!.append(distance)
                 runCoordinatesStore!.append(coordinates)
                 runDateStore!.append(date)
+                runRegionImageStore!.append(regionImage)
             }else{
                 runTimeStore = [time]
                 runDistanceStore = [distance]
                 runCoordinatesStore = [coordinates]
                 runDateStore = [date]
+                runRegionImageStore = [regionImage]
             }
         
             self.parseActivityChartStore()
@@ -608,9 +612,9 @@ class RunViewController: UIViewController, TabItem {
     //MARK: showRunProcess
     @objc func showRunProcess(){
         let viewController = RunProcessViewController()
-        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date in
+        viewController.runDataTransfer = { [weak self] time, distance, coordinates, date, regionImage in
             guard let self = self else { return }
-            self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date)
+            self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
  
         }
         self.present(viewController, animated: true)
@@ -825,5 +829,23 @@ extension RunViewController: IAxisValueFormatter{
             return String(Int(value) + 1)
         }
     }
+}
+
+extension RunViewController: UITableViewDragDelegate {
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return dragItem(at: indexPath)
+    }
+    
+    private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
+        if let coordinates = runCoordinatesStore?.reverse(){
+            let dragItem = UIDragItem(itemProvider: NSItemProvider())
+            dragItem.localObject = coordinates
+            return [dragItem]
+        }
+        else{
+            return []
+        }
+    }
+    
 }
 
