@@ -21,7 +21,10 @@ class RunProcessViewController: UIViewController {
     var runRegionImage: Data? {
         get{return nil}
         set{
-            guard let newValue = newValue else{return}
+            guard let newValue = newValue else{
+                self.dismiss(animated: true)
+                return
+            }
             saveRunData(regionImage: newValue)
         }
     }
@@ -208,7 +211,7 @@ class RunProcessViewController: UIViewController {
     
     //MARK: FUNC
     
-    
+
     
     //MARK: drawRunDistance
         func drawRunDistance(){
@@ -263,13 +266,13 @@ class RunProcessViewController: UIViewController {
         options.region = runMapView.region
         options.size = runMapView.frame.size
         options.scale = UIScreen.main.scale
-        options.size = CGSize(width: 100, height: 100);
 
         let snapshotter = MKMapSnapshotter(options: options)
         
         snapshotter.start {[weak self] snapshot, error in
-            guard let self = self,let snapshot = snapshot else{return}
-            self.runRegionImage = snapshot.image.pngData()
+            guard let snapshot = snapshot, let self = self else{return}
+            let resizeSnapshot = snapshot.image.resize(newSize: CGSize(width: 30, height: 30))
+            self.runRegionImage = resizeSnapshot.pngData()
         }
     }
     
@@ -366,6 +369,18 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         }
     }
     
+}
+
+extension UIImage {
+    func resize(newSize: CGSize) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        let image = renderer.image { [weak self] _ in
+            guard let self = self else{return}
+            self.draw(in: CGRect.init(origin: CGPoint.zero, size: newSize))
+        }
+
+        return image.withRenderingMode(self.renderingMode)
+    }
 }
 
 private extension RunProcessViewController {

@@ -24,7 +24,7 @@ class RunViewController: UIViewController, TabItem {
     var runTimeStore: [Int]?
     var runDistanceStore: [Int]?
     var runDateStore: [String]?
-    var runCoordinatesStore: [String]?
+    var runCoordinateStore: [String]?
     var runRegionImageStore: [Data]?
     
     var weekDataForChart: [Double]?
@@ -291,10 +291,11 @@ class RunViewController: UIViewController, TabItem {
         let context = appDelegate.persistentContainer.viewContext
         
         
-        var coordinatesStore:[String] = []
+        var coordinateStore:[String] = []
         var timeStore:[Int] = []
         var distanceStore: [Int] = []
         var dateStore: [String] = []
+        var regionImageStore: [Data] = []
         
         do {
             let result = try context.fetch(request)
@@ -314,12 +315,14 @@ class RunViewController: UIViewController, TabItem {
                 let distance = data.value(forKey: "distance") as! Int
                 let date = data.value(forKey: "date") as! String
                 let coordinate = data.value(forKey: "coordinates") as! String
+                let regionImage = data.value(forKey: "regionImage") as! Data
                 
                 if intervalCurrentMonth!.contains(dateFormatter.date(from: date)!) {
                     timeStore.append(time)
                     distanceStore.append(distance)
                     dateStore.append(date)
-                    coordinatesStore.append(coordinate)
+                    coordinateStore.append(coordinate)
+                    regionImageStore.append(regionImage)
                 }else{
                     context.delete(data)
                 }
@@ -332,14 +335,15 @@ class RunViewController: UIViewController, TabItem {
         
         runTimeStore = timeStore
         runDistanceStore = distanceStore
-        runCoordinatesStore = coordinatesStore
+        runCoordinateStore = coordinateStore
         runDateStore = dateStore
+        runRegionImageStore = regionImageStore.reversed()
         
         do {
             try context.save()
         }
-        catch let error{
-            print(error.localizedDescription)
+        catch{
+            return
         }
     }
     
@@ -529,13 +533,13 @@ class RunViewController: UIViewController, TabItem {
           if runDateStore != nil{
                 runTimeStore!.append(time)
                 runDistanceStore!.append(distance)
-                runCoordinatesStore!.append(coordinates)
+                runCoordinateStore!.append(coordinates)
                 runDateStore!.append(date)
                 runRegionImageStore!.append(regionImage)
             }else{
                 runTimeStore = [time]
                 runDistanceStore = [distance]
-                runCoordinatesStore = [coordinates]
+                runCoordinateStore = [coordinates]
                 runDateStore = [date]
                 runRegionImageStore = [regionImage]
             }
@@ -800,7 +804,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         cell.layer.borderColor = UIColor.clear.cgColor
         cell.clipsToBounds = true
-        cell.textLabel?.textAlignment = .center
+        cell.textLabel?.textAlignment = .left
         cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
         
         guard let tableStore = tableStore else{
@@ -812,6 +816,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 20
         cell.textLabel?.attributedText = tableStore[indexPath.section]
+        cell.imageView?.image = UIImage(data: runRegionImageStore![indexPath.section])
         return cell
     }
     
@@ -837,7 +842,7 @@ extension RunViewController: UITableViewDragDelegate {
     }
     
     private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
-        if let coordinates = runCoordinatesStore?.reverse(){
+        if let coordinates = runCoordinateStore?.reverse(){
             let dragItem = UIDragItem(itemProvider: NSItemProvider())
             dragItem.localObject = coordinates
             return [dragItem]
