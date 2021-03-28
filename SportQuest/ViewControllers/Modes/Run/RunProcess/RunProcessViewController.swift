@@ -15,6 +15,7 @@ import CoreData
 class RunProcessViewController: UIViewController {
     
     private var customTransitioningDelegate = RunProcessTransitionDelegate()
+    
     var runTime:Int = 0
     var runCoordinates: [CLLocationCoordinate2D] = []
     var runDistance: Int = 0
@@ -29,6 +30,7 @@ class RunProcessViewController: UIViewController {
         }
     }
     
+    var runTimer: Timer?
     var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
     
     //MARK: LOCATION MANAGER
@@ -142,8 +144,10 @@ class RunProcessViewController: UIViewController {
         startTimer()
     }
     
+    //MARK: startTimer
     func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] tempTimer in
+        guard runTimer == nil else { return }
+        runTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] tempTimer in
             guard let self = self else { return }
             if self.runTime == 86400 {
                 self.dismiss(animated: true, completion: nil)
@@ -155,6 +159,13 @@ class RunProcessViewController: UIViewController {
         
     }
     
+    //MARK:startTimer
+    func stopTimer() {
+        runTimer?.invalidate()
+        runTimer = nil
+    }
+    
+    //MARK:secondsToHoursMinutesSeconds
     func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
     }
@@ -239,7 +250,6 @@ class RunProcessViewController: UIViewController {
     
     //MARK: setRunRegion
     func setRunRegion() {
-        self.runLocationManager.stopUpdatingLocation()
         let runLatitude = runCoordinates.map {$0.latitude}
         let runLongitude = runCoordinates.map {$0.longitude}
 
@@ -271,7 +281,7 @@ class RunProcessViewController: UIViewController {
         
         snapshotter.start {[weak self] snapshot, error in
             guard let snapshot = snapshot, let self = self else{return}
-            let resizeSnapshot = snapshot.image.resize(newSize: CGSize(width: 30, height: 30))
+            let resizeSnapshot = snapshot.image.resize(newSize: CGSize(width: 40, height: 40))
             self.runRegionImage = resizeSnapshot.pngData()
         }
     }
@@ -309,11 +319,8 @@ class RunProcessViewController: UIViewController {
     
     //MARK: stopRun
     @objc func stopRun() {
-        if runCoordinates.isEmpty || runCoordinates.count == 1{
-            self.dismiss(animated: true)
-            return
-        }
-        
+        runLocationManager.stopUpdatingLocation()
+        stopTimer()
         setRunRegion()
         getSnapshotRegion()
     }
