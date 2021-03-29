@@ -26,7 +26,10 @@ class RunProcessViewController: UIViewController {
                 self.dismiss(animated: true)
                 return
             }
-            saveRunData(regionImage: newValue)
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {[weak self] _ in
+                guard let self = self else{return}
+                self.saveRunData(regionImage: newValue)
+            }
         }
     }
     
@@ -40,7 +43,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 4
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         return locationManager
@@ -50,6 +53,15 @@ class RunProcessViewController: UIViewController {
     //MARK: VIEW
     
     
+    //MARK: loadImageView
+    lazy var loadImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.loadGif(name: "fire")
+        imageView.layer.cornerRadius = 45
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
     
     //MARK: runnningBatmanImageView
     lazy var runBatmanImageView: UIImageView = {
@@ -318,7 +330,21 @@ class RunProcessViewController: UIViewController {
     }
     
     //MARK: stopRun
+    func createLoader() {
+        view.addSubview(loadImageView)
+        loadImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        loadImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        loadImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loadImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+    
+    //MARK: stopRun
     @objc func stopRun() {
+        if runCoordinates.isEmpty || runCoordinates.count == 1{
+            self.dismiss(animated: true)
+            return
+        }
+        createLoader()
         runLocationManager.stopUpdatingLocation()
         stopTimer()
         setRunRegion()
