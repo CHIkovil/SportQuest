@@ -285,7 +285,11 @@ class RunProcessViewController: UIViewController {
     //MARK: getSnapshotRegion
     func getSnapshotRegion() {
         let options = MKMapSnapshotter.Options()
-        options.region = runMapView.region
+        
+        let polyLine = MKPolyline(coordinates: self.runCoordinates, count: self.runCoordinates.count)
+        let region = MKCoordinateRegion(polyLine.boundingMapRect)
+        
+        options.region = region
         options.size = runMapView.frame.size
         options.scale = UIScreen.main.scale
         options.traitCollection = .init(userInterfaceStyle: .dark)
@@ -293,8 +297,9 @@ class RunProcessViewController: UIViewController {
         
         snapshotter.start {[weak self] snapshot, error in
             guard let snapshot = snapshot, let self = self else{return}
-            let resizeSnapshot = snapshot.image.resize(newSize: CGSize(width: 40, height: 40))
-            self.runRegionImage = resizeSnapshot.pngData()
+            let image = self.drawLineOnImage(snapshot: snapshot)
+            let resizeImage = image.resize(newSize: CGSize(width: 40, height: 40))
+            self.runRegionImage = resizeImage.pngData()
         }
     }
     
@@ -327,6 +332,32 @@ class RunProcessViewController: UIViewController {
         catch{
             self.dismiss(animated: true)
         }
+    }
+    
+    func drawLineOnImage(snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
+        let image = snapshot.image
+
+        UIGraphicsBeginImageContextWithOptions(self.runMapView.frame.size, true, 0)
+        image.draw(at: CGPoint.zero)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        context!.setLineWidth(2.0)
+        context!.setStrokeColor(UIColor.orange.cgColor)
+
+        context!.move(to: snapshot.point(for: self.runCoordinates[0]))
+        for i in 0...runCoordinates.count - 1 {
+          context!.addLine(to: snapshot.point(for: runCoordinates[i]))
+          context!.move(to: snapshot.point(for: runCoordinates[i]))
+        }
+
+        context!.strokePath()
+
+        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return resultImage!
     }
     
     //MARK: addLoader
