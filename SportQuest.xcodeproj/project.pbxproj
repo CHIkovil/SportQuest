@@ -19,7 +19,6 @@
 		9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74525363DEF00ED1DFA /* ModesViewController.swift */; };
 		9314E74A253646B300ED1DFA /* RunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E749253646B300ED1DFA /* RunViewController.swift */; };
 		9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9314E74D253646D600ED1DFA /* AccountViewController.swift */; };
-		9314E75C253E26A900ED1DFA /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75B253E26A800ED1DFA /* running.png */; };
 		9314E760253E274A00ED1DFA /* magnifier.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E75F253E274A00ED1DFA /* magnifier.png */; };
 		9314E762253E2F5D00ED1DFA /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E761253E2F5D00ED1DFA /* account.png */; };
 		9314E764253E301200ED1DFA /* muscle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9314E763253E301200ED1DFA /* muscle.png */; };
@@ -36,6 +35,7 @@
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		9392E61E261253EE007BC9DD /* fire.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61D261253EE007BC9DD /* fire.gif */; };
+		9392E62026125B4D007BC9DD /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61F26125B4D007BC9DD /* running.png */; };
 		93C62048256AA4DB008CADE7 /* batman.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93C62047256AA4DB008CADE7 /* batman.gif */; };
 		93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunProcessViewController.swift */; };
 		93C6204D257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* RunProcessTransitionDelegate.swift */; };
@@ -66,7 +66,6 @@
 		9314E74525363DEF00ED1DFA /* ModesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModesViewController.swift; sourceTree = "<group>"; };
 		9314E749253646B300ED1DFA /* RunViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunViewController.swift; sourceTree = "<group>"; };
 		9314E74D253646D600ED1DFA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		9314E75B253E26A800ED1DFA /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
 		9314E75F253E274A00ED1DFA /* magnifier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magnifier.png; sourceTree = "<group>"; };
 		9314E761253E2F5D00ED1DFA /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
 		9314E763253E301200ED1DFA /* muscle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = muscle.png; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9392E61D261253EE007BC9DD /* fire.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = fire.gif; sourceTree = "<group>"; };
+		9392E61F26125B4D007BC9DD /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
 		9393AC0EAE3ED5FFA59926D1 /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.debug.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93C62047256AA4DB008CADE7 /* batman.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = batman.gif; sourceTree = "<group>"; };
 		93C620492576C8CC008CADE7 /* RunProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +196,7 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				9392E61F26125B4D007BC9DD /* running.png */,
 				9392E61D261253EE007BC9DD /* fire.gif */,
 				9392E60D25D8A375007BC9DD /* batman.png */,
 				9392E60E25D8A375007BC9DD /* prize.png */,
@@ -207,7 +208,6 @@
 				9314E763253E301200ED1DFA /* muscle.png */,
 				9314E761253E2F5D00ED1DFA /* account.png */,
 				9314E75F253E274A00ED1DFA /* magnifier.png */,
-				9314E75B253E26A800ED1DFA /* running.png */,
 				9314E7422533A75400ED1DFA /* gnome.png */,
 				9314E73F2533A6C900ED1DFA /* elf.png */,
 				9314E73E2533A6C900ED1DFA /* human.png */,
@@ -360,8 +360,8 @@
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
 				9314E764253E301200ED1DFA /* muscle.png in Resources */,
-				9314E75C253E26A900ED1DFA /* running.png in Resources */,
 				9314E7412533A6C900ED1DFA /* elf.png in Resources */,
+				9392E62026125B4D007BC9DD /* running.png in Resources */,
 				9314E760253E274A00ED1DFA /* magnifier.png in Resources */,
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
 				9392E60F25D8A375007BC9DD /* batman.png in Resources */,

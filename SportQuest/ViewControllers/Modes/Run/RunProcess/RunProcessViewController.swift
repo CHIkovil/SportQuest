@@ -288,7 +288,7 @@ class RunProcessViewController: UIViewController {
         options.region = runMapView.region
         options.size = runMapView.frame.size
         options.scale = UIScreen.main.scale
-
+        options.traitCollection = .init(userInterfaceStyle: .dark)
         let snapshotter = MKMapSnapshotter(options: options)
         
         snapshotter.start {[weak self] snapshot, error in
@@ -329,8 +329,8 @@ class RunProcessViewController: UIViewController {
         }
     }
     
-    //MARK: stopRun
-    func createLoader() {
+    //MARK: addLoader
+    func addLoader() {
         view.addSubview(loadImageView)
         loadImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         loadImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -344,7 +344,7 @@ class RunProcessViewController: UIViewController {
             self.dismiss(animated: true)
             return
         }
-        createLoader()
+        addLoader()
         runLocationManager.stopUpdatingLocation()
         stopTimer()
         setRunRegion()
