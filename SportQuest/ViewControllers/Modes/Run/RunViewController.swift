@@ -804,7 +804,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         cell.layer.borderColor = UIColor.clear.cgColor
         cell.clipsToBounds = true
-        cell.textLabel?.textAlignment = .left
+        cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
         
         guard let tableStore = tableStore else{
@@ -816,7 +816,11 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 20
         cell.textLabel?.attributedText = tableStore[indexPath.section]
-        cell.imageView?.image = UIImage(data: runRegionImageStore![indexPath.section])
+        let cellImg : UIImageView = UIImageView(frame: CGRect(x: 10, y: 2.5, width: 50, height: 50))
+        cellImg.image = UIImage(data: runRegionImageStore![indexPath.section])
+        cellImg.layer.cornerRadius = 15
+        cellImg.layer.masksToBounds = true
+        cell.addSubview(cellImg)
         return cell
     }
     
