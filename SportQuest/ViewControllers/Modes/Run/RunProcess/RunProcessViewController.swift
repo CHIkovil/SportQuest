@@ -260,6 +260,27 @@ class RunProcessViewController: UIViewController {
         }
     }
     
+    //MARK: stopRun
+    @objc func stopRun() {
+        if runCoordinates.isEmpty || runCoordinates.count == 1{
+            self.dismiss(animated: true)
+            return
+        }
+        addLoader()
+        runLocationManager.stopUpdatingLocation()
+        stopTimer()
+        setRunRegion()
+        getSnapshotRegion()
+    }
+    
+    //MARK: addLoader
+    func addLoader() {
+        view.addSubview(loadImageView)
+        loadImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        loadImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        loadImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loadImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
     //MARK: setRunRegion
     func setRunRegion() {
         let runLatitude = runCoordinates.map {$0.latitude}
@@ -279,20 +300,18 @@ class RunProcessViewController: UIViewController {
         let location = CLLocationCoordinate2D(latitude: (maxLatitude+minLatitude)*0.5, longitude: (maxLongitude+minLongitude)*0.5)
         let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
 
-        runMapView.setRegion(region, animated: true)
+        runMapView.setRegion(region, animated: false)
     }
     
     //MARK: getSnapshotRegion
     func getSnapshotRegion() {
         let options = MKMapSnapshotter.Options()
         
-        let polyLine = MKPolyline(coordinates: self.runCoordinates, count: self.runCoordinates.count)
-        let region = MKCoordinateRegion(polyLine.boundingMapRect)
-        
-        options.region = region
+        options.region = runMapView.region
         options.size = runMapView.frame.size
         options.scale = UIScreen.main.scale
         options.traitCollection = .init(userInterfaceStyle: .dark)
+        
         let snapshotter = MKMapSnapshotter(options: options)
         
         snapshotter.start {[weak self] snapshot, error in
@@ -301,6 +320,33 @@ class RunProcessViewController: UIViewController {
             let resizeImage = image.resize(newSize: CGSize(width: 40, height: 40))
             self.runRegionImage = resizeImage.pngData()
         }
+    }
+    
+    //MARK: drawLineOnImage
+    func drawLineOnImage(snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
+        let image = snapshot.image
+
+        UIGraphicsBeginImageContextWithOptions(self.runMapView.frame.size, true, UIScreen.main.scale)
+        image.draw(at: CGPoint.zero)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        context!.setLineWidth(5.0)
+        context!.setStrokeColor(UIColor.red.cgColor)
+
+        context!.move(to: snapshot.point(for: self.runCoordinates[0]))
+        for i in 0...runCoordinates.count - 1 {
+          context!.addLine(to: snapshot.point(for: runCoordinates[i]))
+          context!.move(to: snapshot.point(for: runCoordinates[i]))
+        }
+
+        context!.strokePath()
+
+        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return resultImage!
     }
     
     //MARK: saveRunData
@@ -332,54 +378,6 @@ class RunProcessViewController: UIViewController {
         catch{
             self.dismiss(animated: true)
         }
-    }
-    
-    func drawLineOnImage(snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
-        let image = snapshot.image
-
-        UIGraphicsBeginImageContextWithOptions(self.runMapView.frame.size, true, 0)
-        image.draw(at: CGPoint.zero)
-
-        let context = UIGraphicsGetCurrentContext()
-
-        context!.setLineWidth(2.0)
-        context!.setStrokeColor(UIColor.orange.cgColor)
-
-        context!.move(to: snapshot.point(for: self.runCoordinates[0]))
-        for i in 0...runCoordinates.count - 1 {
-          context!.addLine(to: snapshot.point(for: runCoordinates[i]))
-          context!.move(to: snapshot.point(for: runCoordinates[i]))
-        }
-
-        context!.strokePath()
-
-        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
-
-        UIGraphicsEndImageContext()
-
-        return resultImage!
-    }
-    
-    //MARK: addLoader
-    func addLoader() {
-        view.addSubview(loadImageView)
-        loadImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        loadImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        loadImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        loadImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    }
-    
-    //MARK: stopRun
-    @objc func stopRun() {
-        if runCoordinates.isEmpty || runCoordinates.count == 1{
-            self.dismiss(animated: true)
-            return
-        }
-        addLoader()
-        runLocationManager.stopUpdatingLocation()
-        stopTimer()
-        setRunRegion()
-        getSnapshotRegion()
     }
     
 }

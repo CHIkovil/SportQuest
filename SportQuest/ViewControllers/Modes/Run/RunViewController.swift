@@ -531,11 +531,11 @@ class RunViewController: UIViewController, TabItem {
     //MARK: setDataTransfer
     func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String, regionImage: Data) -> Void{
           if runDateStore != nil{
-                runTimeStore!.append(time)
-                runDistanceStore!.append(distance)
-                runCoordinateStore!.append(coordinates)
-                runDateStore!.append(date)
-                runRegionImageStore!.append(regionImage)
+                runTimeStore!.insert(time, at: 0)
+                runDistanceStore!.insert(distance,at: 0)
+                runCoordinateStore!.insert(coordinates, at: 0)
+                runDateStore!.insert(date, at: 0)
+                runRegionImageStore!.insert(regionImage, at: 0)
             }else{
                 runTimeStore = [time]
                 runDistanceStore = [distance]
