@@ -1,5 +1,5 @@
 //
-//  RunProcessTransitionDelegate.swift
+//  TransitionDelegate.swift
 //  SportQuest
 //
 //  Created by Никита Бычков on 05.12.2020.
@@ -7,8 +7,8 @@
 //
 import UIKit
 
-class RunProcessTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
+class TransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return RunProcessPresentationController(presentedViewController: presented, presenting: presenting)
+        return PresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

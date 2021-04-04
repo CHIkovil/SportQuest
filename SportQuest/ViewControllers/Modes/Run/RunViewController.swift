@@ -14,6 +14,7 @@ import MarqueeLabel
 import AGCircularPicker
 import CoreData
 import Foundation
+import MapKit
 
 
 class RunViewController: UIViewController, TabItem {
@@ -333,10 +334,10 @@ class RunViewController: UIViewController, TabItem {
             return
         }
         
-        runTimeStore = timeStore
-        runDistanceStore = distanceStore
-        runCoordinateStore = coordinateStore
-        runDateStore = dateStore
+        runTimeStore = timeStore.reversed()
+        runDistanceStore = distanceStore.reversed()
+        runCoordinateStore = coordinateStore.reversed()
+        runDateStore = dateStore.reversed()
         runRegionImageStore = regionImageStore.reversed()
         
         do {
@@ -395,7 +396,7 @@ class RunViewController: UIViewController, TabItem {
             tableStore.append(mutableString)
             
         }
-        self.tableStore = tableStore.reversed()
+        self.tableStore = tableStore
         runStoreTableView.reloadData()
     }
     
@@ -826,6 +827,20 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let coordinatesStore = runCoordinateStore else {
+            return
+        }
+        let coordinates: [CLLocationCoordinate2D] = coordinatesStore[indexPath.section].split(separator: ",").map {data in
+            let point = data.split(separator: " ")
+            let latitude = Double(point[0])
+            let longitude = Double(point[1])
+            return CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+            
+        }
+
+        let viewController = RunMapViewController()
+        viewController.runCoordinates = coordinates
+        self.present(viewController, animated: true)
     }
 }
 

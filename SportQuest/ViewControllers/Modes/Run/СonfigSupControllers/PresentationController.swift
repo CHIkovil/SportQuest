@@ -1,5 +1,5 @@
 //
-//  RunProcessPresentationController.swift
+//  PresentationController.swift
 //  SportQuest
 //
 //  Created by Никита Бычков on 05.12.2020.
@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class RunProcessPresentationController: UIPresentationController {
+class PresentationController: UIPresentationController {
     override var frameOfPresentedViewInContainerView: CGRect {
         let bounds = presentingViewController.view.bounds
         let size = CGSize(width: 300, height: 300)

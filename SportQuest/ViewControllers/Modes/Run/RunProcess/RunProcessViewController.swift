@@ -14,7 +14,7 @@ import CoreData
 
 class RunProcessViewController: UIViewController {
     
-    private var customTransitioningDelegate = RunProcessTransitionDelegate()
+    private var customTransitioningDelegate = TransitionDelegate()
     
     var runTime:Int = 0
     var runCoordinates: [CLLocationCoordinate2D] = []
@@ -63,7 +63,7 @@ class RunProcessViewController: UIViewController {
         return imageView
     }()
     
-    //MARK: runnningBatmanImageView
+    //MARK: runBatmanImageView
     lazy var runBatmanImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +71,7 @@ class RunProcessViewController: UIViewController {
         return imageView
     }()
     
-    //MARK: runningMapView
+    //MARK: runMapView
     lazy var runMapView: MKMapView = {
         let view = MKMapView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -105,12 +105,6 @@ class RunProcessViewController: UIViewController {
         return label
     }()
     
-    //MARK: init
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        configure()
-    }
-    
     //MARK: BUTTON
     
     
@@ -126,10 +120,17 @@ class RunProcessViewController: UIViewController {
         return button
     }()
     
+    //MARK: init
+     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+         configure()
+     }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configure()
     }
+
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -331,7 +332,7 @@ class RunProcessViewController: UIViewController {
 
         let context = UIGraphicsGetCurrentContext()
 
-        context!.setLineWidth(5.0)
+        context!.setLineWidth(6.0)
         context!.setStrokeColor(UIColor.red.cgColor)
 
         context!.move(to: snapshot.point(for: self.runCoordinates[0]))
