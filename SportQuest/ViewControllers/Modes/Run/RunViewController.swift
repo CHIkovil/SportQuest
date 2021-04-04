@@ -558,6 +558,8 @@ class RunViewController: UIViewController, TabItem {
     //MARK: @OBJC
     
     
+    
+    
     //MARK: updateScrollEnabled
     @objc func updateScrollEnabled() {
         scrollView.isScrollEnabled = true
@@ -827,7 +829,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let coordinatesStore = runCoordinateStore else {
+        guard let coordinatesStore = runCoordinateStore, let tableStore = tableStore else {
             return
         }
         let coordinates: [CLLocationCoordinate2D] = coordinatesStore[indexPath.section].split(separator: ",").map {data in
@@ -840,6 +842,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
 
         let viewController = RunMapViewController()
         viewController.runCoordinates = coordinates
+        viewController.runData = tableStore[indexPath.section]
         self.present(viewController, animated: true)
     }
 }

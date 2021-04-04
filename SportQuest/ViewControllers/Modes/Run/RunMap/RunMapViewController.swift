@@ -14,6 +14,11 @@ class RunMapViewController: UIViewController {
     
     private var customTransitioningDelegate = TransitionDelegate()
     var runCoordinates: [CLLocationCoordinate2D]?
+    var runData: NSMutableAttributedString?
+    
+    //MARK: VIEW
+    
+    
     
     //MARK: runMapView
     lazy var runMapView: MKMapView = {
@@ -24,6 +29,39 @@ class RunMapViewController: UIViewController {
         view.delegate = self
         return view
     }()
+    
+    //MARK: LABEL
+    
+    
+    
+    
+    //MARK: runDataLabel
+    lazy var runDataLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.borderColor = UIColor.clear.cgColor
+        label.backgroundColor = UIColor.clear
+        return label
+    }()
+    //MARK: BUTTON
+    
+    
+    
+    
+    //MARK: exitButton
+    lazy var exitButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.backgroundColor = UIColor.clear
+        button.frame = CGRect(x: 0, y: 0 , width: 45, height: 45)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.setImage(UIImage(named:"iconfinder.png"), for: .normal)
+        button.addTarget(self, action: #selector(exitMap), for: .touchUpInside)
+        return button
+    }()
+    
     //MARK: init
      override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
          super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -39,15 +77,27 @@ class RunMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(runMapView)
+        view.addSubview(runDataLabel)
+        view.addSubview(exitButton)
+        
         createConstraintsRunMapView()
+        createConstraintsRunDataLabel()
+        createConstraintsExitButton()
     }
     
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         showRunDistance()
+        guard let text = runData else {return}
+        runDataLabel.attributedText = text
         
     }
+    
+    //MARK:  FUNC
+    
+    
+    
     
     //MARK: createConstraintsRunMapView
     func createConstraintsRunMapView() {
@@ -57,6 +107,23 @@ class RunMapViewController: UIViewController {
         runMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
+    //MARK: createConstraintsRunDataLabel
+    func createConstraintsRunDataLabel() {
+        runDataLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        runDataLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        runDataLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        runDataLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    //MARK: createConstraintsExitButton
+    func createConstraintsExitButton() {
+        exitButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        exitButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        exitButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        exitButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
+    }
+    
+    //MARK: showRunDistance
     func showRunDistance() {
         guard let coordinates = runCoordinates else {
             self.dismiss(animated: true)
@@ -67,6 +134,8 @@ class RunMapViewController: UIViewController {
         setRunRegion(coordinates: coordinates)
     }
     
+    
+    //MARK: setRunRegion
     func setRunRegion(coordinates: [CLLocationCoordinate2D]){
         let runLatitude = coordinates.map {$0.latitude}
         let runLongitude = coordinates.map {$0.longitude}
@@ -86,6 +155,16 @@ class RunMapViewController: UIViewController {
         let region = MKCoordinateRegion(center: location, latitudinalMeters: zoom + 100, longitudinalMeters: zoom + 100)
 
         runMapView.setRegion(region, animated: true)
+    }
+    
+    //MARK: OBJC
+    
+    
+    
+    
+    //MARK: exitMap
+    @objc func exitMap() {
+        self.dismiss(animated: true)
     }
 }
 
