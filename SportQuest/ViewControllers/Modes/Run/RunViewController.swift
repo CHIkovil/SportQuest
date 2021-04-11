@@ -56,6 +56,7 @@ class RunViewController: UIViewController, TabItem {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.dragDelegate = self
+        tableView.dragInteractionEnabled = true
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorColor = .clear
@@ -559,6 +560,7 @@ class RunViewController: UIViewController, TabItem {
     
     
     
+
     
     //MARK: updateScrollEnabled
     @objc func updateScrollEnabled() {
@@ -864,15 +866,10 @@ extension RunViewController: UITableViewDragDelegate {
     }
     
     private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
-        if let coordinates = runCoordinateStore?.reverse(){
-            let dragItem = UIDragItem(itemProvider: NSItemProvider())
-            dragItem.localObject = coordinates
-            return [dragItem]
-        }
-        else{
-            return []
-        }
-    }
+        guard let _ = tableStore else{return []}
+        let dragItem = UIDragItem(itemProvider: NSItemProvider())
+        return [dragItem]
     
+    }
 }
 
