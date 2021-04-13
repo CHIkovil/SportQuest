@@ -31,7 +31,6 @@ class RunViewController: UIViewController, TabItem {
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
     var showValueCharts: Bool = false
-    var activateLongPressForCell: Bool = false
     
     var tableStore: [NSMutableAttributedString]?
     //MARK: VIEW
@@ -40,7 +39,7 @@ class RunViewController: UIViewController, TabItem {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentSize.height = 950
+        scrollView.contentSize.height = 920
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         scrollView.bounces = false
@@ -56,8 +55,6 @@ class RunViewController: UIViewController, TabItem {
         tableView.rowHeight = 58
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.dragDelegate = self
-//        tableView.dragInteractionEnabled = true
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorColor = .clear
@@ -77,7 +74,7 @@ class RunViewController: UIViewController, TabItem {
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.cornerRadius = 30
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        view.isHidden = false
+        view.isHidden = true
         return view
     }()
     
@@ -86,7 +83,7 @@ class RunViewController: UIViewController, TabItem {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
-        view.isHidden = true
+        view.isHidden = false
         return view
     }()
     
@@ -121,7 +118,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: blockSwitchView
     lazy var targetBlockSwitchView: BetterSegmentedControl = {
-        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "target.png")!, UIImage(named: "cloud-computing.png")!],
+        let segmentView = BetterSegmentedControl(frame: CGRect(), segments: IconSegment.segments(withIcons: [UIImage(named: "cloud-computing.png")!, UIImage(named: "target.png")!],
                                                                                                  iconSize: CGSize(width: 30, height: 30),
                                                                                                  normalIconTintColor: .lightGray,
                                                                                                  selectedIconTintColor: #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)))
@@ -248,13 +245,14 @@ class RunViewController: UIViewController, TabItem {
         scrollView.addSubview(targetBlockSwitchView)
         
         
-        scrollView.addSubview(runTargetTimeBlockView)
-        runTargetTimeBlockView.addSubview(runTargetTimeLabel)
-        runTargetTimeBlockView.addSubview(runTargetTimePicker)
+ 
         
         scrollView.addSubview(runStoreBlockView)
         runStoreBlockView.addSubview(runStoreTableView)
         
+        scrollView.addSubview(runTargetTimeBlockView)
+        runTargetTimeBlockView.addSubview(runTargetTimeLabel)
+        runTargetTimeBlockView.addSubview(runTargetTimePicker)
         
         scrollView.addSubview(runStartButton)
         
@@ -561,6 +559,17 @@ class RunViewController: UIViewController, TabItem {
             }
         
     }
+    
+    func setTargetMod(){
+        targetBlockSwitchView.setIndex(1)
+        self.runStoreBlockView.isHidden = true
+        self.runTargetTimeBlockView.isHidden = false
+        runStartButton.backgroundColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
+    }
+    
+    func dropTargetMod(){
+        runStartButton.backgroundColor = .white
+    }
     //MARK: @OBJC
     
     
@@ -572,11 +581,8 @@ class RunViewController: UIViewController, TabItem {
             let pointPress = gestureRecognizer.location(in: self.runStoreTableView)
             let indexPath = self.runStoreTableView.indexPathForRow(at: pointPress)
             guard let index = indexPath?.section else{return}
-            self.activateLongPressForCell = true
+            setTargetMod()
             print(index)
-        }
-        if gestureRecognizer.state == .ended{
-            self.activateLongPressForCell = false
         }
  
     }
@@ -605,7 +611,7 @@ class RunViewController: UIViewController, TabItem {
             showValueChartsButton.layer.borderColor = UIColor.white.cgColor
         } else {
             showValueCharts = true
-            showValueChartsButton.layer.borderColor = UIColor.yellow.cgColor
+            showValueChartsButton.layer.borderColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
         }
         if formatForChartSwitchView.index == 0{
             setWeekData()
@@ -626,13 +632,14 @@ class RunViewController: UIViewController, TabItem {
     //MARK: changeTargetBlock
     @objc func changeTargetBlock(){
         if targetBlockSwitchView.index == 0 {
-            runTargetTimeBlockView.isHidden = false
-            runStoreBlockView.isHidden = true
+            dropTargetMod()
+            runTargetTimeBlockView.isHidden = true
+            runStoreBlockView.isHidden = false
             
         }
         if targetBlockSwitchView.index == 1 {
-            runTargetTimeBlockView.isHidden = true
-            runStoreBlockView.isHidden = false
+            runTargetTimeBlockView.isHidden = false
+            runStoreBlockView.isHidden = true
             
         }
     }
@@ -664,7 +671,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunActivityChartView
     func createConstraintsRunActivityChartView() {
-        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant:90).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant:70).isActive = true
         runActivityChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runActivityChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
         runActivityChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
@@ -847,12 +854,9 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cellImg.layer.masksToBounds = true
         cell.addSubview(cellImg)
         
-            
-        if activateLongPressForCell{
-            let view = UIView()
-            view.backgroundColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
-            cell.selectedBackgroundView = view
-        }
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
+        cell.selectedBackgroundView = view
         return cell
     }
     
@@ -887,16 +891,4 @@ extension RunViewController: IAxisValueFormatter{
     }
 }
 
-//extension RunViewController: UITableViewDragDelegate {
-//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        return dragItem(at: indexPath)
-//    }
-//
-//    private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
-//        guard let _ = tableStore else{return []}
-//        let dragItem = UIDragItem(itemProvider: NSItemProvider())
-//        return [dragItem]
-//
-//    }
-//}
 
