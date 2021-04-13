@@ -31,6 +31,7 @@ class RunViewController: UIViewController, TabItem {
     var weekDataForChart: [Double]?
     var monthDataForChart: [Double]?
     var showValueCharts: Bool = false
+    var activateLongPressForCell: Bool = false
     
     var tableStore: [NSMutableAttributedString]?
     //MARK: VIEW
@@ -55,12 +56,16 @@ class RunViewController: UIViewController, TabItem {
         tableView.rowHeight = 58
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.dragDelegate = self
-        tableView.dragInteractionEnabled = true
+//        tableView.dragDelegate = self
+//        tableView.dragInteractionEnabled = true
         tableView.bounces = false
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorColor = .clear
         tableView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(swipingRunStoreTableView)))
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action:  #selector(checkLongPress))
+        longPressGesture.minimumPressDuration = 1
+        tableView.addGestureRecognizer(longPressGesture)
         return tableView
     }()
     
@@ -561,6 +566,20 @@ class RunViewController: UIViewController, TabItem {
     
     
 
+    //MARK: checkLongPress
+    @objc func checkLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let pointPress = gestureRecognizer.location(in: self.runStoreTableView)
+            let indexPath = self.runStoreTableView.indexPathForRow(at: pointPress)
+            guard let index = indexPath?.section else{return}
+            self.activateLongPressForCell = true
+            print(index)
+        }
+        if gestureRecognizer.state == .ended{
+            self.activateLongPressForCell = false
+        }
+ 
+    }
     
     //MARK: updateScrollEnabled
     @objc func updateScrollEnabled() {
@@ -811,6 +830,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cell.clipsToBounds = true
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont(name: "TrebuchetMS", size: 18)
+
         
         guard let tableStore = tableStore else{
             cell.backgroundColor = .lightGray
@@ -826,6 +846,13 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         cellImg.layer.cornerRadius = 15
         cellImg.layer.masksToBounds = true
         cell.addSubview(cellImg)
+        
+            
+        if activateLongPressForCell{
+            let view = UIView()
+            view.backgroundColor = #colorLiteral(red: 0.3046965897, green: 0.3007525206, blue: 0.8791586757, alpha: 1)
+            cell.selectedBackgroundView = view
+        }
         return cell
     }
     
@@ -860,16 +887,16 @@ extension RunViewController: IAxisValueFormatter{
     }
 }
 
-extension RunViewController: UITableViewDragDelegate {
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        return dragItem(at: indexPath)
-    }
-    
-    private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
-        guard let _ = tableStore else{return []}
-        let dragItem = UIDragItem(itemProvider: NSItemProvider())
-        return [dragItem]
-    
-    }
-}
+//extension RunViewController: UITableViewDragDelegate {
+//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        return dragItem(at: indexPath)
+//    }
+//
+//    private func dragItem(at indexPath: IndexPath) -> [UIDragItem] {
+//        guard let _ = tableStore else{return []}
+//        let dragItem = UIDragItem(itemProvider: NSItemProvider())
+//        return [dragItem]
+//
+//    }
+//}
 
