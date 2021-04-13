@@ -282,6 +282,7 @@ class RunViewController: UIViewController, TabItem {
         parseActivityChartStore()
         parseTableStore()
         setWeekData()
+        self.scrollView.setContentOffset(.init(x: 0, y: -44), animated: false)
     }
     
     //MARK: FUNC
@@ -560,13 +561,16 @@ class RunViewController: UIViewController, TabItem {
         
     }
     
+    //MARK: setTargetMod
     func setTargetMod(){
         targetBlockSwitchView.setIndex(1)
         self.runStoreBlockView.isHidden = true
         self.runTargetTimeBlockView.isHidden = false
         runStartButton.backgroundColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
+        self.scrollView.setContentOffset(.init(x: 0, y: 15), animated: true)
     }
     
+    //MARK: dropTargetMod
     func dropTargetMod(){
         runStartButton.backgroundColor = .white
     }
@@ -671,7 +675,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunActivityChartView
     func createConstraintsRunActivityChartView() {
-        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant:70).isActive = true
+        runActivityChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: scrollView.topAnchor, constant:65).isActive = true
         runActivityChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runActivityChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
         runActivityChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
@@ -761,7 +765,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsShowValueChartsButton
     func createConstraintsShowValueChartsButton() {
-        showValueChartsButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runActivityChartView.topAnchor).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runActivityChartView.topAnchor, constant: -6).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 20).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 50).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -10).isActive = true
@@ -770,7 +774,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsRunStartButton
     func createConstraintsRunStartButton() {
-        runStartButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor, constant: 5).isActive = true
+        runStartButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: runStoreBlockView.bottomAnchor, constant: 10).isActive = true
         runStartButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         runStartButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 110).isActive = true
         runStartButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 110).isActive = true
