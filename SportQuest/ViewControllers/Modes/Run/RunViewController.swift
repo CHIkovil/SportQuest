@@ -16,7 +16,6 @@ import CoreData
 import Foundation
 import MapKit
 
-
 class RunViewController: UIViewController, TabItem {
     
     //MARK: let, var
@@ -75,6 +74,7 @@ class RunViewController: UIViewController, TabItem {
         view.layer.cornerRadius = 30
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         view.isHidden = true
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragTimeBlock)))
         return view
     }()
     
@@ -193,6 +193,7 @@ class RunViewController: UIViewController, TabItem {
         label.textAlignment = .center
         return label
     }()
+    
     //MARK: BUTTON
     
     
@@ -659,6 +660,22 @@ class RunViewController: UIViewController, TabItem {
         self.present(viewController, animated: true)
     }
     
+    //MARK: dragTimeBlock
+    @objc func dragTimeBlock(_ gestureRecognizer: UIPanGestureRecognizer) {
+        switch gestureRecognizer.state{
+        case .began:
+            self.scrollView.isScrollEnabled = false
+            self.scrollView.setContentOffset(.init(x: 0, y: 15), animated: true)
+        case .changed:
+            let point = gestureRecognizer.translation(in: scrollView)
+            let transform : CGAffineTransform = CGAffineTransform(translationX: 0, y: point.y)
+            runTargetTimeBlockView.transform = transform
+        default :
+            self.scrollView.isScrollEnabled = true
+            runTargetTimeBlockView.transform = CGAffineTransform(translationX: 0, y: 0)
+        }
+    }
+
     //MARK: CONSTRAINTS VIEW
     
     
