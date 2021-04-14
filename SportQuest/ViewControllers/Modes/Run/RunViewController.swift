@@ -69,12 +69,10 @@ class RunViewController: UIViewController, TabItem {
     lazy var runTargetTimeBlockView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.borderColor = UIColor.clear.cgColor
         view.layer.cornerRadius = 30
         view.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         view.isHidden = true
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragTimeBlock)))
         return view
     }()
     
@@ -668,6 +666,15 @@ class RunViewController: UIViewController, TabItem {
             self.scrollView.setContentOffset(.init(x: 0, y: 15), animated: true)
         case .changed:
             let point = gestureRecognizer.translation(in: scrollView)
+            if point.y <= 0{
+                break
+            }
+            
+            if point.y >= 30{
+                runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
+                fallthrough
+            }
+            
             let transform : CGAffineTransform = CGAffineTransform(translationX: 0, y: point.y)
             runTargetTimeBlockView.transform = transform
         default :
@@ -782,7 +789,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsShowValueChartsButton
     func createConstraintsShowValueChartsButton() {
-        showValueChartsButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runActivityChartView.topAnchor, constant: -6).isActive = true
+        showValueChartsButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: runActivityChartView.topAnchor, constant: -7).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 20).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 50).isActive = true
         showValueChartsButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runActivityChartView.trailingAnchor,constant: -10).isActive = true
@@ -806,6 +813,8 @@ extension RunViewController: AGCircularPickerDelegate {
     
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
         scrollView.isScrollEnabled = false
+        runTargetTimeBlockView.gestureRecognizers?.removeAll()
+        self.scrollView.setContentOffset(.init(x: 0, y: 14), animated: true)
         Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
         
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
@@ -820,6 +829,10 @@ extension RunViewController: AGCircularPickerDelegate {
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.black), range: range)
         
         runTargetTimeLabel.attributedText = attributedString
+        
+        if fullString != "00:00:00"{
+            runTargetTimeBlockView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragTimeBlock)))
+        }
     }
     
 }
