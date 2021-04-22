@@ -43,6 +43,7 @@
 		93C6204D257BAD5C008CADE7 /* TransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* TransitionDelegate.swift */; };
 		93C6204F257BADBF008CADE7 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204E257BADBF008CADE7 /* PresentationController.swift */; };
 		93C62058257D1CA4008CADE7 /* batman-logo-silhouette.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */; };
+		93CB26EE262CB1B80076B8D1 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 93CB26ED262CB1B80076B8D1 /* add.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		93C6204C257BAD5C008CADE7 /* TransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDelegate.swift; sourceTree = "<group>"; };
 		93C6204E257BADBF008CADE7 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		93C62057257D1CA3008CADE7 /* batman-logo-silhouette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "batman-logo-silhouette.png"; sourceTree = "<group>"; };
+		93CB26ED262CB1B80076B8D1 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		977E0F2411667F0FFE7F72F6 /* Pods-SportQuest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuest.release.xcconfig"; path = "Target Support Files/Pods-SportQuest/Pods-SportQuest.release.xcconfig"; sourceTree = "<group>"; };
 		C41DC23DD5548AC348AA260A /* Pods_SportQuest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SportQuest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A1631EE2F54F017D7CF9F6 /* Pods-SportQuest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuest.debug.xcconfig"; path = "Target Support Files/Pods-SportQuest/Pods-SportQuest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				93CB26ED262CB1B80076B8D1 /* add.png */,
 				9392E625261A0A56007BC9DD /* iconfinder.png */,
 				9392E61F26125B4D007BC9DD /* running.png */,
 				9392E61D261253EE007BC9DD /* fire.gif */,
@@ -385,6 +388,7 @@
 				9314E7412533A6C900ED1DFA /* elf.png in Resources */,
 				9392E62026125B4D007BC9DD /* running.png in Resources */,
 				9314E760253E274A00ED1DFA /* magnifier.png in Resources */,
+				93CB26EE262CB1B80076B8D1 /* add.png in Resources */,
 				9392E626261A0A56007BC9DD /* iconfinder.png in Resources */,
 				9314E730252A3F3D00ED1DFA /* seal.png in Resources */,
 				9392E60F25D8A375007BC9DD /* batman.png in Resources */,

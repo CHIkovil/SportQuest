@@ -32,6 +32,7 @@ class RunViewController: UIViewController, TabItem {
     var showValueCharts: Bool = false
     
     var tableStore: [NSMutableAttributedString]?
+    var targetModStore: (coordinates: String, time: String, interval: String)?
     //MARK: VIEW
     
     //MARK: scrollView
@@ -158,10 +159,13 @@ class RunViewController: UIViewController, TabItem {
         circularPicker.options = [hourOption, minuteOption, secondOption]
         circularPicker.translatesAutoresizingMaskIntoConstraints = false
         circularPicker.delegate = self
+        circularPicker.isUserInteractionEnabled = false
         return circularPicker
     }()
     
     //MARK: LABEL
+    
+    
     
     //MARK: motivationLabel
     lazy var motivationLabel:MarqueeLabel = {
@@ -170,6 +174,7 @@ class RunViewController: UIViewController, TabItem {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = text
         label.font = label.font.withSize(20)
+        label.textColor = .black
         return label
     }()
     
@@ -189,6 +194,18 @@ class RunViewController: UIViewController, TabItem {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.textColor = UIColor.white.withAlphaComponent(0.5)
+        label.font = .systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        return label
+    }()
+   
+    //MARK: runIntervalLabel
+    lazy var runIntervalLabel:UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "2"
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
+        label.font = .systemFont(ofSize: 25, weight: UIFont.Weight.bold)
         return label
     }()
     
@@ -225,6 +242,21 @@ class RunViewController: UIViewController, TabItem {
         return button
     }()
     
+    //MARK: runIntervalButton
+    lazy var runIntervalButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .clear
+        button.frame = CGRect(x: 0, y: 0 , width: 30, height: 30)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.isUserInteractionEnabled = false
+        button.setImage(UIImage(named:"add.png"), for: .normal)
+        button.addTarget(self, action: #selector(addRunInterval), for: .touchUpInside)
+        return button
+    }()
+    
     //MARK: Image for AMTabsView
     public var tabImage: UIImage? {
         return UIImage(named: "running.png")
@@ -252,6 +284,8 @@ class RunViewController: UIViewController, TabItem {
         scrollView.addSubview(runTargetTimeBlockView)
         runTargetTimeBlockView.addSubview(runTargetTimeLabel)
         runTargetTimeBlockView.addSubview(runTargetTimePicker)
+        runTargetTimeBlockView.addSubview(runIntervalLabel)
+        runTargetTimeBlockView.addSubview(runIntervalButton)
         
         scrollView.addSubview(runStartButton)
         
@@ -272,6 +306,8 @@ class RunViewController: UIViewController, TabItem {
         createConstraintsRunTargetTimeLabel()
         createConstraintsRunTargetTimeView()
         createConstraintsRunStartButton()
+        createConstraintsRunIntervalLabel()
+        createConstraintsRunIntervalButton()
     }
     
     //MARK: viewDidAppear
@@ -560,18 +596,50 @@ class RunViewController: UIViewController, TabItem {
         
     }
     
-    //MARK: setTargetMod
-    func setTargetMod(){
-        targetBlockSwitchView.setIndex(1)
-        self.runStoreBlockView.isHidden = true
-        self.runTargetTimeBlockView.isHidden = false
+    //MARK: setFirstStateTargetMod
+    func setFirstStateTargetMod(_ index: Int){
+        guard let runCoordinateStore = runCoordinateStore else {return}
         runStartButton.backgroundColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
-        self.scrollView.setContentOffset(.init(x: 0, y: 15), animated: true)
+        
+        targetBlockSwitchView.setIndex(1)
+        runStoreBlockView.isHidden = true
+        runTargetTimeBlockView.isHidden = false
+
+        scrollView.setContentOffset(.init(x: 0, y: 15), animated: true)
+        
+        runTargetTimePicker.isUserInteractionEnabled = true
+        runIntervalButton.isUserInteractionEnabled = true
+        
+        let targetModStore = (runCoordinateStore[index], "", "")
+        self.targetModStore = targetModStore
+    }
+    
+    //MARK: setSecondStateTargetMode
+    func setSecondStateTargetMode(){
+        runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
+        targetModStore!.time = runTargetTimeLabel.text!
+        targetModStore!.interval = runIntervalLabel.text!
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {[weak self] _ in
+            guard let self = self else{return}
+            self.targetBlockSwitchView.setIndex(0)
+            self.dropTargetMod()
+        }
     }
     
     //MARK: dropTargetMod
     func dropTargetMod(){
+        runTargetTimeBlockView.isHidden = true
+        runStoreBlockView.isHidden = false
         runStartButton.backgroundColor = .white
+        
+        runIntervalLabel.text = "2"
+        runTargetTimeLabel.text = "00:00:00"
+        
+        runTargetTimePicker.isUserInteractionEnabled = false
+        runIntervalButton.isUserInteractionEnabled = false
+        
+        runTargetTimeBlockView.gestureRecognizers?.removeAll()
+        
     }
     //MARK: @OBJC
     
@@ -584,10 +652,8 @@ class RunViewController: UIViewController, TabItem {
             let pointPress = gestureRecognizer.location(in: self.runStoreTableView)
             let indexPath = self.runStoreTableView.indexPathForRow(at: pointPress)
             guard let index = indexPath?.section else{return}
-            setTargetMod()
-            print(index)
+            setFirstStateTargetMod(index)
         }
- 
     }
     
     //MARK: updateScrollEnabled
@@ -636,9 +702,6 @@ class RunViewController: UIViewController, TabItem {
     @objc func changeTargetBlock(){
         if targetBlockSwitchView.index == 0 {
             dropTargetMod()
-            runTargetTimeBlockView.isHidden = true
-            runStoreBlockView.isHidden = false
-            
         }
         if targetBlockSwitchView.index == 1 {
             runTargetTimeBlockView.isHidden = false
@@ -671,7 +734,7 @@ class RunViewController: UIViewController, TabItem {
             }
             
             if point.y >= 30{
-                runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
+                setSecondStateTargetMode()
                 fallthrough
             }
             
@@ -682,7 +745,26 @@ class RunViewController: UIViewController, TabItem {
             runTargetTimeBlockView.transform = CGAffineTransform(translationX: 0, y: 0)
         }
     }
-
+    
+    //MARK: addRunInterval
+    @objc func addRunInterval(){
+        runIntervalLabel.alpha = 0
+        UIView.animate(withDuration: 0.5){[weak self] in
+            guard let self = self else{return}
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.fromValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y + 20))
+            animation.toValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y))
+            self.runIntervalLabel.layer.add(animation, forKey: "position")
+            self.runIntervalLabel.text = String(Int(self.runIntervalLabel.text!)! + 1)
+            self.runIntervalLabel.alpha = 1
+        }
+        if Int(self.runIntervalLabel.text!)! == 9 {
+            runIntervalButton.isEnabled = false
+        }
+    }
+    
+    
+    
     //MARK: CONSTRAINTS VIEW
     
     
@@ -783,6 +865,14 @@ class RunViewController: UIViewController, TabItem {
         runTargetTimeLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
+    //MARK: createConstraintsRunIntervalLabel
+      func createConstraintsRunIntervalLabel() {
+          runIntervalLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runIntervalButton.leadingAnchor).isActive = true
+        runIntervalLabel.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runTargetTimeLabel.centerYAnchor).isActive = true
+          runIntervalLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 20).isActive = true
+          runIntervalLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 20).isActive = true
+      }
+    
     //MARK:CONSTRAINTS BUTTON
     
     
@@ -804,6 +894,14 @@ class RunViewController: UIViewController, TabItem {
         runStartButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 110).isActive = true
     }
     
+    //MARK: createConstraintsRunIntervalButton
+    func createConstraintsRunIntervalButton() {
+        runIntervalButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runTargetTimeBlockView.trailingAnchor, constant: -10).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runTargetTimeLabel.centerYAnchor).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
 }
 
 //MARK: EXTENSION
@@ -812,11 +910,7 @@ class RunViewController: UIViewController, TabItem {
 extension RunViewController: AGCircularPickerDelegate {
     
     func didChangeValues(_ values: Array<AGColorValue>, selectedIndex: Int) {
-        scrollView.isScrollEnabled = false
-        runTargetTimeBlockView.gestureRecognizers?.removeAll()
-        self.scrollView.setContentOffset(.init(x: 0, y: 14), animated: true)
-        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
-        
+        addOtherActions()
         let valueComponents = values.map { return String(format: "%02d", $0.value) }
         let fullString = valueComponents.joined(separator: ":")
         let attributedString = NSMutableAttributedString(string:fullString)
@@ -833,6 +927,14 @@ extension RunViewController: AGCircularPickerDelegate {
         if fullString != "00:00:00"{
             runTargetTimeBlockView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragTimeBlock)))
         }
+    }
+    
+    func addOtherActions() {
+        scrollView.isScrollEnabled = false
+        runTargetTimeBlockView.gestureRecognizers?.removeAll()
+        self.scrollView.setContentOffset(.init(x: 0, y: 14), animated: true)
+        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
+        
     }
     
 }
