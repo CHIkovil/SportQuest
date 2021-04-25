@@ -16,6 +16,7 @@ class ModesViewController: AMTabsViewController{
         super.viewDidLoad()
         view.backgroundColor = .white
         setTabsControllers()
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipeViewController)))
     }
     
     //MARK: setTabsControllers
@@ -27,6 +28,18 @@ class ModesViewController: AMTabsViewController{
             runningViewController,
             accountViewController,
         ]
+    }
+    
+    //MARK: swipeViewController
+    @objc func swipeViewController(_ sender: UIPanGestureRecognizer){
+        if (sender.state == .ended) {
+            let velocity = sender.velocity(in: self.view)
+            if (velocity.x > 0) { // Coming from left
+                selectedTabIndex = 0
+            } else { // Coming from right
+                selectedTabIndex = 1
+            }
+        }
     }
 }
 
