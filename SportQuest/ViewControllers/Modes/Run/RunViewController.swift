@@ -20,7 +20,6 @@ import UserNotifications
 class RunViewController: UIViewController, TabItem {
     
     //MARK: let, var
-    let userNotificationCenter = UNUserNotificationCenter.current()
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
     var runTimeStore: [Int]?
@@ -317,8 +316,6 @@ class RunViewController: UIViewController, TabItem {
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        requestNotificationAuthorization()
-        sendNotification()
         loadRunStore()
         parseActivityChartStore()
         parseTableStore()
@@ -328,52 +325,6 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: FUNC
     
-    
-    
-    //MARK: loadRunStore
-    func requestNotificationAuthorization() {
-        self.userNotificationCenter.delegate = self
-        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
-        
-        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
-            if let error = error {
-                print("Error: ", error)
-            }
-        }
-    }
-
-    //MARK: loadRunStore
-    func sendNotification() {
-        // Create new notifcation content instance
-        let notificationContent = UNMutableNotificationContent()
-
-        // Add the content to the notification content
-        notificationContent.title = "Test"
-        notificationContent.body = "Test body"
-        notificationContent.badge = NSNumber(value: 1)
-
-        // Add an attachment to the notification content
-        if let url = Bundle.main.url(forResource: "batman",
-                                        withExtension: "png") {
-            if let attachment = try? UNNotificationAttachment(identifier: "batman",
-                                                                url: url,
-                                                                options: nil) {
-                notificationContent.attachments = [attachment]
-            }
-        }
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10,
-                                                        repeats: false)
-        let request = UNNotificationRequest(identifier: "testNotification",
-                                            content: notificationContent,
-                                            trigger: trigger)
-        
-        userNotificationCenter.add(request) { (error) in
-            if let error = error {
-                print("Notification Error: ", error)
-            }
-        }
-    }
     
     //MARK: loadRunStore
     func loadRunStore() {
@@ -758,6 +709,15 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: showRunProcess
     @objc func showRunProcess(){
+        if targetModStore?.time == ""{
+            UIView.animate(withDuration: 1){[weak self] in
+                guard let self = self else{return}
+                let animation = CABasicAnimation(keyPath: "position")
+                animation.toValue = CGPoint(x: self.runTargetTimeBlockView.center.x, y: self.runTargetTimeBlockView.center.y + 40)
+                self.runTargetTimeBlockView.layer.add(animation, forKey: "position")
+            }
+            return
+        }
         let viewController = RunProcessViewController()
         viewController.runDataTransfer = { [weak self] time, distance, coordinates, date, regionImage in
             guard let self = self else { return }
@@ -779,13 +739,11 @@ class RunViewController: UIViewController, TabItem {
                 break
             }
             
-            if point.y >= 30{
+            if point.y >= 40{
                 setSecondStateTargetMode()
                 fallthrough
             }
-            
-            let transform : CGAffineTransform = CGAffineTransform(translationX: 0, y: point.y)
-            runTargetTimeBlockView.transform = transform
+            runTargetTimeBlockView.transform = CGAffineTransform(translationX: 0, y: point.y)
         default :
             self.scrollView.isScrollEnabled = true
             runTargetTimeBlockView.transform = CGAffineTransform(translationX: 0, y: 0)
@@ -1077,15 +1035,6 @@ extension RunViewController: IAxisValueFormatter{
     }
 }
 
-extension RunViewController:UNUserNotificationCenterDelegate{
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        completionHandler()
-    }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .badge, .sound])
-    }
-}
 
 
