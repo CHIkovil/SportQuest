@@ -35,6 +35,7 @@ class RunViewController: UIViewController, TabItem {
     
     var tableStore: [NSMutableAttributedString]?
     var targetModStore: (coordinates: String, time: String, interval: String)?
+    var enableSwipeNavigation: ((Bool) -> ())?
     
     //MARK: VIEW
     
@@ -669,7 +670,7 @@ class RunViewController: UIViewController, TabItem {
         runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
         targetModStore!.time = runTargetTimeLabel.text!
         targetModStore!.interval = runIntervalLabel.text!
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {[weak self] _ in
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) {[weak self] _ in
             guard let self = self else{return}
             self.targetBlockSwitchView.setIndex(0)
             self.dropTargetMod()
@@ -704,11 +705,6 @@ class RunViewController: UIViewController, TabItem {
             guard let index = indexPath?.section else{return}
             setFirstStateTargetMod(index)
         }
-    }
-    
-    //MARK: updateScrollEnabled
-    @objc func updateScrollEnabled() {
-        scrollView.isScrollEnabled = true
     }
     
     //MARK: swipingRunStoreTableView
@@ -976,6 +972,7 @@ extension RunViewController: AGCircularPickerDelegate {
         
         if fullString != "00:00:00"{
             runTargetTimeBlockView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragTimeBlock)))
+            self.enableSwipeNavigation!(false)
         }
     }
     
@@ -983,8 +980,11 @@ extension RunViewController: AGCircularPickerDelegate {
         scrollView.isScrollEnabled = false
         runTargetTimeBlockView.gestureRecognizers?.removeAll()
         self.scrollView.setContentOffset(.init(x: 0, y: 14), animated: true)
-        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.updateScrollEnabled), userInfo: nil, repeats: false)
-        
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) {[weak self] _ in
+            guard let self = self else{return}
+            self.scrollView.isScrollEnabled = true
+            self.enableSwipeNavigation!(true)
+        }
     }
     
 }

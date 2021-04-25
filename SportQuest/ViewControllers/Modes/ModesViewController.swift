@@ -22,6 +22,14 @@ class ModesViewController: AMTabsViewController{
     //MARK: setTabsControllers
     func setTabsControllers() {
         let runningViewController = RunViewController()
+        runningViewController.enableSwipeNavigation = {[weak self] enable in
+            guard let self = self else {return}
+            if enable {
+                self.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.swipeViewController)))
+            }else {
+                self.view.gestureRecognizers?.removeAll()
+            }
+        }
         let accountViewController = AccountViewController()
 
         viewControllers = [
