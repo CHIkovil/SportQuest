@@ -39,7 +39,6 @@ class RunProcessViewController: UIViewController {
     //MARK: LOCATION MANAGER
     
     
-    
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()

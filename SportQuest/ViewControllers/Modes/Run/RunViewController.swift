@@ -15,10 +15,12 @@ import AGCircularPicker
 import CoreData
 import Foundation
 import MapKit
+import UserNotifications
 
 class RunViewController: UIViewController, TabItem {
     
     //MARK: let, var
+    let userNotificationCenter = UNUserNotificationCenter.current()
     let daysWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
     var runTimeStore: [Int]?
@@ -33,6 +35,7 @@ class RunViewController: UIViewController, TabItem {
     
     var tableStore: [NSMutableAttributedString]?
     var targetModStore: (coordinates: String, time: String, interval: String)?
+    
     //MARK: VIEW
     
     //MARK: scrollView
@@ -313,6 +316,8 @@ class RunViewController: UIViewController, TabItem {
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        requestNotificationAuthorization()
+        sendNotification()
         loadRunStore()
         parseActivityChartStore()
         parseTableStore()
@@ -323,6 +328,51 @@ class RunViewController: UIViewController, TabItem {
     //MARK: FUNC
     
     
+    
+    //MARK: loadRunStore
+    func requestNotificationAuthorization() {
+        self.userNotificationCenter.delegate = self
+        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+        
+        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+            if let error = error {
+                print("Error: ", error)
+            }
+        }
+    }
+
+    //MARK: loadRunStore
+    func sendNotification() {
+        // Create new notifcation content instance
+        let notificationContent = UNMutableNotificationContent()
+
+        // Add the content to the notification content
+        notificationContent.title = "Test"
+        notificationContent.body = "Test body"
+        notificationContent.badge = NSNumber(value: 1)
+
+        // Add an attachment to the notification content
+        if let url = Bundle.main.url(forResource: "batman",
+                                        withExtension: "png") {
+            if let attachment = try? UNNotificationAttachment(identifier: "batman",
+                                                                url: url,
+                                                                options: nil) {
+                notificationContent.attachments = [attachment]
+            }
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10,
+                                                        repeats: false)
+        let request = UNNotificationRequest(identifier: "testNotification",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        userNotificationCenter.add(request) { (error) in
+            if let error = error {
+                print("Notification Error: ", error)
+            }
+        }
+    }
     
     //MARK: loadRunStore
     func loadRunStore() {
@@ -1024,6 +1074,17 @@ extension RunViewController: IAxisValueFormatter{
         else{
             return String(Int(value) + 1)
         }
+    }
+}
+
+extension RunViewController:UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        completionHandler()
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .badge, .sound])
     }
 }
 
