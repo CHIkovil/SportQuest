@@ -35,6 +35,8 @@ class RunProcessViewController: UIViewController {
     
     var runTimer: Timer?
     var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
+    var targetModStore: (coordinates: String, time: String, interval: String)?
+    var coordinatesTargetMode:[CLLocationCoordinate2D]?
     
     //MARK: LOCATION MANAGER
     
@@ -152,8 +154,23 @@ class RunProcessViewController: UIViewController {
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        runLocationManager.startUpdatingLocation()
         startTimer()
+        parseTargetMode()
+        runLocationManager.startUpdatingLocation()
+    }
+    
+    //MARK: parseTargetMode
+    func parseTargetMode() {
+        guard let targetModStore = targetModStore else{return}
+        let coordinatesStore = targetModStore.coordinates
+        let coordinatesTargetMode: [CLLocationCoordinate2D] = coordinatesStore.split(separator: ",").map {data in
+            let point = data.split(separator: " ")
+            let latitude = Double(point[0])
+            let longitude = Double(point[1])
+            return CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+            
+        }
+        self.coordinatesTargetMode = coordinatesTargetMode
     }
     
     //MARK: startTimer
@@ -332,7 +349,7 @@ class RunProcessViewController: UIViewController {
         let context = UIGraphicsGetCurrentContext()
 
         context!.setLineWidth(6.0)
-        context!.setStrokeColor(UIColor.red.cgColor)
+        context!.setStrokeColor(UIColor.yellow.cgColor)
 
         context!.move(to: snapshot.point(for: self.runCoordinates[0]))
         for i in 0...runCoordinates.count - 1 {
@@ -409,8 +426,12 @@ extension RunProcessViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
-            polyline.strokeColor = UIColor.red
-            polyline.lineWidth = 5
+            if runMapView.overlays.count == 1 && coordinatesTargetMode != nil{
+                polyline.strokeColor = UIColor.white
+            }else{
+                polyline.strokeColor = UIColor.yellow
+            }
+            polyline.lineWidth = 3
             return polyline
         }
         return MKOverlayRenderer(overlay: overlay)
@@ -420,14 +441,30 @@ extension RunProcessViewController: MKMapViewDelegate {
 extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = runLocationManager.location else{
-            self.dismiss(animated: true)
             return
         }
-        runCoordinates.append(location.coordinate)
-        showLocationOnMap(to: location, with: "Warrior")
-        if runCoordinates.count > 1{
-            drawRunDistance()
-            parseRunDistanceToLabel()
+        if let _ = targetModStore {
+            guard let firstCoordinate = coordinatesTargetMode!.first else{
+                return
+            }
+            
+            runCoordinates.append(firstCoordinate)
+            showLocationOnMap(to: CLLocation(latitude: firstCoordinate.latitude, longitude: firstCoordinate.longitude), with: "Warrior")
+            if runCoordinates.count > 1{
+                drawRunDistance()
+                parseRunDistanceToLabel()
+            }else{
+                let polyline = MKPolyline(coordinates: coordinatesTargetMode!, count: coordinatesTargetMode!.count)
+                runMapView.addOverlay(polyline)
+            }
+            coordinatesTargetMode!.removeFirst()
+        } else{
+            runCoordinates.append(location.coordinate)
+            showLocationOnMap(to: location, with: "Warrior")
+            if runCoordinates.count > 1{
+                drawRunDistance()
+                parseRunDistanceToLabel()
+            }
         }
     }
     

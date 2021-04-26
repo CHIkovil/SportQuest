@@ -621,7 +621,7 @@ class RunViewController: UIViewController, TabItem {
         runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
         targetModStore!.time = runTargetTimeLabel.text!
         targetModStore!.interval = runIntervalLabel.text!
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) {[weak self] _ in
+        Timer.scheduledTimer(withTimeInterval: 15, repeats: false) {[weak self] _ in
             guard let self = self else{return}
             self.targetBlockSwitchView.setIndex(0)
             self.dropTargetMod()
@@ -641,6 +641,7 @@ class RunViewController: UIViewController, TabItem {
         runIntervalButton.isUserInteractionEnabled = false
         
         runTargetTimeBlockView.gestureRecognizers?.removeAll()
+        targetModStore = nil
         
     }
     //MARK: @OBJC
@@ -710,11 +711,31 @@ class RunViewController: UIViewController, TabItem {
     //MARK: showRunProcess
     @objc func showRunProcess(){
         if targetModStore?.time == ""{
-            UIView.animate(withDuration: 1){[weak self] in
-                guard let self = self else{return}
-                let animation = CABasicAnimation(keyPath: "position")
-                animation.toValue = CGPoint(x: self.runTargetTimeBlockView.center.x, y: self.runTargetTimeBlockView.center.y + 40)
-                self.runTargetTimeBlockView.layer.add(animation, forKey: "position")
+            if runTargetTimeLabel.text == "00:00:00"{
+                UIView.animate(withDuration: 0.3) {[weak self] in
+                    guard let self = self else{return}
+                    let animationOne = CABasicAnimation(keyPath: "transform.scale.x")
+                    animationOne.duration = 0.3
+                    animationOne.repeatCount = 2
+                    animationOne.autoreverses = true
+                    animationOne.fromValue = 1
+                    animationOne.toValue = 1.04
+                    self.runTargetTimeBlockView.layer.add(animationOne, forKey: "transform.scale.x")
+                    let animationTwo = CABasicAnimation(keyPath: "transform.scale.y")
+                    animationTwo.duration = 0.3
+                    animationTwo.repeatCount = 2
+                    animationTwo.autoreverses = true
+                    animationTwo.fromValue = 1
+                    animationTwo.toValue = 1.04
+                    self.runTargetTimeBlockView.layer.add(animationTwo, forKey: "transform.scale.y")
+                }
+            }else{
+                UIView.animate(withDuration: 1){[weak self] in
+                    guard let self = self else{return}
+                    let animation = CABasicAnimation(keyPath: "position")
+                    animation.toValue = CGPoint(x: self.runTargetTimeBlockView.center.x, y: self.runTargetTimeBlockView.center.y + 40)
+                    self.runTargetTimeBlockView.layer.add(animation, forKey: "position")
+                }
             }
             return
         }
@@ -724,6 +745,7 @@ class RunViewController: UIViewController, TabItem {
             self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
  
         }
+        viewController.targetModStore = targetModStore
         self.present(viewController, animated: true)
     }
     
