@@ -35,8 +35,10 @@ class RunProcessViewController: UIViewController {
     
     var runTimer: Timer?
     var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
-    var targetModStore: (coordinates: String, time: String, interval: String)?
+    
+    var targetModStore: (coordinates: String, time: String, countInterval: String)?
     var coordinatesTargetMode:[CLLocationCoordinate2D]?
+    var locationEndIntervalTargetMode:[CLLocationCoordinate2D]?
     
     //MARK: LOCATION MANAGER
     
@@ -171,6 +173,13 @@ class RunProcessViewController: UIViewController {
             
         }
         self.coordinatesTargetMode = coordinatesTargetMode
+        
+        var locationEndIntervaTargetMode: [CLLocationCoordinate2D] = []
+        let sizeInterval = coordinatesStore.count / Int(targetModStore.countInterval)!
+        for interval in coordinatesTargetMode.chunked(into: sizeInterval) {
+            locationEndIntervaTargetMode.append(interval[interval.count - 1])
+        }
+        self.locationEndIntervalTargetMode = locationEndIntervaTargetMode
     }
     
     //MARK: startTimer
@@ -349,7 +358,7 @@ class RunProcessViewController: UIViewController {
         let context = UIGraphicsGetCurrentContext()
 
         context!.setLineWidth(6.0)
-        context!.setStrokeColor(UIColor.yellow.cgColor)
+        context!.setStrokeColor(UIColor.red.cgColor)
 
         context!.move(to: snapshot.point(for: self.runCoordinates[0]))
         for i in 0...runCoordinates.count - 1 {
@@ -429,7 +438,7 @@ extension RunProcessViewController: MKMapViewDelegate {
             if runMapView.overlays.count == 1 && coordinatesTargetMode != nil{
                 polyline.strokeColor = UIColor.white
             }else{
-                polyline.strokeColor = UIColor.yellow
+                polyline.strokeColor = UIColor.red
             }
             polyline.lineWidth = 3
             return polyline
@@ -443,29 +452,17 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         guard let location = runLocationManager.location else{
             return
         }
-        if let _ = targetModStore {
-            guard let firstCoordinate = coordinatesTargetMode!.first else{
-                return
-            }
-            
-            runCoordinates.append(firstCoordinate)
-            showLocationOnMap(to: CLLocation(latitude: firstCoordinate.latitude, longitude: firstCoordinate.longitude), with: "Warrior")
-            if runCoordinates.count > 1{
-                drawRunDistance()
-                parseRunDistanceToLabel()
-            }else{
-                let polyline = MKPolyline(coordinates: coordinatesTargetMode!, count: coordinatesTargetMode!.count)
-                runMapView.addOverlay(polyline)
-            }
-            coordinatesTargetMode!.removeFirst()
-        } else{
-            runCoordinates.append(location.coordinate)
-            showLocationOnMap(to: location, with: "Warrior")
-            if runCoordinates.count > 1{
-                drawRunDistance()
-                parseRunDistanceToLabel()
-            }
+        runCoordinates.append(location.coordinate)
+        showLocationOnMap(to: location, with: "Warrior")
+        if runCoordinates.count > 1{
+            drawRunDistance()
+            parseRunDistanceToLabel()
+        }else{
+            guard let coordinatesTargetMode = coordinatesTargetMode else {return}
+            let polyline = MKPolyline(coordinates: coordinatesTargetMode, count: coordinatesTargetMode.count)
+            runMapView.addOverlay(polyline)
         }
+        
     }
     
 }
@@ -479,6 +476,13 @@ extension UIImage {
         }
 
         return image.withRenderingMode(self.renderingMode)
+    }
+}
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
     }
 }
 

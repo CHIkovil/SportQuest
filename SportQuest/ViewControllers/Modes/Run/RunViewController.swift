@@ -33,7 +33,7 @@ class RunViewController: UIViewController, TabItem {
     var showValueCharts: Bool = false
     
     var tableStore: [NSMutableAttributedString]?
-    var targetModStore: (coordinates: String, time: String, interval: String)?
+    var targetModStore: (coordinates: String, time: String, countInterval: String)?
     var enableSwipeNavigation: ((Bool) -> ())?
     
     //MARK: VIEW
@@ -620,7 +620,7 @@ class RunViewController: UIViewController, TabItem {
     func setSecondStateTargetMode(){
         runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
         targetModStore!.time = runTargetTimeLabel.text!
-        targetModStore!.interval = runIntervalLabel.text!
+        targetModStore!.countInterval = runIntervalLabel.text!
         Timer.scheduledTimer(withTimeInterval: 15, repeats: false) {[weak self] _ in
             guard let self = self else{return}
             self.targetBlockSwitchView.setIndex(0)
