@@ -159,6 +159,7 @@ class RunProcessViewController: UIViewController {
         startTimer()
         parseTargetMode()
         runLocationManager.startUpdatingLocation()
+        runLocationManager.startUpdatingHeading()
     }
     
     //MARK: parseTargetMode
@@ -177,7 +178,7 @@ class RunProcessViewController: UIViewController {
         var locationEndIntervaTargetMode: [CLLocationCoordinate2D] = []
         let sizeInterval = coordinatesStore.count / Int(targetModStore.countInterval)!
         for interval in coordinatesTargetMode.chunked(into: sizeInterval) {
-            locationEndIntervaTargetMode.append(interval[interval.count - 1])
+            locationEndIntervaTargetMode.append(interval[interval.endIndex])
         }
         self.locationEndIntervalTargetMode = locationEndIntervaTargetMode
     }
@@ -288,12 +289,14 @@ class RunProcessViewController: UIViewController {
     
     //MARK: stopRun
     @objc func stopRun() {
+        runLocationManager.stopUpdatingLocation()
+        runLocationManager.stopUpdatingHeading()
         if runCoordinates.isEmpty || runCoordinates.count == 1{
             self.dismiss(animated: true)
             return
         }
         addLoader()
-        runLocationManager.stopUpdatingLocation()
+
         stopTimer()
         setRunRegion()
         getSnapshotRegion()
@@ -463,6 +466,11 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             runMapView.addOverlay(polyline)
         }
         
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        runMapView.camera.heading = newHeading.magneticHeading
+        runMapView.setCamera(runMapView.camera, animated: true)
     }
     
 }
