@@ -37,9 +37,12 @@ class RunProcessViewController: UIViewController {
     var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
     
     var targetModStore: (coordinates: String, time: String, countInterval: String)?
-    var coordinatesTargetMode:[CLLocationCoordinate2D]?
-    var locationEndIntervalTargetMode:[CLLocationCoordinate2D]?
     
+    var coordinatesTargetMode:[CLLocationCoordinate2D]?
+    var coordinatesStagesTargetMode: [[CLLocationCoordinate2D]]?
+    var pointsTargetMode:[(coordinate: CLLocationCoordinate2D, time: Int)]?
+    var resultComleteStage: [(number:Int, result: Bool)]?
+    var comleteStage:Bool?
     //MARK: LOCATION MANAGER
     
     
@@ -156,11 +159,14 @@ class RunProcessViewController: UIViewController {
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        startTimer()
         parseTargetMode()
+        startMonitoringPointsTargetMode()
+        startTimer()
         runLocationManager.startUpdatingLocation()
         runLocationManager.startUpdatingHeading()
     }
+    
+    //MARK: FUNC
     
     //MARK: parseTargetMode
     func parseTargetMode() {
@@ -175,14 +181,30 @@ class RunProcessViewController: UIViewController {
         }
         self.coordinatesTargetMode = coordinatesTargetMode
         
-        var locationEndIntervaTargetMode: [CLLocationCoordinate2D] = []
-        let sizeInterval = coordinatesStore.count / Int(targetModStore.countInterval)!
-        for interval in coordinatesTargetMode.chunked(into: sizeInterval) {
-            locationEndIntervaTargetMode.append(interval[interval.endIndex])
+        var pointsTargetMode: [(CLLocationCoordinate2D, Int)] = []
+        let coordinateInterval = coordinatesStore.count / Int(targetModStore.countInterval)!
+        let timeInterval = hoursMinutesSecondsToSeconds(formatRunTime: targetModStore.time) / Int(targetModStore.countInterval)!
+        let coordinatesStagesTargetMode = coordinatesTargetMode.chunked(into: coordinateInterval)
+        for (index, interval) in coordinatesStagesTargetMode.enumerated(){
+            pointsTargetMode.append((interval[interval.endIndex], timeInterval * index + 1))
         }
-        self.locationEndIntervalTargetMode = locationEndIntervaTargetMode
+        self.coordinatesStagesTargetMode = coordinatesStagesTargetMode
+        self.pointsTargetMode = pointsTargetMode
     }
     
+    //MARK: startMonitoringPointsTargetMode
+    func startMonitoringPointsTargetMode() {
+          guard let pointsTargetMode = pointsTargetMode else {
+              return
+          }
+        for number in 0..<pointsTargetMode.count{
+            let region = CLCircularRegion(center: pointsTargetMode[number].coordinate,
+                                            radius: 10, identifier: String(number))
+              region.notifyOnEntry = true
+              region.notifyOnExit = false
+              runLocationManager.startMonitoring(for: region)
+          }
+      }
     //MARK: startTimer
     func startTimer() {
         guard runTimer == nil else { return }
@@ -208,65 +230,22 @@ class RunProcessViewController: UIViewController {
     func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
     }
-    //MARK: CONSTRAINTS VIEW
     
-    
-    
-    //MARK: createConstraintsRunImageView
-    func createConstraintsRunImageView() {
-        runBatmanImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        runBatmanImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        runBatmanImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        runBatmanImageView.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
+    //MARK:hoursMinutesSecondsToSeconds
+    func hoursMinutesSecondsToSeconds(formatRunTime: String) -> Int{
+        let dropStringTime = formatRunTime.split(separator: ":")
+        return Int(dropStringTime[0])! * 3600 + Int(dropStringTime[1])! * 60 + Int(dropStringTime[2])!
     }
-    
-    //MARK: createConstraintsRunMapView
-    func createConstraintsRunMapView() {
-        runMapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        runMapView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        runMapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        runMapView.heightAnchor.constraint(equalToConstant: 170).isActive = true
-    }
-    
-    //MARK: CONSTRAINTS LABEL
-    
-    
-    
-    //MARK: createConstraintsRunTimerLabel
-    func createConstraintsRunTimerLabel() {
-        runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 20).isActive = true
-        runTimerLabel.leadingAnchor.constraint(equalTo:  runBatmanImageView.trailingAnchor).isActive = true
-        runTimerLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
-        runTimerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-    
-    //MARK: createConstraintsRunDistanceLabel
-    func createConstraintsRunDistanceLabel() {
-        runDistanceLabel.topAnchor.constraint(equalTo: runTimerLabel.bottomAnchor).isActive = true
-        runDistanceLabel.centerXAnchor.constraint(equalTo:  runTimerLabel.centerXAnchor).isActive = true
-        runDistanceLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
-        runDistanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
-    
-    //MARK: CONSTRAINTS BUTTON
-    
-    
-    //MARK: createConstraintsStopRunButton
-    func createConstraintsStopRunButton() {
-        stopRunButton.leadingAnchor.constraint(equalTo: runTimerLabel.trailingAnchor, constant:  5).isActive = true
-        stopRunButton.centerYAnchor.constraint(equalTo: runBatmanImageView.centerYAnchor).isActive = true
-        stopRunButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        stopRunButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-    }
-    
-    //MARK: FUNC
-    
-
-    
-    //MARK: drawRunDistance
-        func drawRunDistance(){
+   
+    //MARK: addRunDistance
+        func addRunDistance(){
             let polyline = MKPolyline(coordinates: [runCoordinates[runCoordinates.count - 2], runCoordinates.last!], count: 2)
             self.runMapView.addOverlay(polyline)
+            
+            if comleteStage != nil{
+                let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![resultComleteStage![resultComleteStage!.endIndex].number], count: coordinatesStagesTargetMode![resultComleteStage![resultComleteStage!.endIndex].number].count)
+                self.runMapView.addOverlay(polyline)
+            }
         }
     
     //MARK: parseRunDistanceToLabel
@@ -296,7 +275,6 @@ class RunProcessViewController: UIViewController {
             return
         }
         addLoader()
-
         stopTimer()
         setRunRegion()
         getSnapshotRegion()
@@ -310,6 +288,7 @@ class RunProcessViewController: UIViewController {
         loadImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         loadImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
+    
     //MARK: setRunRegion
     func setRunRegion() {
         let runLatitude = runCoordinates.map {$0.latitude}
@@ -361,7 +340,7 @@ class RunProcessViewController: UIViewController {
         let context = UIGraphicsGetCurrentContext()
 
         context!.setLineWidth(6.0)
-        context!.setStrokeColor(UIColor.red.cgColor)
+        context!.setStrokeColor(UIColor.yellow.cgColor)
 
         context!.move(to: snapshot.point(for: self.runCoordinates[0]))
         for i in 0...runCoordinates.count - 1 {
@@ -409,9 +388,60 @@ class RunProcessViewController: UIViewController {
         }
     }
     
+    //MARK: CONSTRAINTS VIEW
+       
+       
+    
+    //MARK: createConstraintsRunImageView
+    func createConstraintsRunImageView() {
+        runBatmanImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        runBatmanImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        runBatmanImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        runBatmanImageView.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 10).isActive = true
+    }
+    
+    //MARK: createConstraintsRunMapView
+    func createConstraintsRunMapView() {
+        runMapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        runMapView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        runMapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        runMapView.heightAnchor.constraint(equalToConstant: 170).isActive = true
+    }
+    
+    //MARK: CONSTRAINTS LABEL
+    
+    
+    
+    //MARK: createConstraintsRunTimerLabel
+    func createConstraintsRunTimerLabel() {
+        runTimerLabel.topAnchor.constraint(equalTo: runMapView.bottomAnchor, constant: 20).isActive = true
+        runTimerLabel.leadingAnchor.constraint(equalTo:  runBatmanImageView.trailingAnchor).isActive = true
+        runTimerLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
+        runTimerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    //MARK: createConstraintsRunDistanceLabel
+    func createConstraintsRunDistanceLabel() {
+        runDistanceLabel.topAnchor.constraint(equalTo: runTimerLabel.bottomAnchor).isActive = true
+        runDistanceLabel.centerXAnchor.constraint(equalTo:  runTimerLabel.centerXAnchor).isActive = true
+        runDistanceLabel.widthAnchor.constraint(equalToConstant: 115).isActive = true
+        runDistanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
+    //MARK: CONSTRAINTS BUTTON
+    
+    
+    //MARK: createConstraintsStopRunButton
+    func createConstraintsStopRunButton() {
+        stopRunButton.leadingAnchor.constraint(equalTo: runTimerLabel.trailingAnchor, constant:  5).isActive = true
+        stopRunButton.centerYAnchor.constraint(equalTo: runBatmanImageView.centerYAnchor).isActive = true
+        stopRunButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        stopRunButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
 }
 
-//MARK: extension
+//MARK: EXTENSION
 extension RunProcessViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -438,17 +468,27 @@ extension RunProcessViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
-            if runMapView.overlays.count == 1 && coordinatesTargetMode != nil{
-                polyline.strokeColor = UIColor.white
+            if comleteStage != nil{
+                if resultComleteStage![resultComleteStage!.endIndex].result {
+                    polyline.strokeColor = UIColor.green
+                }else{
+                    polyline.strokeColor = UIColor.red
+                }
             }else{
-                polyline.strokeColor = UIColor.red
+                if runMapView.overlays.count == 1 && targetModStore != nil{
+                    polyline.strokeColor = UIColor.white
+                }else{
+                    polyline.strokeColor = UIColor.yellow
+                }
             }
             polyline.lineWidth = 3
             return polyline
         }
         return MKOverlayRenderer(overlay: overlay)
     }
+    
 }
+
 
 extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -458,7 +498,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         runCoordinates.append(location.coordinate)
         showLocationOnMap(to: location, with: "Warrior")
         if runCoordinates.count > 1{
-            drawRunDistance()
+            addRunDistance()
             parseRunDistanceToLabel()
         }else{
             guard let coordinatesTargetMode = coordinatesTargetMode else {return}
@@ -471,6 +511,28 @@ extension RunProcessViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         runMapView.camera.heading = newHeading.magneticHeading
         runMapView.setCamera(runMapView.camera, animated: true)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if Int(region.identifier) != nil{
+            guard let pointsTargetMode = pointsTargetMode else {
+                return
+            }
+            if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) <= pointsTargetMode[Int(region.identifier)!].time{
+                if resultComleteStage != nil{
+                    self.resultComleteStage?.append((Int(region.identifier)!, true))
+                }else{
+                    self.resultComleteStage = [(Int(region.identifier)!,true)]
+                }
+            }else{
+                if resultComleteStage != nil{
+                    self.resultComleteStage?.append((Int(region.identifier)!, false))
+                }else{
+                    self.resultComleteStage = [(Int(region.identifier)!,false)]
+                }
+            }
+            self.comleteStage = true
+        }
     }
     
 }
