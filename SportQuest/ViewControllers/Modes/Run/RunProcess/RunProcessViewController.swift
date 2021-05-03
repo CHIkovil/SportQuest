@@ -41,7 +41,7 @@ class RunProcessViewController: UIViewController {
     var coordinatesTargetMode:[CLLocationCoordinate2D]?
     var coordinatesStagesTargetMode: [[CLLocationCoordinate2D]]?
     var pointsTargetMode:[(coordinate: CLLocationCoordinate2D, time: Int)]?
-    var resultComleteStage: [(number:Int, result: Bool)]?
+    var resultStagesTargetMode: [(number:Int, result: Bool)]?
     var comleteStage:Bool?
     //MARK: LOCATION MANAGER
     
@@ -197,8 +197,8 @@ class RunProcessViewController: UIViewController {
           guard let pointsTargetMode = pointsTargetMode else {
               return
           }
-        for number in 0..<pointsTargetMode.count{
-            let region = CLCircularRegion(center: pointsTargetMode[number].coordinate,
+        for (number, point) in pointsTargetMode.enumerated(){
+            let region = CLCircularRegion(center: point.coordinate,
                                             radius: 10, identifier: String(number))
               region.notifyOnEntry = true
               region.notifyOnExit = false
@@ -243,7 +243,7 @@ class RunProcessViewController: UIViewController {
             self.runMapView.addOverlay(polyline)
             
             if comleteStage != nil{
-                let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![resultComleteStage![resultComleteStage!.endIndex].number], count: coordinatesStagesTargetMode![resultComleteStage![resultComleteStage!.endIndex].number].count)
+                let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number], count: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number].count)
                 self.runMapView.addOverlay(polyline)
             }
         }
@@ -338,14 +338,40 @@ class RunProcessViewController: UIViewController {
         image.draw(at: CGPoint.zero)
 
         let context = UIGraphicsGetCurrentContext()
-
         context!.setLineWidth(6.0)
-        context!.setStrokeColor(UIColor.yellow.cgColor)
-
-        context!.move(to: snapshot.point(for: self.runCoordinates[0]))
-        for i in 0...runCoordinates.count - 1 {
-          context!.addLine(to: snapshot.point(for: runCoordinates[i]))
-          context!.move(to: snapshot.point(for: runCoordinates[i]))
+        if let resultStagesTargetMode = resultStagesTargetMode, let coordinatesStagesTargetMode = coordinatesStagesTargetMode {
+            if resultStagesTargetMode.count == pointsTargetMode!.count {
+                
+                let sortResultStages = resultStagesTargetMode.sorted() { $0.number < $1.number }
+                context!.move(to: snapshot.point(for: coordinatesStagesTargetMode[0][0]))
+                for (number, stage) in coordinatesStagesTargetMode.enumerated(){
+                    if sortResultStages[number].result{
+                        context!.setStrokeColor(UIColor.green.cgColor)
+                    }else{
+                        context!.setStrokeColor(UIColor.red.cgColor)
+                    }
+                    for i in 0..<stage.count {
+                        context!.addLine(to: snapshot.point(for: stage[i]))
+                        context!.move(to: snapshot.point(for: stage[i]))
+                    }
+                }
+            }else{
+                context!.setStrokeColor(UIColor.yellow.cgColor)
+                
+                context!.move(to: snapshot.point(for: self.runCoordinates[0]))
+                for i in 0..<runCoordinates.count {
+                    context!.addLine(to: snapshot.point(for: runCoordinates[i]))
+                    context!.move(to: snapshot.point(for: runCoordinates[i]))
+                }
+            }
+        } else{
+            context!.setStrokeColor(UIColor.yellow.cgColor)
+            
+            context!.move(to: snapshot.point(for: self.runCoordinates[0]))
+            for i in 0..<runCoordinates.count{
+                context!.addLine(to: snapshot.point(for: runCoordinates[i]))
+                context!.move(to: snapshot.point(for: runCoordinates[i]))
+            }
         }
 
         context!.strokePath()
@@ -469,11 +495,12 @@ extension RunProcessViewController: MKMapViewDelegate {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
             if comleteStage != nil{
-                if resultComleteStage![resultComleteStage!.endIndex].result {
+                if resultStagesTargetMode![resultStagesTargetMode!.endIndex].result {
                     polyline.strokeColor = UIColor.green
                 }else{
                     polyline.strokeColor = UIColor.red
                 }
+                comleteStage = nil
             }else{
                 if runMapView.overlays.count == 1 && targetModStore != nil{
                     polyline.strokeColor = UIColor.white
@@ -519,16 +546,16 @@ extension RunProcessViewController: CLLocationManagerDelegate {
                 return
             }
             if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) <= pointsTargetMode[Int(region.identifier)!].time{
-                if resultComleteStage != nil{
-                    self.resultComleteStage?.append((Int(region.identifier)!, true))
+                if resultStagesTargetMode != nil{
+                    self.resultStagesTargetMode?.append((Int(region.identifier)!, true))
                 }else{
-                    self.resultComleteStage = [(Int(region.identifier)!,true)]
+                    self.resultStagesTargetMode = [(Int(region.identifier)!,true)]
                 }
             }else{
-                if resultComleteStage != nil{
-                    self.resultComleteStage?.append((Int(region.identifier)!, false))
+                if resultStagesTargetMode != nil{
+                    self.resultStagesTargetMode?.append((Int(region.identifier)!, false))
                 }else{
-                    self.resultComleteStage = [(Int(region.identifier)!,false)]
+                    self.resultStagesTargetMode = [(Int(region.identifier)!,false)]
                 }
             }
             self.comleteStage = true
