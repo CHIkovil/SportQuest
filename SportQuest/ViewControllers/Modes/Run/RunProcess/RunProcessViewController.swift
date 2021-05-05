@@ -160,7 +160,7 @@ class RunProcessViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         parseTargetMode()
-        startMonitoringPointsTargetMode()
+        startMonitoringPointsTargetMode(index: 0)
         startTimer()
         runLocationManager.startUpdatingLocation()
         runLocationManager.startUpdatingHeading()
@@ -172,38 +172,43 @@ class RunProcessViewController: UIViewController {
     func parseTargetMode() {
         guard let targetModStore = targetModStore else{return}
         let coordinatesStore = targetModStore.coordinates
-        let coordinatesTargetMode: [CLLocationCoordinate2D] = coordinatesStore.split(separator: ",").map {data in
+        var coordinatesTargetMode: [CLLocationCoordinate2D] = coordinatesStore.split(separator: ",").map {data in
             let point = data.split(separator: " ")
             let latitude = Double(point[0])
             let longitude = Double(point[1])
             return CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
-            
         }
-        self.coordinatesTargetMode = coordinatesTargetMode
+        
+    
+        let coordinateInterval = coordinatesTargetMode.count / Int(targetModStore.countInterval)!
+        let timeInterval = hoursMinutesSecondsToSeconds(formatRunTime: targetModStore.time) / Int(targetModStore.countInterval)!
+        var coordinatesStagesTargetMode = coordinatesTargetMode.chunked(into: coordinateInterval)
+        
+        if coordinatesStagesTargetMode.count != Int(targetModStore.countInterval)!{
+            coordinatesTargetMode = Array(coordinatesTargetMode[0..<coordinatesTargetMode.count - coordinatesStagesTargetMode.last!.count])
+            coordinatesStagesTargetMode.removeLast()
+        }
         
         var pointsTargetMode: [(CLLocationCoordinate2D, Int)] = []
-        let coordinateInterval = coordinatesStore.count / Int(targetModStore.countInterval)!
-        let timeInterval = hoursMinutesSecondsToSeconds(formatRunTime: targetModStore.time) / Int(targetModStore.countInterval)!
-        let coordinatesStagesTargetMode = coordinatesTargetMode.chunked(into: coordinateInterval)
         for (index, interval) in coordinatesStagesTargetMode.enumerated(){
-            pointsTargetMode.append((interval[interval.endIndex], timeInterval * index + 1))
+            pointsTargetMode.append((interval[interval.count - 1], timeInterval * index + 1))
         }
+        
+        self.coordinatesTargetMode = coordinatesTargetMode
         self.coordinatesStagesTargetMode = coordinatesStagesTargetMode
         self.pointsTargetMode = pointsTargetMode
     }
     
     //MARK: startMonitoringPointsTargetMode
-    func startMonitoringPointsTargetMode() {
+    func startMonitoringPointsTargetMode(index: Int) {
           guard let pointsTargetMode = pointsTargetMode else {
               return
           }
-        for (number, point) in pointsTargetMode.enumerated(){
-            let region = CLCircularRegion(center: point.coordinate,
-                                            radius: 10, identifier: String(number))
-              region.notifyOnEntry = true
-              region.notifyOnExit = false
-              runLocationManager.startMonitoring(for: region)
-          }
+        let region = CLCircularRegion(center: pointsTargetMode[index].coordinate,
+                                      radius: 10, identifier: String(index))
+        region.notifyOnEntry = true
+        region.notifyOnExit = false
+        runLocationManager.startMonitoring(for: region)
       }
     //MARK: startTimer
     func startTimer() {
@@ -218,12 +223,6 @@ class RunProcessViewController: UIViewController {
             self.runTimerLabel.text = String(format:"%02i:%02i:%02i", hours, minutes, seconds)
         }
         
-    }
-    
-    //MARK:startTimer
-    func stopTimer() {
-        runTimer?.invalidate()
-        runTimer = nil
     }
     
     //MARK:secondsToHoursMinutesSeconds
@@ -244,6 +243,7 @@ class RunProcessViewController: UIViewController {
             
             if comleteStage != nil{
                 let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number], count: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number].count)
+                polyline.title = "TargeStage"
                 self.runMapView.addOverlay(polyline)
             }
         }
@@ -276,10 +276,25 @@ class RunProcessViewController: UIViewController {
         }
         addLoader()
         stopTimer()
+        stopMonitoringRegions()
         setRunRegion()
         getSnapshotRegion()
     }
     
+    //MARK:stopTimer
+    func stopTimer() {
+        runTimer?.invalidate()
+        runTimer = nil
+    }
+    
+    //MARK:stopMonitoringRegions
+    func stopMonitoringRegions() {
+        let monitoredRegions = runLocationManager.monitoredRegions
+
+        for region in monitoredRegions{
+            runLocationManager.stopMonitoring(for: region)
+        }
+    }
     //MARK: addLoader
     func addLoader() {
         view.addSubview(loadImageView)
@@ -494,15 +509,15 @@ extension RunProcessViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
-            if comleteStage != nil{
-                if resultStagesTargetMode![resultStagesTargetMode!.endIndex].result {
+            if comleteStage != nil && overlay.title == "TargeStage"{
+                if resultStagesTargetMode![resultStagesTargetMode!.count - 1].result {
                     polyline.strokeColor = UIColor.green
                 }else{
                     polyline.strokeColor = UIColor.red
                 }
                 comleteStage = nil
             }else{
-                if runMapView.overlays.count == 1 && targetModStore != nil{
+                if overlay.title == "TargetDistance" && targetModStore != nil{
                     polyline.strokeColor = UIColor.white
                 }else{
                     polyline.strokeColor = UIColor.yellow
@@ -530,6 +545,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         }else{
             guard let coordinatesTargetMode = coordinatesTargetMode else {return}
             let polyline = MKPolyline(coordinates: coordinatesTargetMode, count: coordinatesTargetMode.count)
+            polyline.title = "TargetDistance"
             runMapView.addOverlay(polyline)
         }
         
@@ -545,7 +561,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             guard let pointsTargetMode = pointsTargetMode else {
                 return
             }
-            if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) <= pointsTargetMode[Int(region.identifier)!].time{
+            if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) < pointsTargetMode[Int(region.identifier)!].time {
                 if resultStagesTargetMode != nil{
                     self.resultStagesTargetMode?.append((Int(region.identifier)!, true))
                 }else{
@@ -559,6 +575,10 @@ extension RunProcessViewController: CLLocationManagerDelegate {
                 }
             }
             self.comleteStage = true
+            if Int(region.identifier)! < pointsTargetMode.count{
+                 startMonitoringPointsTargetMode(index: Int(region.identifier)! + 1)
+            }
+                     
         }
     }
     
