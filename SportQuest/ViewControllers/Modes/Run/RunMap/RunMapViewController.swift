@@ -131,6 +131,7 @@ class RunMapViewController: UIViewController {
         }
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         runMapView.addOverlay(polyline)
+        addDistanceAnnotation(startLocation: coordinates[coordinates.startIndex], finishLocation: coordinates[coordinates.endIndex] )
         setRunRegion(coordinates: coordinates)
     }
     
@@ -157,8 +158,16 @@ class RunMapViewController: UIViewController {
         runMapView.setRegion(region, animated: true)
     }
     
-    //MARK: OBJC
+    func addDistanceAnnotation(startLocation: CLLocationCoordinate2D, finishLocation:CLLocationCoordinate2D) {
+        for (title, location) in [("start", startLocation), ("finish", finishLocation)] {
+            let point = MKPointAnnotation()
+            point.title = title
+            point.coordinate = location
+            runMapView.addAnnotation(point)
+        }
+    }
     
+    //MARK: OBJC
     
     
     
@@ -169,6 +178,22 @@ class RunMapViewController: UIViewController {
 }
 
 extension RunMapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let title = annotation.title else {
+            return nil
+        }
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: title)
+        if annotation.title == "start"{
+            annotationView.image = UIImage(named: "start.png")
+            return annotationView
+        }else if annotation.title == "finish" {
+            annotationView.image = UIImage(named: "finish.png")
+            return annotationView
+        } else {
+            return nil
+        }
+
+    }
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
@@ -187,3 +212,4 @@ private extension RunMapViewController {
         transitioningDelegate = customTransitioningDelegate
     }
 }
+

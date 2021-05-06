@@ -32,6 +32,8 @@
 		93418C0E252528750004F813 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0D252528750004F813 /* Assets.xcassets */; };
 		93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0F252528750004F813 /* LaunchScreen.storyboard */; };
 		93418C1C252528750004F813 /* SportQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C1B252528750004F813 /* SportQuestTests.swift */; };
+		934EFE5C26446263002CB68A /* finish.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE5A26446263002CB68A /* finish.png */; };
+		934EFE5D26446263002CB68A /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE5B26446263002CB68A /* start.png */; };
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		9392E61E261253EE007BC9DD /* fire.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61D261253EE007BC9DD /* fire.gif */; };
@@ -86,6 +88,8 @@
 		93418C17252528750004F813 /* SportQuestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportQuestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C1B252528750004F813 /* SportQuestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportQuestTests.swift; sourceTree = "<group>"; };
 		93418C1D252528750004F813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		934EFE5A26446263002CB68A /* finish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finish.png; sourceTree = "<group>"; };
+		934EFE5B26446263002CB68A /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.png; sourceTree = "<group>"; };
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9392E61D261253EE007BC9DD /* fire.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = fire.gif; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				934EFE5A26446263002CB68A /* finish.png */,
+				934EFE5B26446263002CB68A /* start.png */,
 				93CB26ED262CB1B80076B8D1 /* add.png */,
 				9392E625261A0A56007BC9DD /* iconfinder.png */,
 				9392E61F26125B4D007BC9DD /* running.png */,
@@ -375,11 +381,13 @@
 				93C62048256AA4DB008CADE7 /* batman.gif in Resources */,
 				9392E61E261253EE007BC9DD /* fire.gif in Resources */,
 				9392E61025D8A375007BC9DD /* prize.png in Resources */,
+				934EFE5C26446263002CB68A /* finish.png in Resources */,
 				9314E73B2533A47E00ED1DFA /* orc.png in Resources */,
 				9314E7402533A6C900ED1DFA /* human.png in Resources */,
 				9314E77A255C83A600ED1DFA /* flame.png in Resources */,
 				9314E7822561C66A00ED1DFA /* target.png in Resources */,
 				9314E7432533A75500ED1DFA /* gnome.png in Resources */,
+				934EFE5D26446263002CB68A /* start.png in Resources */,
 				93C62058257D1CA4008CADE7 /* batman-logo-silhouette.png in Resources */,
 				9314E739252D105400ED1DFA /* unicorn.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,

@@ -489,7 +489,7 @@ extension RunProcessViewController: MKMapViewDelegate {
         if annotation is MKUserLocation {
             return nil
         }
-        let identifier = "Annotation"
+        let identifier = "User"
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         annotationView.image = UIImage(named: "batman.png")
         return annotationView
