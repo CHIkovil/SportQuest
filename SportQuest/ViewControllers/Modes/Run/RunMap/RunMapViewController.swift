@@ -131,7 +131,7 @@ class RunMapViewController: UIViewController {
         }
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         runMapView.addOverlay(polyline)
-        addDistanceAnnotation(startLocation: coordinates[coordinates.startIndex], finishLocation: coordinates[coordinates.endIndex] )
+        addDistanceAnnotation(startLocation: coordinates[0], finishLocation: coordinates[coordinates.endIndex - 1] )
         setRunRegion(coordinates: coordinates)
     }
     
@@ -183,17 +183,18 @@ extension RunMapViewController: MKMapViewDelegate {
             return nil
         }
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: title)
-        if annotation.title == "start"{
+        switch annotation.title {
+        case "start":
             annotationView.image = UIImage(named: "start.png")
             return annotationView
-        }else if annotation.title == "finish" {
+        case "finish":
             annotationView.image = UIImage(named: "finish.png")
             return annotationView
-        } else {
+        default:
             return nil
         }
-
     }
+    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)

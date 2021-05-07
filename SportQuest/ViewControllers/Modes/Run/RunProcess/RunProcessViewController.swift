@@ -354,12 +354,13 @@ class RunProcessViewController: UIViewController {
 
         let context = UIGraphicsGetCurrentContext()
         context!.setLineWidth(6.0)
-        if let resultStagesTargetMode = resultStagesTargetMode, let coordinatesStagesTargetMode = coordinatesStagesTargetMode {
+        
+        switch resultStagesTargetMode {
+        case let resultStagesTargetMode?:
             if resultStagesTargetMode.count == pointsTargetMode!.count {
-                
                 let sortResultStages = resultStagesTargetMode.sorted() { $0.number < $1.number }
-                context!.move(to: snapshot.point(for: coordinatesStagesTargetMode[0][0]))
-                for (number, stage) in coordinatesStagesTargetMode.enumerated(){
+                context!.move(to: snapshot.point(for: coordinatesStagesTargetMode![0][0]))
+                for (number, stage) in coordinatesStagesTargetMode!.enumerated(){
                     if sortResultStages[number].result{
                         context!.setStrokeColor(UIColor.green.cgColor)
                     }else{
@@ -370,20 +371,15 @@ class RunProcessViewController: UIViewController {
                         context!.move(to: snapshot.point(for: stage[i]))
                     }
                 }
-            }else{
-                context!.setStrokeColor(UIColor.yellow.cgColor)
                 
-                context!.move(to: snapshot.point(for: self.runCoordinates[0]))
-                for i in 0..<runCoordinates.count {
-                    context!.addLine(to: snapshot.point(for: runCoordinates[i]))
-                    context!.move(to: snapshot.point(for: runCoordinates[i]))
-                }
+            }else {
+                fallthrough
             }
-        } else{
+        default:
             context!.setStrokeColor(UIColor.yellow.cgColor)
             
             context!.move(to: snapshot.point(for: self.runCoordinates[0]))
-            for i in 0..<runCoordinates.count{
+            for i in 0..<runCoordinates.count {
                 context!.addLine(to: snapshot.point(for: runCoordinates[i]))
                 context!.move(to: snapshot.point(for: runCoordinates[i]))
             }
@@ -489,10 +485,15 @@ extension RunProcessViewController: MKMapViewDelegate {
         if annotation is MKUserLocation {
             return nil
         }
-        let identifier = "User"
-        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        annotationView.image = UIImage(named: "batman.png")
-        return annotationView
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "")
+        switch annotation.title {
+        case "start":
+            annotationView.image = UIImage(named: "start.png")
+            return annotationView
+        default:
+            annotationView.image = UIImage(named: "batman.png")
+            return annotationView
+        }
     }
     
     //MARK: showLocationOnMap
@@ -547,6 +548,11 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             let polyline = MKPolyline(coordinates: coordinatesTargetMode, count: coordinatesTargetMode.count)
             polyline.title = "TargetDistance"
             runMapView.addOverlay(polyline)
+            
+            let point = MKPointAnnotation()
+            point.title = "start"
+            point.coordinate = coordinatesTargetMode[0]
+            runMapView.addAnnotation(point)
         }
         
     }
@@ -577,6 +583,8 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             self.comleteStage = true
             if Int(region.identifier)! < pointsTargetMode.count{
                  startMonitoringPointsTargetMode(index: Int(region.identifier)! + 1)
+            }else{
+                stopMonitoringRegions()
             }
                      
         }
