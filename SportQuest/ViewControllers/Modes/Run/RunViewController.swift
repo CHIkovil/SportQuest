@@ -425,7 +425,6 @@ class RunViewController: UIViewController, TabItem {
     //MARK: parseTableStore
     func parseTableStore() {
         guard let dateStore = runDateStore else {return}
-        
         var tableStore: [NSMutableAttributedString] = []
         for index in 0..<dateStore.count {
             let distance = String(runDistanceStore![index])
@@ -438,7 +437,7 @@ class RunViewController: UIViewController, TabItem {
             tableStore.append(mutableString)
             
         }
-        self.tableStore = tableStore
+        self.tableStore = tableStore.reversed()
         runStoreTableView.reloadData()
     }
     
@@ -710,6 +709,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: showRunProcess
     @objc func showRunProcess(){
+   
         if targetModStore?.time == ""{
             if runTargetTimeLabel.text == "00:00:00"{
                 UIView.animate(withDuration: 0.3) {[weak self] in
@@ -739,13 +739,17 @@ class RunViewController: UIViewController, TabItem {
             }
             return
         }
+ 
         let viewController = RunProcessViewController()
         viewController.runDataTransfer = { [weak self] time, distance, coordinates, date, regionImage in
             guard let self = self else { return }
             self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
  
         }
-        viewController.targetModStore = targetModStore
+        if let targetModStore = targetModStore {
+            viewController.targetModStore = targetModStore
+        }
+
         self.present(viewController, animated: true)
     }
     

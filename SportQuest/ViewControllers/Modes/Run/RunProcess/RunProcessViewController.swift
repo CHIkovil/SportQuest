@@ -49,8 +49,9 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 4
+        locationManager.distanceFilter = 5
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.delegate = self
         return locationManager
     }()
@@ -159,11 +160,12 @@ class RunProcessViewController: UIViewController {
     //MARK: viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        parseTargetMode()
-        startMonitoringPointsTargetMode(index: 0)
-        startTimer()
         runLocationManager.startUpdatingLocation()
         runLocationManager.startUpdatingHeading()
+        runLocationManager.requestWhenInUseAuthorization()
+        parseTargetMode()
+        startTimer()
+        startMonitoringPointsTargetMode(index: 0)
     }
     
     //MARK: FUNC
@@ -191,7 +193,7 @@ class RunProcessViewController: UIViewController {
         
         var pointsTargetMode: [(CLLocationCoordinate2D, Int)] = []
         for (index, interval) in coordinatesStagesTargetMode.enumerated(){
-            pointsTargetMode.append((interval[interval.count - 1], timeInterval * index + 1))
+            pointsTargetMode.append((interval[interval.count - 1], timeInterval * (index + 1)))
         }
         
         self.coordinatesTargetMode = coordinatesTargetMode
@@ -201,15 +203,26 @@ class RunProcessViewController: UIViewController {
     
     //MARK: startMonitoringPointsTargetMode
     func startMonitoringPointsTargetMode(index: Int) {
-          guard let pointsTargetMode = pointsTargetMode else {
-              return
-          }
+        guard let pointsTargetMode = pointsTargetMode else {
+            return
+        }
+        
+        for region in runLocationManager.monitoredRegions{
+            runLocationManager.stopMonitoring(for: region)
+        }
+        
         let region = CLCircularRegion(center: pointsTargetMode[index].coordinate,
-                                      radius: 10, identifier: String(index))
+                                      radius: 100, identifier: String(index))
         region.notifyOnEntry = true
         region.notifyOnExit = false
+        
+        let point = MKPointAnnotation()
+        point.title = "PointStage"
+        point.coordinate = pointsTargetMode[index].coordinate
+        runMapView.addAnnotation(point)
         runLocationManager.startMonitoring(for: region)
       }
+    
     //MARK: startTimer
     func startTimer() {
         guard runTimer == nil else { return }
@@ -240,12 +253,6 @@ class RunProcessViewController: UIViewController {
         func addRunDistance(){
             let polyline = MKPolyline(coordinates: [runCoordinates[runCoordinates.count - 2], runCoordinates.last!], count: 2)
             self.runMapView.addOverlay(polyline)
-            
-            if comleteStage != nil{
-                let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number], count: coordinatesStagesTargetMode![resultStagesTargetMode![resultStagesTargetMode!.endIndex].number].count)
-                polyline.title = "TargeStage"
-                self.runMapView.addOverlay(polyline)
-            }
         }
     
     //MARK: parseRunDistanceToLabel
@@ -268,15 +275,16 @@ class RunProcessViewController: UIViewController {
     
     //MARK: stopRun
     @objc func stopRun() {
+        stopTimer()
         runLocationManager.stopUpdatingLocation()
         runLocationManager.stopUpdatingHeading()
+        stopMonitoringRegions()
         if runCoordinates.isEmpty || runCoordinates.count == 1{
             self.dismiss(animated: true)
             return
         }
         addLoader()
-        stopTimer()
-        stopMonitoringRegions()
+   
         setRunRegion()
         getSnapshotRegion()
     }
@@ -290,7 +298,6 @@ class RunProcessViewController: UIViewController {
     //MARK:stopMonitoringRegions
     func stopMonitoringRegions() {
         let monitoredRegions = runLocationManager.monitoredRegions
-
         for region in monitoredRegions{
             runLocationManager.stopMonitoring(for: region)
         }
@@ -415,7 +422,7 @@ class RunProcessViewController: UIViewController {
         
         do{
             try context.save()
-            if let runDataTransfer = self.runDataTransfer{
+            if let runDataTransfer = self.runDataTransfer {
                 runDataTransfer(self.runTime, self.runDistance, coordinates, currentDate, regionImage)
             }
             self.dismiss(animated: true)
@@ -487,8 +494,14 @@ extension RunProcessViewController: MKMapViewDelegate {
         }
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "")
         switch annotation.title {
-        case "start":
+        case "Start":
             annotationView.image = UIImage(named: "start.png")
+            return annotationView
+        case "Finish":
+            annotationView.image = UIImage(named: "finish.png")
+            return annotationView
+        case "PointStage":
+            annotationView.image = UIImage(named: "point.png")
             return annotationView
         default:
             annotationView.image = UIImage(named: "batman.png")
@@ -498,7 +511,11 @@ extension RunProcessViewController: MKMapViewDelegate {
     
     //MARK: showLocationOnMap
     func showLocationOnMap(to location: CLLocation, with title: String?) {
-        runMapView.removeAnnotations(runMapView.annotations)
+        for annotation in runMapView.annotations {
+            if annotation.title != "Start" && annotation.title != "Finish" && annotation.title != "PointStage"{
+                runMapView.removeAnnotation(annotation)
+            }
+        }
         let point = MKPointAnnotation()
         point.title = title
         point.coordinate = location.coordinate
@@ -510,7 +527,7 @@ extension RunProcessViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let polyline = MKPolylineRenderer(overlay: overlay)
-            if comleteStage != nil && overlay.title == "TargeStage"{
+            if comleteStage != nil && overlay.title == "TargetStage"{
                 if resultStagesTargetMode![resultStagesTargetMode!.count - 1].result {
                     polyline.strokeColor = UIColor.green
                 }else{
@@ -549,10 +566,12 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             polyline.title = "TargetDistance"
             runMapView.addOverlay(polyline)
             
-            let point = MKPointAnnotation()
-            point.title = "start"
-            point.coordinate = coordinatesTargetMode[0]
-            runMapView.addAnnotation(point)
+            for (title, location) in [("Start", coordinatesTargetMode[0]), ("Finish", coordinatesTargetMode[coordinatesTargetMode.count - 1])] {
+                let point = MKPointAnnotation()
+                point.title = title
+                point.coordinate = location
+                runMapView.addAnnotation(point)
+            }
         }
         
     }
@@ -567,7 +586,7 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             guard let pointsTargetMode = pointsTargetMode else {
                 return
             }
-            if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) < pointsTargetMode[Int(region.identifier)!].time {
+            if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) <= pointsTargetMode[Int(region.identifier)!].time {
                 if resultStagesTargetMode != nil{
                     self.resultStagesTargetMode?.append((Int(region.identifier)!, true))
                 }else{
@@ -581,12 +600,17 @@ extension RunProcessViewController: CLLocationManagerDelegate {
                 }
             }
             self.comleteStage = true
-            if Int(region.identifier)! < pointsTargetMode.count{
-                 startMonitoringPointsTargetMode(index: Int(region.identifier)! + 1)
+            let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![Int(region.identifier)!], count: coordinatesStagesTargetMode![Int(region.identifier)!].count)
+            polyline.title = "TargetStage"
+            self.runMapView.addOverlay(polyline)
+            
+            if Int(region.identifier)! < pointsTargetMode.count - 1{
+                startMonitoringPointsTargetMode(index: Int(region.identifier)! + 1)
             }else{
                 stopMonitoringRegions()
             }
-                     
+            
+            
         }
     }
     
@@ -603,7 +627,7 @@ extension UIImage {
         return image.withRenderingMode(self.renderingMode)
     }
 }
-extension Array {
+private extension Array {
     func chunked(into size: Int) -> [[Element]] {
         return stride(from: 0, to: count, by: size).map {
             Array(self[$0 ..< Swift.min($0 + size, count)])
