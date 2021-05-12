@@ -33,7 +33,7 @@ class RunViewController: UIViewController, TabItem {
     var showValueCharts: Bool = false
     
     var tableStore: [NSMutableAttributedString]?
-    var targetModStore: (coordinates: String, time: String, countInterval: String)?
+    var targetModeStore: (distance: Int, coordinates: String, time: String, countInterval: String)?
     var enableSwipeNavigation: ((Bool) -> ())?
     
     //MARK: VIEW
@@ -599,7 +599,7 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: setFirstStateTargetMod
     func setFirstStateTargetMod(_ index: Int){
-        guard let runCoordinateStore = runCoordinateStore else {return}
+        guard let runCoordinateStore = runCoordinateStore, let runDistanceStore = runDistanceStore else {return}
         runStartButton.backgroundColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
         
         targetBlockSwitchView.setIndex(1)
@@ -611,15 +611,15 @@ class RunViewController: UIViewController, TabItem {
         runTargetTimePicker.isUserInteractionEnabled = true
         runIntervalButton.isUserInteractionEnabled = true
         
-        let targetModStore = (runCoordinateStore[index], "", "")
-        self.targetModStore = targetModStore
+        let targetModStore = (runDistanceStore[index],runCoordinateStore[index], "", "")
+        self.targetModeStore = targetModStore
     }
     
     //MARK: setSecondStateTargetMode
     func setSecondStateTargetMode(){
         runStartButton.backgroundColor = #colorLiteral(red: 0.9412637353, green: 0.7946270704, blue: 0.7673043609, alpha: 1)
-        targetModStore!.time = runTargetTimeLabel.text!
-        targetModStore!.countInterval = runIntervalLabel.text!
+        targetModeStore!.time = runTargetTimeLabel.text!
+        targetModeStore!.countInterval = runIntervalLabel.text!
         Timer.scheduledTimer(withTimeInterval: 15, repeats: false) {[weak self] _ in
             guard let self = self else{return}
             self.targetBlockSwitchView.setIndex(0)
@@ -640,7 +640,7 @@ class RunViewController: UIViewController, TabItem {
         runIntervalButton.isUserInteractionEnabled = false
         
         runTargetTimeBlockView.gestureRecognizers?.removeAll()
-        targetModStore = nil
+        targetModeStore = nil
         
     }
     //MARK: @OBJC
@@ -710,7 +710,7 @@ class RunViewController: UIViewController, TabItem {
     //MARK: showRunProcess
     @objc func showRunProcess(){
    
-        if targetModStore?.time == ""{
+        if targetModeStore?.time == ""{
             if runTargetTimeLabel.text == "00:00:00"{
                 UIView.animate(withDuration: 0.3) {[weak self] in
                     guard let self = self else{return}
@@ -746,8 +746,8 @@ class RunViewController: UIViewController, TabItem {
             self.setDataTransfer(time: time, distance: distance, coordinates: coordinates, date: date, regionImage: regionImage)
  
         }
-        if let targetModStore = targetModStore {
-            viewController.targetModStore = targetModStore
+        if let targetModeStore = targetModeStore {
+            viewController.targetModeStore = targetModeStore
         }
 
         self.present(viewController, animated: true)

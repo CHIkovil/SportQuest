@@ -36,12 +36,13 @@ class RunProcessViewController: UIViewController {
     var runTimer: Timer?
     var runDataTransfer: ((Int, Int, String, String, Data) -> ())?
     
-    var targetModStore: (coordinates: String, time: String, countInterval: String)?
+    var targetModeStore: (distance: Int, coordinates: String, time: String, countInterval: String)?
     
     var coordinatesTargetMode:[CLLocationCoordinate2D]?
     var coordinatesStagesTargetMode: [[CLLocationCoordinate2D]]?
     var pointsTargetMode:[(coordinate: CLLocationCoordinate2D, time: Int)]?
     var resultStagesTargetMode: [Bool]?
+    var radiusPointTargetMode: Double?
     var numStage: Int?
     //MARK: LOCATION MANAGER
     
@@ -49,7 +50,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 10
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.delegate = self
@@ -171,7 +172,7 @@ class RunProcessViewController: UIViewController {
     
     //MARK: parseTargetMode
     func parseTargetMode() {
-        guard let targetModStore = targetModStore else{return}
+        guard let targetModStore = targetModeStore else{return}
         let coordinatesStore = targetModStore.coordinates
         var coordinatesTargetMode: [CLLocationCoordinate2D] = coordinatesStore.split(separator: ",").map {data in
             let point = data.split(separator: " ")
@@ -199,33 +200,34 @@ class RunProcessViewController: UIViewController {
         self.coordinatesStagesTargetMode = coordinatesStagesTargetMode
         self.pointsTargetMode = pointsTargetMode
         self.numStage = 0
+        self.radiusPointTargetMode = log(Double(targetModStore.distance))/log(Double(pointsTargetMode.count))
     }
     
     //MARK: didCompleteStageTargetMode
     func didCompleteStageTargetMode(numStage: Int) {
         guard let pointsTargetMode = pointsTargetMode else {
-             return
-         }
-
-         if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) < pointsTargetMode[numStage - 1].time {
-             if resultStagesTargetMode != nil{
-                 self.resultStagesTargetMode!.append(true)
-             }else{
-                 self.resultStagesTargetMode = [true]
-             }
-         }else{
-             if resultStagesTargetMode != nil{
-                 self.resultStagesTargetMode!.append(false)
-             }else{
-                 self.resultStagesTargetMode = [false]
-             }
-         }
+            return
+        }
         
-         let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![numStage - 1], count: coordinatesStagesTargetMode![numStage - 1].count)
-         polyline.title = "TargetStage"
-         self.runMapView.addOverlay(polyline)
-         
-      }
+        if hoursMinutesSecondsToSeconds(formatRunTime: runTimerLabel.text!) < pointsTargetMode[numStage - 1].time {
+            if resultStagesTargetMode != nil{
+                self.resultStagesTargetMode!.append(true)
+            }else{
+                self.resultStagesTargetMode = [true]
+            }
+        }else{
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            if resultStagesTargetMode != nil{
+                self.resultStagesTargetMode!.append(false)
+            }else{
+                self.resultStagesTargetMode = [false]
+            }
+        }
+        
+        let polyline = MKPolyline(coordinates: coordinatesStagesTargetMode![numStage - 1], count: coordinatesStagesTargetMode![numStage - 1].count)
+        polyline.title = "TargetStage"
+        self.runMapView.addOverlay(polyline)
+    }
     
     //MARK: startTimer
     func startTimer() {
@@ -350,14 +352,14 @@ class RunProcessViewController: UIViewController {
         
         snapshotter.start {[weak self] snapshot, error in
             guard let snapshot = snapshot, let self = self else{return}
-            let image = self.drawLineOnImage(snapshot: snapshot)
+            let image = self.drawLineToImage(snapshot: snapshot)
             let resizeImage = image.resize(newSize: CGSize(width: 40, height: 40))
             self.runRegionImage = resizeImage.pngData()
         }
     }
     
-    //MARK: drawLineOnImage
-    func drawLineOnImage(snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
+    //MARK: drawLineToImage
+    func drawLineToImage(snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
         let image = snapshot.image
 
         UIGraphicsBeginImageContextWithOptions(self.runMapView.frame.size, true, UIScreen.main.scale)
@@ -381,7 +383,6 @@ class RunProcessViewController: UIViewController {
                         context!.move(to: snapshot.point(for: stage[i]))
                     }
                 }
-                
             }else {
                 fallthrough
             }
@@ -537,7 +538,7 @@ extension RunProcessViewController: MKMapViewDelegate {
                     polyline.strokeColor = UIColor.red
                 }
             }else{
-                if overlay.title == "TargetDistance" && targetModStore != nil{
+                if overlay.title == "TargetDistance" && targetModeStore != nil{
                     polyline.strokeColor = UIColor.white
                 }else{
                     polyline.strokeColor = UIColor.yellow
@@ -557,12 +558,12 @@ extension RunProcessViewController: CLLocationManagerDelegate {
         guard let location = runLocationManager.location else{
             return
         }
-        if let numStage = numStage, let pointsTargetMode = pointsTargetMode{
+        if let numStage = numStage, let pointsTargetMode = pointsTargetMode, let radiusPointTargetMode = radiusPointTargetMode{
             let to = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let from = CLLocation(latitude: pointsTargetMode[numStage].coordinate.latitude, longitude: pointsTargetMode[numStage].coordinate.longitude)
             let distanceBeforeStage = from.distance(from: to)
             
-            if distanceBeforeStage < 10 {
+            if distanceBeforeStage < radiusPointTargetMode{
                 didCompleteStageTargetMode(numStage: numStage)
                 if numStage <= pointsTargetMode.count {
                     self.numStage! += 1
