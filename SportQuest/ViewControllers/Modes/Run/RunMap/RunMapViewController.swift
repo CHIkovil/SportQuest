@@ -43,6 +43,17 @@ class RunMapViewController: UIViewController {
         label.backgroundColor = UIColor.clear
         return label
     }()
+    
+    //MARK: runIntervalLabel
+    lazy var runIntervalLabel:UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "2"
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
+        label.font = .systemFont(ofSize: 25, weight: UIFont.Weight.bold)
+        return label
+    }()
+    
     //MARK: BUTTON
     
     
@@ -59,6 +70,21 @@ class RunMapViewController: UIViewController {
         button.clipsToBounds = true
         button.setImage(UIImage(named:"iconfinder.png"), for: .normal)
         button.addTarget(self, action: #selector(exitMap), for: .touchUpInside)
+        return button
+    }()
+    
+    //MARK: runIntervalButton
+    lazy var runIntervalButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .clear
+        button.frame = CGRect(x: 0, y: 0 , width: 30, height: 30)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.isUserInteractionEnabled = false
+        button.setImage(UIImage(named:"add.png"), for: .normal)
+        button.addTarget(self, action: #selector(addRunInterval), for: .touchUpInside)
         return button
     }()
     
@@ -94,8 +120,7 @@ class RunMapViewController: UIViewController {
         
     }
     
-    //MARK:  FUNC
-    
+    // MARK: CONSTRAINTS VIEW
     
     
     
@@ -107,6 +132,11 @@ class RunMapViewController: UIViewController {
         runMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
+    
+    // MARK: CONSTRAINTS LABEL
+    
+    
+    
     //MARK: createConstraintsRunDataLabel
     func createConstraintsRunDataLabel() {
         runDataLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
@@ -115,6 +145,18 @@ class RunMapViewController: UIViewController {
         runDataLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
+    //MARK: createConstraintsRunIntervalLabel
+      func createConstraintsRunIntervalLabel() {
+          runIntervalLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runIntervalButton.leadingAnchor).isActive = true
+        runIntervalLabel.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runIntervalButton.centerYAnchor).isActive = true
+          runIntervalLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 20).isActive = true
+          runIntervalLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 20).isActive = true
+      }
+    
+    // MARK: CONSTRAINTS BUTTON
+    
+    
+    
     //MARK: createConstraintsExitButton
     func createConstraintsExitButton() {
         exitButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
@@ -122,6 +164,20 @@ class RunMapViewController: UIViewController {
         exitButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 45).isActive = true
         exitButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
+    
+    //MARK: createConstraintsRunIntervalButton
+    func createConstraintsRunIntervalButton() {
+        runIntervalButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runDataLabel.centerYAnchor).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+
+    
+     //MARK:  FUNC
+    
+    
+    
     
     //MARK: showRunDistance
     func showRunDistance() {
@@ -175,6 +231,23 @@ class RunMapViewController: UIViewController {
     @objc func exitMap() {
         self.dismiss(animated: true)
     }
+    
+    @objc func addRunInterval() {
+        runIntervalLabel.alpha = 0
+        UIView.animate(withDuration: 0.5){[weak self] in
+            guard let self = self else{return}
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.fromValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y + 20))
+            animation.toValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y))
+            self.runIntervalLabel.layer.add(animation, forKey: "position")
+            self.runIntervalLabel.text = String(Int(self.runIntervalLabel.text!)! + 1)
+            self.runIntervalLabel.alpha = 1
+        }
+        if Int(self.runIntervalLabel.text!)! == 9 {
+            runIntervalButton.isEnabled = false
+        }
+        
+    }
 }
 
 extension RunMapViewController: MKMapViewDelegate {
@@ -191,7 +264,9 @@ extension RunMapViewController: MKMapViewDelegate {
             annotationView.image = UIImage(named: "finish.png")
             return annotationView
         default:
-            return nil
+            annotationView.image = UIImage(named: "point.png")
+            return annotationView
+    
         }
     }
     

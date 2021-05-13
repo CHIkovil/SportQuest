@@ -200,7 +200,7 @@ class RunProcessViewController: UIViewController {
         self.coordinatesStagesTargetMode = coordinatesStagesTargetMode
         self.pointsTargetMode = pointsTargetMode
         self.numStage = 0
-        self.radiusPointTargetMode = log(Double(targetModStore.distance))/log(Double(pointsTargetMode.count))
+        self.radiusPointTargetMode = Double(targetModStore.distance / (10 * pointsTargetMode.count))
     }
     
     //MARK: didCompleteStageTargetMode
@@ -281,16 +281,15 @@ class RunProcessViewController: UIViewController {
     
     //MARK: stopRun
     @objc func stopRun() {
+        if runDistance < 90 {
+            self.dismiss(animated: true)
+            return
+        }
         stopTimer()
         runLocationManager.stopUpdatingLocation()
         runLocationManager.stopUpdatingHeading()
         stopMonitoringRegions()
-        if runCoordinates.isEmpty || runCoordinates.count == 1{
-            self.dismiss(animated: true)
-            return
-        }
         addLoader()
-   
         setRunRegion()
         getSnapshotRegion()
     }
@@ -554,6 +553,11 @@ extension RunProcessViewController: MKMapViewDelegate {
 
 
 extension RunProcessViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status != .authorizedAlways && status != .authorizedWhenInUse {
+            self.dismiss(animated: true)
+        }
+    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = runLocationManager.location else{
             return

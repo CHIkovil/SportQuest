@@ -765,7 +765,7 @@ class RunViewController: UIViewController, TabItem {
                 break
             }
             
-            if point.y >= 40{
+            if point.y >= 60{
                 setSecondStateTargetMode()
                 fallthrough
             }
