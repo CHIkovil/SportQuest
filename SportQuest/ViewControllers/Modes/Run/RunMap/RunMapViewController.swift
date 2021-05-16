@@ -15,7 +15,6 @@ class RunMapViewController: UIViewController {
     private var customTransitioningDelegate = TransitionDelegate()
     var runCoordinates: [CLLocationCoordinate2D]?
     var runData: NSMutableAttributedString?
-    
     //MARK: VIEW
     
     
@@ -68,7 +67,7 @@ class RunMapViewController: UIViewController {
         button.frame = CGRect(x: 0, y: 0 , width: 45, height: 45)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
-        button.setImage(UIImage(named:"iconfinder.png"), for: .normal)
+        button.setImage(UIImage(named:"exit.png"), for: .normal)
         button.addTarget(self, action: #selector(exitMap), for: .touchUpInside)
         return button
     }()
@@ -82,9 +81,23 @@ class RunMapViewController: UIViewController {
         button.frame = CGRect(x: 0, y: 0 , width: 30, height: 30)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
-        button.isUserInteractionEnabled = false
         button.setImage(UIImage(named:"add.png"), for: .normal)
         button.addTarget(self, action: #selector(addRunInterval), for: .touchUpInside)
+        return button
+    }()
+    
+    //MARK: runDownIntervalButton
+    lazy var runDownIntervalButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .clear
+        button.frame = CGRect(x: 0, y: 0 , width: 30, height: 30)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.isEnabled = false
+        button.setImage(UIImage(named:"minus.png"), for: .normal)
+        button.addTarget(self, action: #selector(downRunInterval), for: .touchUpInside)
         return button
     }()
     
@@ -105,10 +118,16 @@ class RunMapViewController: UIViewController {
         view.addSubview(runMapView)
         view.addSubview(runDataLabel)
         view.addSubview(exitButton)
+        view.addSubview(runIntervalLabel)
+        view.addSubview(runIntervalButton)
+        view.addSubview(runDownIntervalButton)
         
         createConstraintsRunMapView()
         createConstraintsRunDataLabel()
         createConstraintsExitButton()
+        createConstraintsRunIntervalLabel()
+        createConstraintsRunIntervalButton()
+        createConstraintsRunDownIntervalButton()
     }
     
     //MARK: viewDidAppear
@@ -117,7 +136,7 @@ class RunMapViewController: UIViewController {
         showRunDistance()
         guard let text = runData else {return}
         runDataLabel.attributedText = text
-        
+        addAnnotationInterval()
     }
     
     // MARK: CONSTRAINTS VIEW
@@ -167,17 +186,55 @@ class RunMapViewController: UIViewController {
     
     //MARK: createConstraintsRunIntervalButton
     func createConstraintsRunIntervalButton() {
-        runIntervalButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        runIntervalButton.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runDataLabel.centerYAnchor).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: runDownIntervalButton.leadingAnchor,constant: -5).isActive = true
+        runIntervalButton.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: runDownIntervalButton.centerYAnchor).isActive = true
         runIntervalButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 30).isActive = true
         runIntervalButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
-    
+    //MARK: createConstraintsRunDownIntervalButton
+    func createConstraintsRunDownIntervalButton() {
+        runDownIntervalButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: exitButton.bottomAnchor,constant: 30).isActive = true
+        runDownIntervalButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: exitButton.centerXAnchor).isActive = true
+        runDownIntervalButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        runDownIntervalButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
      //MARK:  FUNC
     
     
     
+    //MARK: addAnnotationInterval
+    func addAnnotationInterval() {
+        guard let runCoordinates = runCoordinates else{return}
+        removeAllAnnotationInterval()
+        var coordinateStages = runCoordinates.chunked(into: runCoordinates.count / Int(runIntervalLabel.text!)!)
+        if coordinateStages.count != Int(runIntervalLabel.text!)!{
+            let endStage = coordinateStages[coordinateStages.count - 1]
+            coordinateStages.remove(at: coordinateStages.count - 1)
+            coordinateStages[coordinateStages.count - 1].append(contentsOf: endStage)
+        }
+        let coordinatePoints: [CLLocationCoordinate2D] = coordinateStages.map {stage in
+            return  stage[stage.count - 1]
+        }
+        
+        for (index,coordinate) in coordinatePoints.enumerated() {
+            let point = MKPointAnnotation()
+            point.title = String(index)
+            point.coordinate = coordinate
+            if index < coordinatePoints.count - 1{
+                runMapView.addAnnotation(point)
+            }
+        }
+    }
+    
+    //MARK: removeAllAnnotationInterval
+    func removeAllAnnotationInterval() {
+        for annotation in runMapView.annotations {
+            if annotation.title != "Start" && annotation.title != "Finish"{
+                runMapView.removeAnnotation(annotation)
+            }
+        }
+    }
     
     //MARK: showRunDistance
     func showRunDistance() {
@@ -245,8 +302,30 @@ class RunMapViewController: UIViewController {
         }
         if Int(self.runIntervalLabel.text!)! == 9 {
             runIntervalButton.isEnabled = false
+        }else{
+            runDownIntervalButton.isEnabled = true
         }
-        
+        addAnnotationInterval()
+    }
+    
+    @objc func downRunInterval(){
+        runIntervalLabel.alpha = 0
+        UIView.animate(withDuration: 0.5){[weak self] in
+            guard let self = self else{return}
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.fromValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y + 20))
+            animation.toValue = NSValue(cgPoint: CGPoint(x: self.runIntervalLabel.center.x, y: self.runIntervalLabel.center.y))
+            self.runIntervalLabel.layer.add(animation, forKey: "position")
+            self.runIntervalLabel.text = String(Int(self.runIntervalLabel.text!)! - 1)
+            self.runIntervalLabel.alpha = 1
+        }
+        if Int(self.runIntervalLabel.text!)! == 2 {
+            runDownIntervalButton.isEnabled = false
+        }else{
+            runIntervalButton.isEnabled = true
+        }
+        removeAllAnnotationInterval()
+        addAnnotationInterval()
     }
 }
 
