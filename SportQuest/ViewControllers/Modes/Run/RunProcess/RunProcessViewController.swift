@@ -254,7 +254,6 @@ class RunProcessViewController: UIViewController {
         self.radiusPointTargetMode = Double(targetModStore.distance / (10 * pointsTargetMode.count))
 
         self.numStage = 1
-        
         let point = MKPointAnnotation()
         point.title = "PointStage"
         point.coordinate = self.pointsTargetMode![0].coordinate
