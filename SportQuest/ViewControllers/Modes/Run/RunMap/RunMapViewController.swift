@@ -143,6 +143,7 @@ class RunMapViewController: UIViewController {
     
     
     
+    
     //MARK: createConstraintsRunMapView
     func createConstraintsRunMapView() {
         runMapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -153,6 +154,8 @@ class RunMapViewController: UIViewController {
     
     
     // MARK: CONSTRAINTS LABEL
+    
+    
     
     
     
@@ -173,6 +176,8 @@ class RunMapViewController: UIViewController {
       }
     
     // MARK: CONSTRAINTS BUTTON
+    
+    
     
     
     
@@ -199,6 +204,8 @@ class RunMapViewController: UIViewController {
         runDownIntervalButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 30).isActive = true
         runDownIntervalButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
+    
+    
      //MARK:  FUNC
     
     
