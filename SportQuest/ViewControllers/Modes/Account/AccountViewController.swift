@@ -16,7 +16,7 @@ class AccountViewController: UIViewController, TabItem {
     
     //MARK: userImageView
     lazy var userImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "unicorn.png"))
+        let imageView = UIImageView(image: UIImage(named: "gnome.png"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         imageView.clipsToBounds = true
@@ -36,12 +36,13 @@ class AccountViewController: UIViewController, TabItem {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.text = "12000m"
-        textField.font = UIFont(name: "Chalkduster", size: 12)
+        textField.font = UIFont(name: "Chalkduster", size: 15)
         textField.textAlignment = .center
+        textField.backgroundColor = .clear
         textField.tintColor = .clear
-        textField.textColor = .gray
+        textField.textColor = .white
         textField.layer.borderColor = UIColor.clear.cgColor
-        textField.layer.cornerRadius = 20
+        textField.layer.cornerRadius = 15
         return textField
     }()
     
@@ -55,20 +56,35 @@ class AccountViewController: UIViewController, TabItem {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Lvl 1"
-        label.font = UIFont(name: "Chalkduster", size: 17)
+        label.font = UIFont(name: "Chalkduster", size: 20)
         label.textAlignment = .center
-        label.textColor = .gray
+        label.textColor = .white
         label.backgroundColor = .clear
         label.layer.borderColor = UIColor.clear.cgColor
         return label
     }()
     
-    // MARK: lineCompleteLevelLabel
-    lazy var lineCompleteLevelLabel: UILabel = {
+    // MARK: achievePointsLabel
+    lazy var achievePointsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .green
-        label.layer.cornerRadius = 20
+        label.text = "+100"
+        label.font = UIFont(name: "Chalkduster", size: 13)
+        label.textAlignment = .center
+        label.textColor = #colorLiteral(red: 0.9395605326, green: 0.9326097369, blue: 0.2754085362, alpha: 1)
+        label.backgroundColor = .clear
+        label.layer.borderColor = UIColor.clear.cgColor
+        return label
+    }()
+    
+    // MARK: lineCompleteAchieveLabel
+    lazy var lineCompleteAchieveLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = #colorLiteral(red: 0.9395605326, green: 0.9326097369, blue: 0.2754085362, alpha: 1)
+        label.layer.cornerRadius = 15
+        label.clipsToBounds = true
+        label.layer.masksToBounds = true
         return label
     }()
     
@@ -76,8 +92,10 @@ class AccountViewController: UIViewController, TabItem {
     lazy var lineLevelLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .red
-        label.layer.cornerRadius = 20
+        label.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        label.layer.cornerRadius = 15
+        label.clipsToBounds = true
+        label.layer.masksToBounds = true
         return label
     }()
     
@@ -86,7 +104,7 @@ class AccountViewController: UIViewController, TabItem {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Distance"
-        label.font = UIFont(name: "Chalkduster", size: 12)
+        label.font = UIFont(name: "Chalkduster", size: 20)
         label.textAlignment = .center
         label.textColor = .gray
         label.backgroundColor = .clear
@@ -107,7 +125,7 @@ class AccountViewController: UIViewController, TabItem {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderColor = UIColor.clear.cgColor
         button.backgroundColor = UIColor.clear
-        button.frame = CGRect(x: 0, y: 0 , width: 45, height: 45)
+        button.frame = CGRect(x: 0, y: 0 , width: 50, height: 50)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.setImage(UIImage(named:"wreath.png"), for: .normal)
@@ -121,7 +139,7 @@ class AccountViewController: UIViewController, TabItem {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderColor = UIColor.clear.cgColor
         button.backgroundColor = UIColor.clear
-        button.frame = CGRect(x: 0, y: 0 , width: 45, height: 45)
+        button.frame = CGRect(x: 0, y: 0 , width: 40, height: 40)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.setImage(UIImage(named:"logout.png"), for: .normal)
@@ -138,10 +156,12 @@ class AccountViewController: UIViewController, TabItem {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
+        parseUserStore()
         view.addSubview(userImageView)
         view.addSubview(levelLabel)
+        view.addSubview(achievePointsLabel)
         view.addSubview(lineLevelLabel)
-        view.addSubview(lineCompleteLevelLabel)
+        view.addSubview(lineCompleteAchieveLabel)
         view.addSubview(setupDistanceLabel)
         view.addSubview(setupDistanceTextField)
         view.addSubview(achieveButton)
@@ -149,8 +169,9 @@ class AccountViewController: UIViewController, TabItem {
         
         createConstraintsUserImageView()
         createConstraintsLevelLabel()
+        createConstraintsAchievePointsLabel()
         createConstraintsLineLevelLabel()
-        createConstraintsLineCompleteLevelLabel()
+        createConstraintsLineCompleteAchieveLabel()
         createConstraintsSetupDistanceLabel()
         createConstraintsSetupDistanceTextField()
         createConstraintsAchieveButton()
@@ -172,7 +193,7 @@ class AccountViewController: UIViewController, TabItem {
     //MARK: createConstraintsUserImageView
     func createConstraintsUserImageView() {
         userImageView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userImageView.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
+        userImageView.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -80).isActive = true
     }
     
     
@@ -199,26 +220,32 @@ class AccountViewController: UIViewController, TabItem {
         levelLabel.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: lineLevelLabel.centerYAnchor).isActive = true
     }
     
-    //MARK: createConstraintsLineCompleteLevelLabel
-    func createConstraintsLineCompleteLevelLabel() {
-        lineCompleteLevelLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor).isActive = true
-        lineCompleteLevelLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: lineLevelLabel.trailingAnchor,constant: -20).isActive = true
-        lineCompleteLevelLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: lineLevelLabel.topAnchor).isActive = true
-        lineCompleteLevelLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: lineLevelLabel.bottomAnchor).isActive = true
+    //MARK: createConstraintsLevelLabel
+    func createConstraintsAchievePointsLabel() {
+        achievePointsLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: lineLevelLabel.bottomAnchor, constant: 5).isActive = true
+        achievePointsLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor,constant: 5).isActive = true
+    }
+    
+    //MARK: createConstraintsLineCompleteAchieveLabel
+    func createConstraintsLineCompleteAchieveLabel() {
+        lineCompleteAchieveLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor).isActive = true
+        lineCompleteAchieveLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: lineLevelLabel.trailingAnchor,constant: -20).isActive = true
+        lineCompleteAchieveLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: lineLevelLabel.topAnchor).isActive = true
+        lineCompleteAchieveLabel.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: lineLevelLabel.bottomAnchor).isActive = true
     }
     
     //MARK: createConstraintsLineLevelLabel
     func createConstraintsLineLevelLabel() {
         lineLevelLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 10).isActive = true
         lineLevelLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor).isActive = true
-        lineLevelLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        lineLevelLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        lineLevelLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        lineLevelLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
     //MARK: createConstraintsSetupDistanceLabel
     func createConstraintsSetupDistanceLabel() {
         setupDistanceLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: levelLabel.leadingAnchor).isActive = true
-        setupDistanceLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: levelLabel.bottomAnchor,constant: 10).isActive = true
+        setupDistanceLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: levelLabel.bottomAnchor,constant: 30).isActive = true
     }
     
     
@@ -233,17 +260,27 @@ class AccountViewController: UIViewController, TabItem {
     func createConstraintsAchieveButton() {
         achieveButton.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: lineLevelLabel.centerYAnchor).isActive = true
         achieveButton.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.trailingAnchor, constant: 10).isActive = true
-       achieveButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
-       achieveButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 45).isActive = true
+       achieveButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 50).isActive = true
+       achieveButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     //MARK: createConstraintsLogOutButton
     func createConstraintsLogOutButton() {
-        logOutButton.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        logOutButton.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
-        logOutButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        logOutButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        logOutButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: userImageView.topAnchor, constant: -10).isActive = true
+        logOutButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: achieveButton.centerXAnchor).isActive = true
+        logOutButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        logOutButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 40).isActive = true
     }
+    
+    //MARK: func
+    
+    
+    
+    //MARK: parseUserStore
+    func parseUserStore() {
+        
+    }
+    
     
     //MARK: objc
     
