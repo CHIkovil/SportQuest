@@ -39,7 +39,7 @@ class ModesViewController: AMTabsViewController{
             }
         }
         let accountViewController = AccountViewController()
-
+        
         viewControllers = [
             runningViewController,
             accountViewController,

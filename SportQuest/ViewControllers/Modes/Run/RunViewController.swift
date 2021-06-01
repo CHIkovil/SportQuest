@@ -103,6 +103,7 @@ class RunViewController: UIViewController, TabItem {
         chart.noDataText = "Not data"
         chart.noDataFont = UIFont(name: "TrebuchetMS", size: 18)!
         chart.noDataTextColor = .white
+
         return chart
     }()
     
@@ -319,7 +320,7 @@ class RunViewController: UIViewController, TabItem {
         loadRunStore()
         parseActivityChartStore()
         parseTableStore()
-        setWeekData()
+        setWeekChartData()
         self.scrollView.setContentOffset(.init(x: 0, y: -44), animated: false)
     }
     
@@ -580,8 +581,8 @@ class RunViewController: UIViewController, TabItem {
         runStoreTableView.reloadData()
     }
     
-    //MARK: setWeekData
-    func setWeekData() {
+    //MARK: setWeekChartData
+    func setWeekChartData() {
         guard let weekData = weekDataForChart else {return}
         
         let data = CombinedChartData()
@@ -594,10 +595,11 @@ class RunViewController: UIViewController, TabItem {
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         
         runActivityChartView.data = data
+        runActivityChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
     }
     
-    //MARK: setMonthData
-    func setMonthData() {
+    //MARK: setMonthChartData
+    func setMonthChartData() {
         guard let monthData = monthDataForChart else {return}
         let data = CombinedChartData()
         
@@ -609,6 +611,7 @@ class RunViewController: UIViewController, TabItem {
         runActivityChartView.xAxis.axisMinimum = data.xMin - 0.45
         
         runActivityChartView.data = data
+        runActivityChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
     }
     
     //MARK: getLineData
@@ -729,9 +732,9 @@ class RunViewController: UIViewController, TabItem {
             self.parseTableStore()
         
             if self.formatForChartSwitchView.index == 0{
-                self.setWeekData()
+                self.setWeekChartData()
             }else{
-                self.setMonthData()
+                self.setMonthChartData()
             }
         
     }
@@ -819,18 +822,18 @@ class RunViewController: UIViewController, TabItem {
             showValueChartsButton.layer.borderColor = #colorLiteral(red: 0.9583219886, green: 0.9997169375, blue: 0.8075669408, alpha: 1)
         }
         if formatForChartSwitchView.index == 0{
-            setWeekData()
+            setWeekChartData()
         } else {
-            setMonthData()
+            setMonthChartData()
         }
     }
     
     //MARK: changeRunActivityChart
     @objc func changeRunActivityChart(){
         if formatForChartSwitchView.index == 0 {
-            setWeekData()
+            setWeekChartData()
         }else{
-            setMonthData()
+            setMonthChartData()
         }
     }
     

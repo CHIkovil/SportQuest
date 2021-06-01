@@ -8,8 +8,20 @@
 
 import UIKit
 import AMTabView
+import Charts
 
 class AccountViewController: UIViewController, TabItem {
+    let skills = ["Ловкость", "Выносливость", "Интелект"]
+    
+    //MARK: skillsChartView
+    lazy var skillsChartView: RadarChartView = {
+        let chart = RadarChartView()
+        chart.translatesAutoresizingMaskIntoConstraints = false
+        chart.backgroundColor = .lightGray
+        chart.chartDescription?.enabled = false
+        return chart
+    }()
+    
      //MARK: UIImageView
     
     
@@ -25,7 +37,6 @@ class AccountViewController: UIViewController, TabItem {
         imageView.layer.borderWidth = 4
         return imageView
     }()
-    
     
     //MARK: UITextField
     
@@ -157,6 +168,7 @@ class AccountViewController: UIViewController, TabItem {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         parseUserStore()
+        view.addSubview(skillsChartView)
         view.addSubview(userImageView)
         view.addSubview(levelLabel)
         view.addSubview(achievePointsLabel)
@@ -167,6 +179,7 @@ class AccountViewController: UIViewController, TabItem {
         view.addSubview(achieveButton)
         view.addSubview(logOutButton)
         
+        createConstraintsSkillsChartView()
         createConstraintsUserImageView()
         createConstraintsLevelLabel()
         createConstraintsAchievePointsLabel()
@@ -178,12 +191,27 @@ class AccountViewController: UIViewController, TabItem {
         createConstraintsLogOutButton()
     }
     
+    //MARK: viewDidAppear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        setSkillsChartData()
+    }
+    
     //MARK: touchesBegan
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
     
+    
+    
+    //MARK: createConstraintsSkillsChartView
+     func createConstraintsSkillsChartView() {
+         skillsChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: -10).isActive = true
+         skillsChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor).isActive = true
+        skillsChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        skillsChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 300).isActive = true
+     }
     
      // MARK: CONSTRAINTS UIImageView
     
@@ -193,7 +221,7 @@ class AccountViewController: UIViewController, TabItem {
     //MARK: createConstraintsUserImageView
     func createConstraintsUserImageView() {
         userImageView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userImageView.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -80).isActive = true
+        userImageView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 170).isActive = true
     }
     
     
@@ -236,8 +264,8 @@ class AccountViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsLineLevelLabel
     func createConstraintsLineLevelLabel() {
-        lineLevelLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 10).isActive = true
-        lineLevelLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor).isActive = true
+        lineLevelLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: skillsChartView.bottomAnchor, constant: -50).isActive = true
+        lineLevelLabel.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: skillsChartView.centerXAnchor).isActive = true
         lineLevelLabel.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 30).isActive = true
         lineLevelLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 150).isActive = true
     }
@@ -281,6 +309,62 @@ class AccountViewController: UIViewController, TabItem {
         
     }
     
+    //MARK: setChartData
+    func setSkillsChartData() {
+        skillsChartView.webLineWidth = 1
+        skillsChartView.innerWebLineWidth = 1
+        skillsChartView.webColor = .white
+        skillsChartView.innerWebColor = .white
+        skillsChartView.webAlpha = 1
+
+
+        let xAxis = skillsChartView.xAxis
+        xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
+        xAxis.xOffset = 0
+        xAxis.yOffset = 0
+        xAxis.valueFormatter = self
+        xAxis.labelTextColor = .white
+    
+
+        let yAxis = skillsChartView.yAxis
+        yAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
+        yAxis.labelCount = 3
+        yAxis.axisMinimum = 0
+        yAxis.axisMaximum = 80
+        yAxis.drawLabelsEnabled = false
+        
+        skillsChartView.legend.enabled = false
+        skillsChartView.legend.horizontalAlignment = .center
+        skillsChartView.legend.verticalAlignment = .top
+        skillsChartView.legend.orientation = .horizontal
+        skillsChartView.legend.drawInside = true
+        
+        let mult: UInt32 = 50
+        let min: UInt32 = 50
+        let cnt = 3
+        
+        let block: (Int) -> RadarChartDataEntry = { _ in return RadarChartDataEntry(value: Double(arc4random_uniform(mult) + min))}
+        let entries1 = (0..<cnt).map(block)
+        
+        let set1 = RadarChartDataSet(entries: entries1, label: "")
+        set1.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
+        set1.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
+
+        set1.fillAlpha = 0.7
+        set1.lineWidth = 2
+        set1.drawHighlightCircleEnabled = true
+        set1.drawFilledEnabled = true
+        set1.setDrawHighlightIndicators(false)
+        
+        let data = RadarChartData()
+        data.setValueFont(.systemFont(ofSize: 8, weight: .light))
+        data.setDrawValues(false)
+        data.setValueTextColor(.white)
+        data.dataSets = [set1]
+        skillsChartView.data = data
+        skillsChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
+    }
+    
     
     //MARK: objc
     
@@ -293,5 +377,13 @@ class AccountViewController: UIViewController, TabItem {
     @objc func logOut(){
         
     }
+    
+}
+
+extension AccountViewController:IAxisValueFormatter{
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return skills[Int(value) % skills.count]
+    }
+    
 }
 

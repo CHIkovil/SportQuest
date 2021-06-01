@@ -150,6 +150,7 @@
 		9314E7442536388000ED1DFA /* Modes */ = {
 			isa = PBXGroup;
 			children = (
+				9392E62126187EEE007BC9DD /* СonfigSupControllers */,
 				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
 				9314E766253E355400ED1DFA /* Run */,
 				9314E768253E35AF00ED1DFA /* Account */,
@@ -163,7 +164,6 @@
 				9314E749253646B300ED1DFA /* RunViewController.swift */,
 				93C6204B2576D760008CADE7 /* RunProcess */,
 				9392E6222618820A007BC9DD /* RunMap */,
-				9392E62126187EEE007BC9DD /* СonfigSupControllers */,
 			);
 			path = Run;
 			sourceTree = "<group>";
@@ -172,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				9314E74D253646D600ED1DFA /* AccountViewController.swift */,
+				934EFE732666B62D002CB68A /* Achieve */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -267,9 +268,24 @@
 			isa = PBXGroup;
 			children = (
 				93418C05252528730004F813 /* AuthorizationViewController.swift */,
-				9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */,
+				934EFE722666B589002CB68A /*  Registration */,
 			);
 			path = Authorization;
+			sourceTree = "<group>";
+		};
+		934EFE722666B589002CB68A /*  Registration */ = {
+			isa = PBXGroup;
+			children = (
+				9314E731252A5EB200ED1DFA /* RegistrationViewController.swift */,
+			);
+			path = " Registration";
+			sourceTree = "<group>";
+		};
+		934EFE732666B62D002CB68A /* Achieve */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Achieve;
 			sourceTree = "<group>";
 		};
 		9392E62126187EEE007BC9DD /* СonfigSupControllers */ = {
