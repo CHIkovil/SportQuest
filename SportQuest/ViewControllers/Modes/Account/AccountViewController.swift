@@ -11,7 +11,7 @@ import AMTabView
 import Charts
 
 class AccountViewController: UIViewController, TabItem {
-    let skills = ["Ловкость", "Выносливость", "Интелект"]
+    private let skills = ["Ловкость", "Выносливость", "Интеллект"]
     
     //MARK: skillsChartView
     lazy var skillsChartView: RadarChartView = {
@@ -19,6 +19,27 @@ class AccountViewController: UIViewController, TabItem {
         chart.translatesAutoresizingMaskIntoConstraints = false
         chart.backgroundColor = .lightGray
         chart.chartDescription?.enabled = false
+        chart.webLineWidth = 1
+        chart.innerWebLineWidth = 1
+        chart.webColor = .white
+        chart.innerWebColor = .white
+        chart.webAlpha = 1
+        
+        chart.legend.enabled = false
+        chart.legend.horizontalAlignment = .center
+        chart.legend.verticalAlignment = .top
+        chart.legend.orientation = .horizontal
+        
+        chart.xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
+        chart.xAxis.xOffset = 0
+        chart.xAxis.yOffset = 0
+        chart.xAxis.valueFormatter = self
+        chart.xAxis.labelTextColor = .white
+        chart.yAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
+        chart.yAxis.labelCount = 3
+        chart.yAxis.axisMinimum = 0
+        chart.yAxis.axisMaximum = 80
+        chart.yAxis.drawLabelsEnabled = false
         return chart
     }()
     
@@ -207,13 +228,13 @@ class AccountViewController: UIViewController, TabItem {
     
     //MARK: createConstraintsSkillsChartView
      func createConstraintsSkillsChartView() {
-         skillsChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: -10).isActive = true
-         skillsChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor).isActive = true
+        skillsChartView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: -10).isActive = true
+        skillsChartView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: userImageView.centerXAnchor).isActive = true
         skillsChartView.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 300).isActive = true
         skillsChartView.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 300).isActive = true
      }
     
-     // MARK: CONSTRAINTS UIImageView
+    // MARK: CONSTRAINTS UIImageView
     
     
     
@@ -309,60 +330,37 @@ class AccountViewController: UIViewController, TabItem {
         
     }
     
-    //MARK: setChartData
+    //MARK: setSkillsChartData
     func setSkillsChartData() {
-        skillsChartView.webLineWidth = 1
-        skillsChartView.innerWebLineWidth = 1
-        skillsChartView.webColor = .white
-        skillsChartView.innerWebColor = .white
-        skillsChartView.webAlpha = 1
-
-
-        let xAxis = skillsChartView.xAxis
-        xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
-        xAxis.xOffset = 0
-        xAxis.yOffset = 0
-        xAxis.valueFormatter = self
-        xAxis.labelTextColor = .white
-    
-
-        let yAxis = skillsChartView.yAxis
-        yAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
-        yAxis.labelCount = 3
-        yAxis.axisMinimum = 0
-        yAxis.axisMaximum = 80
-        yAxis.drawLabelsEnabled = false
-        
-        skillsChartView.legend.enabled = false
-        skillsChartView.legend.horizontalAlignment = .center
-        skillsChartView.legend.verticalAlignment = .top
-        skillsChartView.legend.orientation = .horizontal
-        skillsChartView.legend.drawInside = true
-        
-        let mult: UInt32 = 50
-        let min: UInt32 = 50
-        let cnt = 3
-        
-        let block: (Int) -> RadarChartDataEntry = { _ in return RadarChartDataEntry(value: Double(arc4random_uniform(mult) + min))}
-        let entries1 = (0..<cnt).map(block)
-        
-        let set1 = RadarChartDataSet(entries: entries1, label: "")
-        set1.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
-        set1.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
-
-        set1.fillAlpha = 0.7
-        set1.lineWidth = 2
-        set1.drawHighlightCircleEnabled = true
-        set1.drawFilledEnabled = true
-        set1.setDrawHighlightIndicators(false)
-        
-        let data = RadarChartData()
-        data.setValueFont(.systemFont(ofSize: 8, weight: .light))
-        data.setDrawValues(false)
-        data.setValueTextColor(.white)
-        data.dataSets = [set1]
-        skillsChartView.data = data
+        skillsChartView.data = getSkillsChartData()
         skillsChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
+    }
+    
+    //MARK: getSkillsChartData
+    func getSkillsChartData() -> RadarChartData {
+        let mult: UInt32 = 50
+         let min: UInt32 = 50
+         let cnt = 3
+         
+         let block: (Int) -> RadarChartDataEntry = { _ in return RadarChartDataEntry(value: Double(arc4random_uniform(mult) + min))}
+         let entries = (0..<cnt).map(block)
+         
+         let set = RadarChartDataSet(entries: entries, label: "")
+         set.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
+         set.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
+
+         set.fillAlpha = 0.7
+         set.lineWidth = 2
+         set.drawHighlightCircleEnabled = true
+         set.drawFilledEnabled = true
+         set.setDrawHighlightIndicators(false)
+         
+         let data = RadarChartData()
+         data.setValueFont(.systemFont(ofSize: 8, weight: .light))
+         data.setDrawValues(false)
+         data.setValueTextColor(.white)
+         data.dataSets = [set]
+         return data
     }
     
     
@@ -370,7 +368,8 @@ class AccountViewController: UIViewController, TabItem {
     
     //MARK: showAchieve
     @objc func showAchieve(){
-        
+        let viewController = AchieveViewController()
+        self.present(viewController, animated: true)
     }
     
     //MARK: logOut

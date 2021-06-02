@@ -42,6 +42,8 @@
 		934EFE6D265C3409002CB68A /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE6C265C3409002CB68A /* logout.png */; };
 		934EFE70265C342B002CB68A /* achieve2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE6E265C342B002CB68A /* achieve2.gif */; };
 		934EFE71265C342B002CB68A /* achieve1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE6F265C342B002CB68A /* achieve1.gif */; };
+		934EFE752666B749002CB68A /* AchieveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE742666B749002CB68A /* AchieveViewController.swift */; };
+		934EFE772667D9A0002CB68A /* completed.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE762667D9A0002CB68A /* completed.png */; };
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		9392E61E261253EE007BC9DD /* fire.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61D261253EE007BC9DD /* fire.gif */; };
@@ -103,6 +105,8 @@
 		934EFE6C265C3409002CB68A /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		934EFE6E265C342B002CB68A /* achieve2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = achieve2.gif; sourceTree = "<group>"; };
 		934EFE6F265C342B002CB68A /* achieve1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = achieve1.gif; sourceTree = "<group>"; };
+		934EFE742666B749002CB68A /* AchieveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveViewController.swift; sourceTree = "<group>"; };
+		934EFE762667D9A0002CB68A /* completed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = completed.png; sourceTree = "<group>"; };
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9392E61D261253EE007BC9DD /* fire.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = fire.gif; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 		93418C262528768C0004F813 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				934EFE762667D9A0002CB68A /* completed.png */,
 				934EFE6F265C342B002CB68A /* achieve1.gif */,
 				934EFE6E265C342B002CB68A /* achieve2.gif */,
 				934EFE6C265C3409002CB68A /* logout.png */,
@@ -284,6 +289,7 @@
 		934EFE732666B62D002CB68A /* Achieve */ = {
 			isa = PBXGroup;
 			children = (
+				934EFE742666B749002CB68A /* AchieveViewController.swift */,
 			);
 			path = Achieve;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				934EFE6D265C3409002CB68A /* logout.png in Resources */,
 				93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */,
 				93418C0E252528750004F813 /* Assets.xcassets in Resources */,
+				934EFE772667D9A0002CB68A /* completed.png in Resources */,
 				9314E764253E301200ED1DFA /* muscle.png in Resources */,
 				9314E7412533A6C900ED1DFA /* elf.png in Resources */,
 				9392E62026125B4D007BC9DD /* running.png in Resources */,
@@ -518,6 +525,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934EFE752666B749002CB68A /* AchieveViewController.swift in Sources */,
 				93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */,
 				9314E74A253646B300ED1DFA /* RunViewController.swift in Sources */,
 				93418C0C252528730004F813 /* SportQuest.xcdatamodeld in Sources */,
