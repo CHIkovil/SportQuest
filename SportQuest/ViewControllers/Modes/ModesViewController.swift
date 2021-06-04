@@ -94,7 +94,7 @@ class ModesViewController: AMTabsViewController{
     }
     //MARK: swipeViewController
     @objc func swipeViewController(_ sender: UIPanGestureRecognizer){
-        if (sender.state == .ended) {
+        if sender.state == .ended {
             let velocity = sender.velocity(in: self.view)
             if (velocity.x > 0) { // Coming from left
                 selectedTabIndex = 0

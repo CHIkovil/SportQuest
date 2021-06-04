@@ -36,6 +36,7 @@ class RunViewController: UIViewController, TabItem {
     var targetModeStore: (distance: Int, coordinates: String, time: String, countInterval: String)?
     var enableSwipeNavigation: ((Bool) -> ())?
     
+    var paletteDistances:[String:UIColor]?
     //MARK: VIEW
     
     //MARK: scrollView
@@ -320,6 +321,7 @@ class RunViewController: UIViewController, TabItem {
         loadRunStore()
         parseActivityChartStore()
         parseTableStore()
+        createColorEquelDistance()
         setWeekChartData()
         self.scrollView.setContentOffset(.init(x: 0, y: -44), animated: false)
     }
@@ -581,6 +583,18 @@ class RunViewController: UIViewController, TabItem {
         runStoreTableView.reloadData()
     }
     
+    //MARK: createColorEquelDistance
+    func createColorEquelDistance() {
+        guard let coordinateStore = runCoordinateStore else {return}
+        let uniqueDistances = Set(coordinateStore)
+        
+        var paletteDistances = [String:UIColor]()
+        for distance in uniqueDistances{
+            paletteDistances[distance] = UIColor.random()
+        }
+        self.paletteDistances = paletteDistances
+        
+    }
     //MARK: setWeekChartData
     func setWeekChartData() {
         guard let weekData = weekDataForChart else {return}
@@ -1022,9 +1036,18 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.textColor = .white
             return cell
         }
+        
         cell.backgroundColor = .white
+        
+        if let paletteDistances = paletteDistances, let  coordinateStore = runCoordinateStore{
+            if Array(paletteDistances.keys).contains(coordinateStore[indexPath.section]) {
+                cell.backgroundColor = paletteDistances[coordinateStore[indexPath.section]]
+            }
+        }
+        
         cell.layer.cornerRadius = 20
         cell.textLabel?.attributedText = tableStore[indexPath.section]
+        
         let cellImg : UIImageView = UIImageView(frame: CGRect(x: 10, y: 2.5, width: 50, height: 50))
         cellImg.image = UIImage(data: runRegionImageStore![indexPath.section])
         cellImg.layer.cornerRadius = 15
@@ -1068,6 +1091,19 @@ extension RunViewController: IAxisValueFormatter{
     }
 }
 
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
 
-
-
+extension UIColor {
+    static func random() -> UIColor {
+        return UIColor(
+           red:   .random(),
+           green: .random(),
+           blue:  .random(),
+           alpha: 0.6
+        )
+    }
+}
