@@ -728,28 +728,29 @@ class RunViewController: UIViewController, TabItem {
     
     //MARK: setDataTransfer
     func setDataTransfer(time: Int, distance:Int, coordinates: String, date:String, regionImage: Data) -> Void{
-          if runDateStore != nil{
-                runTimeStore!.insert(time, at: 0)
-                runDistanceStore!.insert(distance,at: 0)
-                runCoordinateStore!.insert(coordinates, at: 0)
-                runDateStore!.insert(date, at: 0)
-                runRegionImageStore!.insert(regionImage, at: 0)
-            }else{
-                runTimeStore = [time]
-                runDistanceStore = [distance]
-                runCoordinateStore = [coordinates]
-                runDateStore = [date]
-                runRegionImageStore = [regionImage]
-            }
+        if runDateStore != nil{
+            runTimeStore!.insert(time, at: 0)
+            runDistanceStore!.insert(distance,at: 0)
+            runCoordinateStore!.insert(coordinates, at: 0)
+            runDateStore!.insert(date, at: 0)
+            runRegionImageStore!.insert(regionImage, at: 0)
+        }else{
+            runTimeStore = [time]
+            runDistanceStore = [distance]
+            runCoordinateStore = [coordinates]
+            runDateStore = [date]
+            runRegionImageStore = [regionImage]
+        }
         
-            self.parseActivityChartStore()
-            self.parseTableStore()
+        self.parseActivityChartStore()
+        self.parseTableStore()
+        self.createColorEquelDistance()
         
-            if self.formatForChartSwitchView.index == 0{
-                self.setWeekChartData()
-            }else{
-                self.setMonthChartData()
-            }
+        if self.formatForChartSwitchView.index == 0{
+            self.setWeekChartData()
+        }else{
+            self.setMonthChartData()
+        }
         
     }
     
@@ -1039,7 +1040,7 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .white
         
-        if let paletteDistances = paletteDistances, let  coordinateStore = runCoordinateStore{
+        if let paletteDistances = paletteDistances, let coordinateStore = runCoordinateStore{
             if Array(paletteDistances.keys).contains(coordinateStore[indexPath.section]) {
                 cell.backgroundColor = paletteDistances[coordinateStore[indexPath.section]]
             }
@@ -1077,6 +1078,21 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
         viewController.runCoordinates = coordinates
         viewController.runData = tableStore[indexPath.section]
         self.present(viewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        cell.transform = CGAffineTransform(translationX: 0, y: cell.frame.height)
+
+        UIView.animate(
+            withDuration: 1,
+            delay: 0.05 * Double(indexPath.row),
+            usingSpringWithDamping: 0.4,
+            initialSpringVelocity: 0.1,
+            options: [.curveEaseInOut],
+            animations: {
+                cell.transform = CGAffineTransform(translationX: 0, y: 0)
+        })
     }
 }
 
