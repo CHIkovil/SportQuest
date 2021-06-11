@@ -37,6 +37,7 @@ class RunViewController: UIViewController, TabItem {
     var enableSwipeNavigation: ((Bool) -> ())?
     
     var paletteDistances:[String:UIColor]?
+    var quotes:Quotes?
     //MARK: VIEW
     
     //MARK: scrollView
@@ -271,6 +272,7 @@ class RunViewController: UIViewController, TabItem {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
+        setQuotes()
         
         view.addSubview(scrollView)
         scrollView.addSubview(runActivityChartView)
@@ -321,7 +323,7 @@ class RunViewController: UIViewController, TabItem {
         loadRunStore()
         parseActivityChartStore()
         parseTableStore()
-        createColorEquelDistance()
+        getColorEquelDistance()
         setWeekChartData()
         self.scrollView.setContentOffset(.init(x: 0, y: -44), animated: false)
     }
@@ -468,6 +470,21 @@ class RunViewController: UIViewController, TabItem {
     //MARK: FUNC
     
     
+    
+    //MARK: setQuotes
+    func setQuotes() {
+        NetworkService.sharedobj.getQuotes {[weak self] (w) in
+            guard let self = self else{return}
+            self.quotes = w
+            if let randomquote = self.quotes!.randomElement()
+            {
+                let text = randomquote.text.trimmingCharacters(in: .whitespaces)
+                self.motivationLabel.fadeLength = CGFloat(text.count)
+                self.motivationLabel.text = text
+            }
+        }
+    }
+    
     //MARK: loadRunStore
     func loadRunStore() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RunData")
@@ -532,6 +549,7 @@ class RunViewController: UIViewController, TabItem {
         }
     }
     
+    
     //MARK: parseActivityChartStore
     func parseActivityChartStore() {
         guard let dateStore = runDateStore else {return}
@@ -584,7 +602,7 @@ class RunViewController: UIViewController, TabItem {
     }
     
     //MARK: createColorEquelDistance
-    func createColorEquelDistance() {
+    func getColorEquelDistance() {
         guard let coordinateStore = runCoordinateStore else {return}
         let uniqueDistances = Set(coordinateStore)
         
@@ -744,7 +762,7 @@ class RunViewController: UIViewController, TabItem {
         
         self.parseActivityChartStore()
         self.parseTableStore()
-        self.createColorEquelDistance()
+        self.getColorEquelDistance()
         
         if self.formatForChartSwitchView.index == 0{
             self.setWeekChartData()

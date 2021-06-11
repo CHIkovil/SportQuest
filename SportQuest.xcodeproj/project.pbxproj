@@ -44,6 +44,8 @@
 		934EFE71265C342B002CB68A /* achieve1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE6F265C342B002CB68A /* achieve1.gif */; };
 		934EFE752666B749002CB68A /* AchieveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE742666B749002CB68A /* AchieveViewController.swift */; };
 		934EFE772667D9A0002CB68A /* completed.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE762667D9A0002CB68A /* completed.png */; };
+		934EFE7A2673A858002CB68A /* QuotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE792673A858002CB68A /* QuotesModel.swift */; };
+		934EFE7C2673A938002CB68A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE7B2673A938002CB68A /* NetworkService.swift */; };
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		9392E61E261253EE007BC9DD /* fire.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61D261253EE007BC9DD /* fire.gif */; };
@@ -107,6 +109,8 @@
 		934EFE6F265C342B002CB68A /* achieve1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = achieve1.gif; sourceTree = "<group>"; };
 		934EFE742666B749002CB68A /* AchieveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveViewController.swift; sourceTree = "<group>"; };
 		934EFE762667D9A0002CB68A /* completed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = completed.png; sourceTree = "<group>"; };
+		934EFE792673A858002CB68A /* QuotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesModel.swift; sourceTree = "<group>"; };
+		934EFE7B2673A938002CB68A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9392E61D261253EE007BC9DD /* fire.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = fire.gif; sourceTree = "<group>"; };
@@ -154,7 +158,7 @@
 		9314E7442536388000ED1DFA /* Modes */ = {
 			isa = PBXGroup;
 			children = (
-				9392E62126187EEE007BC9DD /* СonfigSupControllers */,
+				9392E62126187EEE007BC9DD /* СonfigControllers */,
 				9314E74525363DEF00ED1DFA /* ModesViewController.swift */,
 				9314E766253E355400ED1DFA /* Run */,
 				9314E768253E35AF00ED1DFA /* Account */,
@@ -165,6 +169,7 @@
 		9314E766253E355400ED1DFA /* Run */ = {
 			isa = PBXGroup;
 			children = (
+				934EFE782673A7F8002CB68A /* Quotes */,
 				9314E749253646B300ED1DFA /* RunViewController.swift */,
 				93C6204B2576D760008CADE7 /* RunProcess */,
 				9392E6222618820A007BC9DD /* RunMap */,
@@ -294,13 +299,22 @@
 			path = Achieve;
 			sourceTree = "<group>";
 		};
-		9392E62126187EEE007BC9DD /* СonfigSupControllers */ = {
+		934EFE782673A7F8002CB68A /* Quotes */ = {
+			isa = PBXGroup;
+			children = (
+				934EFE792673A858002CB68A /* QuotesModel.swift */,
+				934EFE7B2673A938002CB68A /* NetworkService.swift */,
+			);
+			path = Quotes;
+			sourceTree = "<group>";
+		};
+		9392E62126187EEE007BC9DD /* СonfigControllers */ = {
 			isa = PBXGroup;
 			children = (
 				93C6204E257BADBF008CADE7 /* PresentationController.swift */,
 				93C6204C257BAD5C008CADE7 /* TransitionDelegate.swift */,
 			);
-			path = "СonfigSupControllers";
+			path = "СonfigControllers";
 			sourceTree = "<group>";
 		};
 		9392E6222618820A007BC9DD /* RunMap */ = {
@@ -531,9 +545,11 @@
 				93418C0C252528730004F813 /* SportQuest.xcdatamodeld in Sources */,
 				9392E62426188445007BC9DD /* RunMapViewController.swift in Sources */,
 				93418C02252528730004F813 /* AppDelegate.swift in Sources */,
+				934EFE7A2673A858002CB68A /* QuotesModel.swift in Sources */,
 				9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */,
 				9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */,
 				9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */,
+				934EFE7C2673A938002CB68A /* NetworkService.swift in Sources */,
 				93C6204D257BAD5C008CADE7 /* TransitionDelegate.swift in Sources */,
 				93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */,
 				93418C04252528730004F813 /* SceneDelegate.swift in Sources */,

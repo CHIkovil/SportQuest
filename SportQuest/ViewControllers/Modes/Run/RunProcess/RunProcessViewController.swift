@@ -42,7 +42,6 @@ class RunProcessViewController: UIViewController {
     var coordinatesStagesTargetMode: [[CLLocationCoordinate2D]]?
     var pointsTargetMode:[(coordinate: CLLocationCoordinate2D, time: Int)]?
     var resultStagesTargetMode: [Bool]?
-    var radiusPointTargetMode: Double?
     var numStage: Int?
     //MARK: LOCATION MANAGER
     
@@ -50,7 +49,7 @@ class RunProcessViewController: UIViewController {
     //MARK: runningLocationManager
     lazy var runLocationManager: CLLocationManager = {
         var locationManager = CLLocationManager()
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 5
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.delegate = self
@@ -251,7 +250,6 @@ class RunProcessViewController: UIViewController {
         self.coordinatesTargetMode = coordinatesTargetMode
         self.coordinatesStagesTargetMode = coordinatesStagesTargetMode
         self.pointsTargetMode = pointsTargetMode
-        self.radiusPointTargetMode = Double(targetModStore.distance / (10 * pointsTargetMode.count))
 
         self.numStage = 1
         let point = MKPointAnnotation()
@@ -556,16 +554,17 @@ extension RunProcessViewController: CLLocationManagerDelegate {
             self.dismiss(animated: true)
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = runLocationManager.location else{
             return
         }
-        if let numStage = numStage, let pointsTargetMode = pointsTargetMode, let radiusPointTargetMode = radiusPointTargetMode{
+        if let numStage = numStage, let pointsTargetMode = pointsTargetMode{
             let to = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let from = CLLocation(latitude: pointsTargetMode[numStage - 1].coordinate.latitude, longitude: pointsTargetMode[numStage - 1].coordinate.longitude)
             let distanceBeforeStage = from.distance(from: to)
             
-            if distanceBeforeStage < radiusPointTargetMode{
+            if distanceBeforeStage < 5{
                 didCompleteStageTargetMode(numStage: numStage)
                 if numStage < pointsTargetMode.count {
                     self.numStage! += 1
