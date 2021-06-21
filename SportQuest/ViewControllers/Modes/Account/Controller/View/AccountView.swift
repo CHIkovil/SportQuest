@@ -1,17 +1,21 @@
 //
-//  AccountViewController.swift
+//  AccountView.swift
 //  SportQuest
 //
-//  Created by Никита Бычков on 13.10.2020.
-//  Copyright © 2020 Никита Бычков. All rights reserved.
+//  Created by Никита Бычков on 14.06.2021.
+//  Copyright © 2021 Никита Бычков. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import AMTabView
 import Charts
 
-class AccountViewController: UIViewController, TabItem {
-    private let skills = ["Ловкость", "Выносливость", "Интеллект"]
+protocol AccountViewDelegate:NSObjectProtocol {
+    func addTargetButton()
+    func setChartData(data: RadarChartData)
+}
+
+class AccountView: UIView {
     
     //MARK: skillsChartView
     lazy var skillsChartView: RadarChartView = {
@@ -33,7 +37,6 @@ class AccountViewController: UIViewController, TabItem {
         chart.xAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
         chart.xAxis.xOffset = 0
         chart.xAxis.yOffset = 0
-        chart.xAxis.valueFormatter = self
         chart.xAxis.labelTextColor = .white
         chart.yAxis.labelFont = .systemFont(ofSize: 9, weight: .light)
         chart.yAxis.labelCount = 3
@@ -43,7 +46,7 @@ class AccountViewController: UIViewController, TabItem {
         return chart
     }()
     
-     //MARK: UIImageView
+    //MARK: UIImageView
     
     
     
@@ -81,8 +84,7 @@ class AccountViewController: UIViewController, TabItem {
     //MARK: UILabel
     
     
-    
-    
+
     // MARK: levelLabel
     lazy var levelLabel: UILabel = {
         let label = UILabel()
@@ -91,19 +93,6 @@ class AccountViewController: UIViewController, TabItem {
         label.font = UIFont(name: "Chalkduster", size: 20)
         label.textAlignment = .center
         label.textColor = .white
-        label.backgroundColor = .clear
-        label.layer.borderColor = UIColor.clear.cgColor
-        return label
-    }()
-    
-    // MARK: achievePointsLabel
-    lazy var achievePointsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "+100"
-        label.font = UIFont(name: "Chalkduster", size: 13)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.9395605326, green: 0.9326097369, blue: 0.2754085362, alpha: 1)
         label.backgroundColor = .clear
         label.layer.borderColor = UIColor.clear.cgColor
         return label
@@ -131,6 +120,19 @@ class AccountViewController: UIViewController, TabItem {
         return label
     }()
     
+    // MARK: achievePointsLabel
+    lazy var achievePointsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "+100"
+        label.font = UIFont(name: "Chalkduster", size: 13)
+        label.textAlignment = .center
+        label.textColor = #colorLiteral(red: 0.9395605326, green: 0.9326097369, blue: 0.2754085362, alpha: 1)
+        label.backgroundColor = .clear
+        label.layer.borderColor = UIColor.clear.cgColor
+        return label
+    }()
+    
     // MARK: setupDistanceLabel
     lazy var setupDistanceLabel: UILabel = {
         let label = UILabel()
@@ -144,10 +146,7 @@ class AccountViewController: UIViewController, TabItem {
         return label
     }()
 
-    
-    
     //MARK: UIButton
-    
     
     
     
@@ -161,7 +160,6 @@ class AccountViewController: UIViewController, TabItem {
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.setImage(UIImage(named:"wreath.png"), for: .normal)
-        button.addTarget(self, action: #selector(showAchieve), for: .touchUpInside)
         return button
     }()
     
@@ -175,54 +173,50 @@ class AccountViewController: UIViewController, TabItem {
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.setImage(UIImage(named:"logout.png"), for: .normal)
-        button.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+       
         return button
     }()
     
-    //MARK: tabImage
-    var tabImage: UIImage? {
-      return UIImage(named: "account.png")
-    }
-    
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .lightGray
-        parseUserStore()
-        view.addSubview(skillsChartView)
-        view.addSubview(userImageView)
-        view.addSubview(levelLabel)
-        view.addSubview(achievePointsLabel)
-        view.addSubview(lineLevelLabel)
-        view.addSubview(lineCompleteAchieveLabel)
-        view.addSubview(setupDistanceLabel)
-        view.addSubview(setupDistanceTextField)
-        view.addSubview(achieveButton)
-        view.addSubview(logOutButton)
+
+    //MARK: init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .lightGray
+        self.addSubview(skillsChartView)
+        
+        self.addSubview(userImageView)
+        
+        self.addSubview(levelLabel)
+        self.addSubview(lineLevelLabel)
+        self.addSubview(lineCompleteAchieveLabel)
+        self.addSubview(achievePointsLabel)
+        self.addSubview(setupDistanceLabel)
+        self.addSubview(setupDistanceTextField)
+        
+        self.addSubview(achieveButton)
+        self.addSubview(logOutButton)
         
         createConstraintsSkillsChartView()
+        
         createConstraintsUserImageView()
+        
         createConstraintsLevelLabel()
-        createConstraintsAchievePointsLabel()
         createConstraintsLineLevelLabel()
         createConstraintsLineCompleteAchieveLabel()
+        createConstraintsAchievePointsLabel()
         createConstraintsSetupDistanceLabel()
+       
         createConstraintsSetupDistanceTextField()
+        
         createConstraintsAchieveButton()
         createConstraintsLogOutButton()
     }
     
-    //MARK: viewDidAppear
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
-        setSkillsChartData()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: touchesBegan
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
+    // MARK: CONSTRAINTS
     
     
     
@@ -238,13 +232,11 @@ class AccountViewController: UIViewController, TabItem {
     
     
     
-    
     //MARK: createConstraintsUserImageView
     func createConstraintsUserImageView() {
-        userImageView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userImageView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor, constant: 170).isActive = true
+        userImageView.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        userImageView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: self.topAnchor, constant: 170).isActive = true
     }
-    
     
     // MARK: CONSTRAINTS UITextField
     
@@ -257,9 +249,7 @@ class AccountViewController: UIViewController, TabItem {
         
     }
     
-    
-    
-     // MARK: CONSTRAINTS UILabel
+    // MARK: CONSTRAINTS UILabel
     
     
     
@@ -267,12 +257,6 @@ class AccountViewController: UIViewController, TabItem {
     func createConstraintsLevelLabel() {
         levelLabel.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor,constant: -10).isActive = true
         levelLabel.safeAreaLayoutGuide.centerYAnchor.constraint(equalTo: lineLevelLabel.centerYAnchor).isActive = true
-    }
-    
-    //MARK: createConstraintsLevelLabel
-    func createConstraintsAchievePointsLabel() {
-        achievePointsLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: lineLevelLabel.bottomAnchor, constant: 5).isActive = true
-        achievePointsLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor,constant: 5).isActive = true
     }
     
     //MARK: createConstraintsLineCompleteAchieveLabel
@@ -291,17 +275,19 @@ class AccountViewController: UIViewController, TabItem {
         lineLevelLabel.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
+    //MARK: createConstraintsLevelLabel
+    func createConstraintsAchievePointsLabel() {
+        achievePointsLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: lineLevelLabel.bottomAnchor, constant: 5).isActive = true
+        achievePointsLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: lineLevelLabel.leadingAnchor,constant: 5).isActive = true
+    }
+    
     //MARK: createConstraintsSetupDistanceLabel
     func createConstraintsSetupDistanceLabel() {
         setupDistanceLabel.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: levelLabel.leadingAnchor).isActive = true
         setupDistanceLabel.safeAreaLayoutGuide.topAnchor.constraint(equalTo: levelLabel.bottomAnchor,constant: 30).isActive = true
     }
     
-    
-    
-    
     //MARK: CONSTRAINTS UIButton
-    
     
     
     
@@ -320,69 +306,4 @@ class AccountViewController: UIViewController, TabItem {
         logOutButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 40).isActive = true
         logOutButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
-    //MARK: func
-    
-    
-    
-    //MARK: parseUserStore
-    func parseUserStore() {
-        
-    }
-    
-    //MARK: setSkillsChartData
-    func setSkillsChartData() {
-        skillsChartView.data = getSkillsChartData()
-        skillsChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
-    }
-    
-    //MARK: getSkillsChartData
-    func getSkillsChartData() -> RadarChartData {
-        let mult: UInt32 = 50
-         let min: UInt32 = 50
-         let cnt = 3
-         
-         let block: (Int) -> RadarChartDataEntry = { _ in return RadarChartDataEntry(value: Double(arc4random_uniform(mult) + min))}
-         let entries = (0..<cnt).map(block)
-         
-         let set = RadarChartDataSet(entries: entries, label: "")
-         set.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
-         set.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
-
-         set.fillAlpha = 0.7
-         set.lineWidth = 2
-         set.drawHighlightCircleEnabled = true
-         set.drawFilledEnabled = true
-         set.setDrawHighlightIndicators(false)
-         
-         let data = RadarChartData()
-         data.setValueFont(.systemFont(ofSize: 8, weight: .light))
-         data.setDrawValues(false)
-         data.setValueTextColor(.white)
-         data.dataSets = [set]
-         return data
-    }
-    
-    
-    //MARK: objc
-    
-    //MARK: showAchieve
-    @objc func showAchieve(){
-        let viewController = AchieveViewController()
-        self.present(viewController, animated: true)
-    }
-    
-    //MARK: logOut
-    @objc func logOut(){
-        
-    }
-    
 }
-
-extension AccountViewController:IAxisValueFormatter{
-    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return skills[Int(value) % skills.count]
-    }
-    
-}
-

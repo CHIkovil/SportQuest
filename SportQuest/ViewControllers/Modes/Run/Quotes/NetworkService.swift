@@ -21,14 +21,14 @@ class NetworkService
         
         let task = session.dataTask(with: qurl) { (data, response, error) in
             
-            
+            guard let data = data else {return}
             DispatchQueue.main.async {
                 do
                 {
                     
                    
                     
-                    let quotes = try JSONDecoder().decode(Quotes.self, from: data!)
+                    let quotes = try JSONDecoder().decode(Quotes.self, from: data)
                     onSuccess(quotes)
                     
                 }
