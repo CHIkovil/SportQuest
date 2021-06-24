@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 
+//MARK: protocol
 protocol AchieveViewDelegate:NSObjectProtocol {
     func addTargetButton()
-    func setCollectionProtocol()
+    func setCollectionDelegate()
 }
 
 class AchieveView: UIView {

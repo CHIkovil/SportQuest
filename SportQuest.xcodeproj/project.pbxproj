@@ -32,6 +32,7 @@
 		93418C0E252528750004F813 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0D252528750004F813 /* Assets.xcassets */; };
 		93418C11252528750004F813 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93418C0F252528750004F813 /* LaunchScreen.storyboard */; };
 		93418C1C252528750004F813 /* SportQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93418C1B252528750004F813 /* SportQuestTests.swift */; };
+		9341C02626826E7D00F16248 /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341C02526826E7D00F16248 /* Distance.swift */; };
 		934EFE5C26446263002CB68A /* finish.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE5A26446263002CB68A /* finish.png */; };
 		934EFE5D26446263002CB68A /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE5B26446263002CB68A /* start.png */; };
 		934EFE6126497AE0002CB68A /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = 934EFE6026497AE0002CB68A /* point.png */; };
@@ -47,18 +48,22 @@
 		934EFE7A2673A858002CB68A /* QuotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE792673A858002CB68A /* QuotesModel.swift */; };
 		934EFE7C2673A938002CB68A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE7B2673A938002CB68A /* NetworkService.swift */; };
 		934EFE852677D36F002CB68A /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE842677D36F002CB68A /* AccountView.swift */; };
-		934EFE872677E1EE002CB68A /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE862677E1EE002CB68A /* Skill.swift */; };
+		934EFE872677E1EE002CB68A /* Skills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE862677E1EE002CB68A /* Skills.swift */; };
 		934EFE8A267A5244002CB68A /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE89267A5244002CB68A /* AccountService.swift */; };
 		934EFE8C267BAF53002CB68A /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE8B267BAF53002CB68A /* AccountPresenter.swift */; };
 		934EFE94267BB623002CB68A /* Achieve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE93267BB623002CB68A /* Achieve.swift */; };
 		934EFE97267BD98C002CB68A /* AchieveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE96267BD98C002CB68A /* AchieveService.swift */; };
 		934EFE99267BD9C0002CB68A /* AchieveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE98267BD9C0002CB68A /* AchieveView.swift */; };
 		934EFE9B267D0014002CB68A /* AchievePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFE9A267D0014002CB68A /* AchievePresenter.swift */; };
+		934EFEA3268205E0002CB68A /* ProgressMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFEA2268205E0002CB68A /* ProgressMapView.swift */; };
+		934EFEA526820D9A002CB68A /* ProgressMapPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFEA426820D9A002CB68A /* ProgressMapPresenter.swift */; };
+		934EFEA726820DD4002CB68A /* ProgressMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFEA626820DD4002CB68A /* ProgressMapService.swift */; };
+		934EFEA926825112002CB68A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EFEA826825112002CB68A /* Progress.swift */; };
 		9392E60F25D8A375007BC9DD /* batman.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60D25D8A375007BC9DD /* batman.png */; };
 		9392E61025D8A375007BC9DD /* prize.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E60E25D8A375007BC9DD /* prize.png */; };
 		9392E61E261253EE007BC9DD /* fire.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61D261253EE007BC9DD /* fire.gif */; };
 		9392E62026125B4D007BC9DD /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392E61F26125B4D007BC9DD /* running.png */; };
-		9392E62426188445007BC9DD /* RunMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E62326188445007BC9DD /* RunMapViewController.swift */; };
+		9392E62426188445007BC9DD /* ProgressMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E62326188445007BC9DD /* ProgressMapViewController.swift */; };
 		93C62048256AA4DB008CADE7 /* batman.gif in Resources */ = {isa = PBXBuildFile; fileRef = 93C62047256AA4DB008CADE7 /* batman.gif */; };
 		93C6204A2576C8CC008CADE7 /* RunProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C620492576C8CC008CADE7 /* RunProcessViewController.swift */; };
 		93C6204D257BAD5C008CADE7 /* TransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C6204C257BAD5C008CADE7 /* TransitionDelegate.swift */; };
@@ -105,6 +110,7 @@
 		93418C17252528750004F813 /* SportQuestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportQuestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93418C1B252528750004F813 /* SportQuestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportQuestTests.swift; sourceTree = "<group>"; };
 		93418C1D252528750004F813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9341C02526826E7D00F16248 /* Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Distance.swift; sourceTree = "<group>"; };
 		934EFE5A26446263002CB68A /* finish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finish.png; sourceTree = "<group>"; };
 		934EFE5B26446263002CB68A /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.png; sourceTree = "<group>"; };
 		934EFE6026497AE0002CB68A /* point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point.png; sourceTree = "<group>"; };
@@ -120,18 +126,22 @@
 		934EFE792673A858002CB68A /* QuotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesModel.swift; sourceTree = "<group>"; };
 		934EFE7B2673A938002CB68A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		934EFE842677D36F002CB68A /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
-		934EFE862677E1EE002CB68A /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
+		934EFE862677E1EE002CB68A /* Skills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skills.swift; sourceTree = "<group>"; };
 		934EFE89267A5244002CB68A /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		934EFE8B267BAF53002CB68A /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		934EFE93267BB623002CB68A /* Achieve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achieve.swift; sourceTree = "<group>"; };
 		934EFE96267BD98C002CB68A /* AchieveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveService.swift; sourceTree = "<group>"; };
 		934EFE98267BD9C0002CB68A /* AchieveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchieveView.swift; sourceTree = "<group>"; };
 		934EFE9A267D0014002CB68A /* AchievePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievePresenter.swift; sourceTree = "<group>"; };
+		934EFEA2268205E0002CB68A /* ProgressMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressMapView.swift; sourceTree = "<group>"; };
+		934EFEA426820D9A002CB68A /* ProgressMapPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressMapPresenter.swift; sourceTree = "<group>"; };
+		934EFEA626820DD4002CB68A /* ProgressMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressMapService.swift; sourceTree = "<group>"; };
+		934EFEA826825112002CB68A /* Progress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		9392E60D25D8A375007BC9DD /* batman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = batman.png; sourceTree = "<group>"; };
 		9392E60E25D8A375007BC9DD /* prize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prize.png; sourceTree = "<group>"; };
 		9392E61D261253EE007BC9DD /* fire.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = fire.gif; sourceTree = "<group>"; };
 		9392E61F26125B4D007BC9DD /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
-		9392E62326188445007BC9DD /* RunMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunMapViewController.swift; sourceTree = "<group>"; };
+		9392E62326188445007BC9DD /* ProgressMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressMapViewController.swift; sourceTree = "<group>"; };
 		9393AC0EAE3ED5FFA59926D1 /* Pods-SportQuestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SportQuestTests.debug.xcconfig"; path = "Target Support Files/Pods-SportQuestTests/Pods-SportQuestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93C62047256AA4DB008CADE7 /* batman.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = batman.gif; sourceTree = "<group>"; };
 		93C620492576C8CC008CADE7 /* RunProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunProcessViewController.swift; sourceTree = "<group>"; };
@@ -188,7 +198,7 @@
 				934EFE782673A7F8002CB68A /* Quotes */,
 				9314E749253646B300ED1DFA /* RunViewController.swift */,
 				93C6204B2576D760008CADE7 /* RunProcess */,
-				9392E6222618820A007BC9DD /* RunMap */,
+				9392E6222618820A007BC9DD /* ProgressMap */,
 			);
 			path = Run;
 			sourceTree = "<group>";
@@ -344,7 +354,7 @@
 		934EFE7F2677CECF002CB68A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				934EFE862677E1EE002CB68A /* Skill.swift */,
+				934EFE862677E1EE002CB68A /* Skills.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -420,6 +430,51 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		934EFE9D26820112002CB68A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				934EFEA126820154002CB68A /* DataSource */,
+				934EFEA02682014C002CB68A /* Model */,
+				934EFE9F2682013F002CB68A /* View */,
+				934EFE9E26820134002CB68A /* Presenter */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		934EFE9E26820134002CB68A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				934EFEA426820D9A002CB68A /* ProgressMapPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		934EFE9F2682013F002CB68A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				934EFEA2268205E0002CB68A /* ProgressMapView.swift */,
+				9392E62326188445007BC9DD /* ProgressMapViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		934EFEA02682014C002CB68A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				934EFEA826825112002CB68A /* Progress.swift */,
+				9341C02526826E7D00F16248 /* Distance.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		934EFEA126820154002CB68A /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				934EFEA626820DD4002CB68A /* ProgressMapService.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		9392E62126187EEE007BC9DD /* СonfigControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,12 +484,12 @@
 			path = "СonfigControllers";
 			sourceTree = "<group>";
 		};
-		9392E6222618820A007BC9DD /* RunMap */ = {
+		9392E6222618820A007BC9DD /* ProgressMap */ = {
 			isa = PBXGroup;
 			children = (
-				9392E62326188445007BC9DD /* RunMapViewController.swift */,
+				934EFE9D26820112002CB68A /* Controller */,
 			);
-			path = RunMap;
+			path = ProgressMap;
 			sourceTree = "<group>";
 		};
 		93C6204B2576D760008CADE7 /* RunProcess */ = {
@@ -651,12 +706,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934EFEA526820D9A002CB68A /* ProgressMapPresenter.swift in Sources */,
 				934EFE752666B749002CB68A /* AchieveViewController.swift in Sources */,
 				93418C06252528730004F813 /* AuthorizationViewController.swift in Sources */,
 				9314E74A253646B300ED1DFA /* RunViewController.swift in Sources */,
 				93418C0C252528730004F813 /* SportQuest.xcdatamodeld in Sources */,
 				934EFE852677D36F002CB68A /* AccountView.swift in Sources */,
-				9392E62426188445007BC9DD /* RunMapViewController.swift in Sources */,
+				9392E62426188445007BC9DD /* ProgressMapViewController.swift in Sources */,
+				934EFEA3268205E0002CB68A /* ProgressMapView.swift in Sources */,
 				93418C02252528730004F813 /* AppDelegate.swift in Sources */,
 				934EFE94267BB623002CB68A /* Achieve.swift in Sources */,
 				934EFE99267BD9C0002CB68A /* AchieveView.swift in Sources */,
@@ -665,8 +722,10 @@
 				9314E74625363DEF00ED1DFA /* ModesViewController.swift in Sources */,
 				934EFE8A267A5244002CB68A /* AccountService.swift in Sources */,
 				934EFE9B267D0014002CB68A /* AchievePresenter.swift in Sources */,
+				9341C02626826E7D00F16248 /* Distance.swift in Sources */,
+				934EFEA926825112002CB68A /* Progress.swift in Sources */,
 				9314E74E253646D600ED1DFA /* AccountViewController.swift in Sources */,
-				934EFE872677E1EE002CB68A /* Skill.swift in Sources */,
+				934EFE872677E1EE002CB68A /* Skills.swift in Sources */,
 				9314E732252A5EB200ED1DFA /* RegistrationViewController.swift in Sources */,
 				934EFE7C2673A938002CB68A /* NetworkService.swift in Sources */,
 				93C6204D257BAD5C008CADE7 /* TransitionDelegate.swift in Sources */,
@@ -674,6 +733,7 @@
 				93418C04252528730004F813 /* SceneDelegate.swift in Sources */,
 				93C6204F257BADBF008CADE7 /* PresentationController.swift in Sources */,
 				934EFE8C267BAF53002CB68A /* AccountPresenter.swift in Sources */,
+				934EFEA726820DD4002CB68A /* ProgressMapService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

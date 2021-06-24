@@ -21,17 +21,13 @@ class AccountPresenter {
         self.accountViewDelegate = accountViewDelegate
     }
     
-    
-    func displayChartData(){
+    //MARK: displayChartData
+    func setChartData(){
         accountService.getChartData {[weak self] data in
             guard let self = self else{return}
             if let data = data{
-                self.accountViewDelegate?.setChartData(data: data)
+                self.accountViewDelegate!.displayChartData(data: data)
             }
         }
-    }
-    
-    func getValueFormatter() -> [Skill]{
-        return accountService.getSkillsValue()
     }
 }

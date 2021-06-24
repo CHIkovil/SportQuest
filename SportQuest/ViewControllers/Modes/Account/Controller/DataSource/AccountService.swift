@@ -9,15 +9,7 @@
 import Foundation
 import Charts
 
-class AccountService {
-    func getSkillsValue() -> [Skill]{
-        let values = ["Ловкость", "Выносливость", "Сила"]
-        let skills = (0..<3).map {index in
-           return Skill(value: values[index])
-        }
-        return skills
-    }
-    
+class AccountService {    
     func getChartData(callBack:(RadarChartData?) -> Void){
         let mult: UInt32 = 50
         let min: UInt32 = 50

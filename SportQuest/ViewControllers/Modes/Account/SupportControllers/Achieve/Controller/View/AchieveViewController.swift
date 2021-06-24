@@ -14,7 +14,7 @@ class AchieveViewController: UIViewController {
     
     private var customTransitioningDelegate = TransitionDelegate()
     
-    var achieveView:AchieveView?
+    var achieveView:AchieveView!
     private let achievePresenter = AchievePresenter(achieveService: AchieveService())
     
     //MARK: init
@@ -41,19 +41,17 @@ class AchieveViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         addTargetButton()
-        setCollectionProtocol()
+        setCollectionDelegate()
     }
 }
 
 //MARK: extension
 extension AchieveViewController:AchieveViewDelegate{
     func addTargetButton() {
-        guard let achieveView = achieveView else {return}
         achieveView.exitButton.addTarget(self, action: #selector(exitAchieve), for: .touchUpInside)
     }
     
-    func setCollectionProtocol() {
-        guard let achieveView = achieveView else {return}
+    func setCollectionDelegate() {
         achieveView.achieveCollectionView.delegate = self
         achieveView.achieveCollectionView.dataSource = self
     }
@@ -67,9 +65,11 @@ extension AchieveViewController{
 }
 
 extension AchieveViewController:  UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let data = achievePresenter.getCollectionData()
         return data.count

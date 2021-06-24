@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 import Charts
 
+//MARK: protocol
 protocol AccountViewDelegate:NSObjectProtocol {
     func addTargetButton()
-    func setChartData(data: RadarChartData)
+    func displayChartData(data: RadarChartData)
 }
 
 class AccountView: UIView {
@@ -177,7 +178,6 @@ class AccountView: UIView {
         return button
     }()
     
-
     //MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)

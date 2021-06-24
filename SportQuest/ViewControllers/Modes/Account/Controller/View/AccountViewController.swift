@@ -12,7 +12,7 @@ import Charts
 
 class AccountViewController: UIViewController, TabItem {
     
-    var accountView:AccountView?
+    var accountView:AccountView!
     private let accountPresenter = AccountPresenter(accountService: AccountService())
     
     //MARK: tabImage
@@ -32,7 +32,7 @@ class AccountViewController: UIViewController, TabItem {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         addTargetButton()
-        accountPresenter.displayChartData()
+        accountPresenter.setChartData()
     }
     
     //MARK: touchesBegan
@@ -44,13 +44,11 @@ class AccountViewController: UIViewController, TabItem {
 //MARK: extension
 extension AccountViewController:AccountViewDelegate{
     func addTargetButton() {
-        guard let accountView = accountView else {return}
         accountView.achieveButton.addTarget(self, action: #selector(showAchieve), for: .touchUpInside)
         accountView.logOutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
     }
     
-    func setChartData(data: RadarChartData) {
-        guard let accountView = accountView else {return}
+    func displayChartData(data: RadarChartData) {
         accountView.skillsChartView.xAxis.valueFormatter = self
         accountView.skillsChartView.data = data
         accountView.skillsChartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
@@ -74,8 +72,7 @@ extension AccountViewController{
 
 extension AccountViewController:IAxisValueFormatter{
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        let formatter = accountPresenter.getValueFormatter()
-        return formatter[Int(value) % formatter.count].value
+        return Skills.allCases[Int(value) % Skills.allCases.count].rawValue
     }
 }
 

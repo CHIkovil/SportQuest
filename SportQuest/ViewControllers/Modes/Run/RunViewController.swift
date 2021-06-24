@@ -1092,9 +1092,9 @@ extension RunViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
 
-        let viewController = RunMapViewController()
-        viewController.runCoordinates = coordinates
-        viewController.runData = tableStore[indexPath.section]
+        let viewController = ProgressMapViewController()
+        viewController.progressMapPresenter = ProgressMapPresenter(progressMapService: ProgressMapService(data: Progress(coordinates: coordinates, info: tableStore[indexPath.section])))
+    
         self.present(viewController, animated: true)
     }
     
